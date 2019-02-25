@@ -1,0 +1,8 @@
+.ag-row-hover {
+    /* putting in !important so it overrides the theme's styling as it hovers the row also */
+    background-color:#B0E2FF	!important;
+}
+
+.ag-column-hover {
+    background-color: #B0E2FF	;
+}

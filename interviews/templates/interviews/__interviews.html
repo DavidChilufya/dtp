@@ -1,0 +1,1714 @@
+{% extends "interviews/base.html" %}
+{% load static %}
+
+            {% block extra_head %}
+<link rel="stylesheet" href="{% static 'jqwidgets/jqwidgets/styles/jqx.base.css' %}" type="text/css" />
+
+            {% endblock %}
+
+            {% block content %}
+
+<script type="text/javascript">
+    var boo = "{{ data|safe|escapejs }}";
+    var data = JSON.parse(boo);
+    //console.log(data);
+//console.log(data[1].fields.user_id);
+</script>
+        <div>
+
+            <div style='float: left;'>
+                <input type="button" value="Export to Excel" id='excelExport'/>
+                <input type="button" value="Export to CSV" id='csvExport' />
+                <input type="button" value="Export to PDF" id='pdfExport' />
+                <input value="Remove Filter(s)" id="clearfilteringbutton" type="button" />
+                <input id="button" type="button" value="Auto Resize Columns" />
+
+            </div>
+
+        </div>
+        <br>
+    <div id='jqxWidget' style='margin-top: 20px;'>
+        <div id="grid">
+        </div>
+        
+    </div>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+    <br><br>
+
+                  <div style="margin-top: 20px" id="jqxlistbox"></div>  
+
+    
+          
+{% endblock %}
+
+{% block jqwidgets %}
+
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxcore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxdata.js' %}"></script>
+
+
+
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxbuttons.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxscrollbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxmenu.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxdropdownlist.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.sort.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.filter.js' %}"></script>
+
+
+    
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.edit.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.pager.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxknockout.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxcheckbox.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxlistbox.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxdata.export.js' %}"></script> 
+     <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.export.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.columnsresize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxgrid.selection.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxpanel.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/jqwidgets/jqxtooltip.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jqwidgets/scripts/demos.js' %}"></script>
+{% endblock %}
+
+{% block custom_jqwidgets %}
+<style>
+    
+    #grid {
+    position:absolute;
+    /*right:0;*/
+    width: 943px;
+    height: 600px;
+    }
+</style>
+<script type="text/javascript">
+        //var data = "{{ data|safe|escapejs }}";
+        //var data = JSON.parse(boo);
+        //console.log(boo);
+        //console.log(data[1].fields.user_id); 
+       
+        
+    $(document).ready(function () {
+        var source =
+            {
+                
+                datafields: [
+                    { name: 'id', type: 'number' },
+                    { name: 'user_id', type: 'string'},
+                    { name: 'interview_id', type: 'string'},
+                    { name: 'household_id', type: 'string'},
+                    { name: 'first_interview', type: 'string'},
+                    { name: 'coop_union', type: 'string'},
+                    { name: 'prime_coop', type: 'string'},
+                    { name: 'latitude', type: 'number'},
+                    { name: 'longitude', type: 'float'},
+                    { name: 'current_section', type: 'string'},
+                    { name: 'field_date', type: 'string'},
+                    { name: '1_0_1_1', type: 'string'},
+                    { name: '1_0_1_2', type: 'string'},
+                    { name: '1_0_1_3', type: 'number'},
+                    { name: '1_0_1_4', type: 'string'},
+                    { name: '1_0_1_5', type: 'string'},
+                    { name: '2_1_1_1', type: 'number'},
+                    { name: '2_2_1_1', type: 'number'},
+                    { name: '2_1_1_2', type: 'number'},
+                    { name: '2_2_1_2', type: 'number'},
+                    { name: '2_1_1_3', type: 'number'},
+                    { name: '2_2_1_3', type: 'number'},
+                    { name: '2_1_1_4', type: 'number'},
+                    { name: '2_2_1_4', type: 'number'},
+                    { name: '2_1_1_5', type: 'number'},
+                    { name: '2_2_1_5', type: 'number'},
+                    { name: '4_0_1_1', type: 'number'},
+                    { name: '4_0_1_2', type: 'number'},
+                    { name: '4_0_1_3', type: 'string'},
+                    { name: '4_0_1_4', type: 'string'},
+                    { name: '4_0_1_5', type: 'string'},
+                    { name: '5_0_1_1', type: 'string'},
+                    { name: '5_0_1_2', type: 'string'},
+                    { name: '5_0_1_3', type: 'string'},
+                    { name: '5_0_1_4', type: 'string'},
+                    { name: '5_0_2_4', type: 'string'},
+                    { name: '5_0_3_4', type: 'string'},
+                    { name: '5_0_4_4', type: 'string'},
+                    { name: '5_0_5_4', type: 'string'},
+                    { name: '5_0_6_4', type: 'string'},
+                    { name: '5_0_7_4', type: 'string'},
+                    { name: '5_0_8_4', type: 'string'},
+                    { name: '6_0_1_1', type: 'string'},
+                    { name: '6_0_1_2', type: 'string'},
+                    { name: '6_0_1_3', type: 'string'},
+                    { name: '6_0_1_4', type: 'string'},
+                    { name: '6_0_1_5', type: 'string'},
+                    { name: '7_0_1_1', type: 'string'},
+                    { name: '7_0_1_2', type: 'number'},
+
+                    { name: '8_0_1_1', type: 'number'},
+                    { name: '8_0_2_1', type: 'number'},
+                    { name: '8_0_3_1', type: 'number'},
+                    { name: '8_0_4_1', type: 'number'},
+                    { name: '8_0_5_1', type: 'number'},
+                    { name: '8_0_6_1', type: 'number'},
+
+                    { name: '8_0_1_2', type: 'number'},
+                    { name: '8_0_2_2', type: 'number'},
+                    { name: '8_0_3_2', type: 'number'},
+                    { name: '8_0_4_2', type: 'number'},
+                    { name: '8_0_5_2', type: 'number'},
+                    { name: '8_0_6_2', type: 'number'},
+
+                    { name: '8_0_1_3', type: 'string'},
+                    { name: '8_0_1_4', type: 'string'},
+
+                    { name: '8_0_1_5', type: 'string'},
+                    { name: '8_0_2_5', type: 'string'},
+                    { name: '8_0_3_5', type: 'string'},
+                    { name: '8_0_4_5', type: 'string'},
+                    { name: '8_0_5_5', type: 'string'},
+                    { name: '8_0_6_5', type: 'string'},
+
+                    { name: '9_0_1_1', type: 'string'},
+                    { name: '9_0_2_1', type: 'string'},
+                    { name: '9_0_3_1', type: 'string'},
+                    { name: '9_0_4_1', type: 'string'},
+                    { name: '9_0_5_1', type: 'string'},
+                    { name: '9_0_6_1', type: 'string'},
+                    { name: '9_0_7_1', type: 'string'},
+                    { name: '9_0_8_1', type: 'string'},
+
+                    { name: '10_1_0_1', type: 'number'},
+                    { name: '10_2_1_1', type: 'string'},
+                    { name: '10_2_2_1', type: 'string'},
+                    { name: '10_3_0_1', type: 'string'},
+                    { name: '10_4_1_1', type: 'string'},
+                    { name: '10_4_2_1', type: 'string'},
+
+                    { name: '10_1_0_2', type: 'number'},
+                    { name: '10_2_1_2', type: 'string'},
+                    { name: '10_2_2_2', type: 'string'},
+                    { name: '10_3_0_2', type: 'string'},
+                    { name: '10_4_1_2', type: 'string'},
+                    { name: '10_4_2_2', type: 'string'},
+
+                    { name: '10_1_0_3', type: 'number'},
+                    { name: '10_2_1_3', type: 'string'},
+                    { name: '10_2_2_3', type: 'string'},
+                    { name: '10_3_0_3', type: 'string'},
+                    { name: '10_4_1_3', type: 'string'},
+                    { name: '10_4_2_3', type: 'string'},
+
+                    { name: '10_1_0_4', type: 'number'},
+                    { name: '10_2_1_4', type: 'string'},
+                    { name: '10_2_2_4', type: 'string'},
+                    { name: '10_3_0_4', type: 'string'},
+                    { name: '10_4_1_4', type: 'string'},
+                    { name: '10_4_2_4', type: 'string'},
+
+                    { name: '10_1_0_5', type: 'number'},
+                    { name: '10_2_1_5', type: 'string'},
+                    { name: '10_2_2_5', type: 'string'},
+                    { name: '10_3_0_5', type: 'string'},
+                    { name: '10_4_1_5', type: 'string'},
+                    { name: '10_4_2_5', type: 'string'},
+
+                    { name: '10_1_0_6', type: 'number'},
+                    { name: '10_2_1_6', type: 'string'},
+                    { name: '10_2_2_6', type: 'string'},
+                    { name: '10_3_0_6', type: 'string'},
+                    { name: '10_4_1_6', type: 'string'},
+                    { name: '10_4_2_6', type: 'string'},
+
+                    { name: '10_1_0_7', type: 'number'},
+                    { name: '10_2_1_7', type: 'string'},
+                    { name: '10_2_2_7', type: 'string'},
+                    { name: '10_3_0_7', type: 'string'},
+                    { name: '10_4_1_7', type: 'string'},
+                    { name: '10_4_2_7', type: 'string'},
+
+                    { name: '10_1_0_8', type: 'number'},
+                    { name: '10_2_1_8', type: 'string'},
+                    { name: '10_2_2_8', type: 'string'},
+                    { name: '10_3_0_8', type: 'string'},
+                    { name: '10_4_1_8', type: 'string'},
+                    { name: '10_4_2_8', type: 'string'},
+
+                    { name: '10_1_0_9', type: 'number'},
+                    { name: '10_2_1_9', type: 'string'},
+                    { name: '10_2_2_9', type: 'string'},
+                    { name: '10_3_0_9', type: 'string'},
+                    { name: '10_4_1_9', type: 'string'},
+                    { name: '10_4_2_9', type: 'string'},
+
+                    { name: '10_1_0_10', type: 'number'},
+                    { name: '10_2_1_10', type: 'string'},
+                    { name: '10_2_2_10', type: 'string'},
+                    { name: '10_3_0_10', type: 'string'},
+                    { name: '10_4_1_10', type: 'string'},
+                    { name: '10_4_2_10', type: 'string'},
+
+                    { name: '10_1_0_11', type: 'number'},
+                    { name: '10_2_1_11', type: 'string'},
+                    { name: '10_2_2_11', type: 'string'},
+                    { name: '10_3_0_11', type: 'string'},
+                    { name: '10_4_1_11', type: 'string'},
+                    { name: '10_4_2_11', type: 'string'},
+
+                    { name: '10_1_0_12', type: 'number'},
+                    { name: '10_2_1_12', type: 'string'},
+                    { name: '10_2_2_12', type: 'string'},
+                    { name: '10_3_0_12', type: 'string'},
+                    { name: '10_4_1_12', type: 'string'},
+                    { name: '10_4_2_12', type: 'string'},
+
+                    { name: '10_1_0_13', type: 'number'},
+                    { name: '10_2_1_13', type: 'string'},
+                    { name: '10_2_2_13', type: 'string'},
+                    { name: '10_3_0_13', type: 'string'},
+                    { name: '10_4_1_13', type: 'string'},
+                    { name: '10_4_2_13', type: 'string'},
+
+                    { name: '10_1_0_14', type: 'number'},
+                    { name: '10_2_1_14', type: 'string'},
+                    { name: '10_2_2_14', type: 'string'},
+                    { name: '10_3_0_14', type: 'string'},
+                    { name: '10_4_1_14', type: 'string'},
+                    { name: '10_4_2_14', type: 'string'},
+
+                    { name: '10_1_0_15', type: 'number'},
+                    { name: '10_2_1_15', type: 'string'},
+                    { name: '10_2_2_15', type: 'string'},
+                    { name: '10_3_0_15', type: 'string'},
+                    { name: '10_4_1_15', type: 'string'},
+                    { name: '10_4_2_15', type: 'string'},
+
+                    { name: '10_1_0_16', type: 'number'},
+                    { name: '10_2_1_16', type: 'string'},
+                    { name: '10_2_2_16', type: 'string'},
+                    { name: '10_3_0_16', type: 'string'},
+                    { name: '10_4_1_16', type: 'string'},
+                    { name: '10_4_2_16', type: 'string'},
+
+                    { name: '10_1_0_17', type: 'number'},
+                    { name: '10_2_1_17', type: 'string'},
+                    { name: '10_2_2_17', type: 'string'},
+                    { name: '10_3_0_17', type: 'string'},
+                    { name: '10_4_1_17', type: 'string'},
+                    { name: '10_4_2_17', type: 'string'},
+
+                    { name: '10_1_0_18', type: 'number'},
+                    { name: '10_2_1_18', type: 'string'},
+                    { name: '10_2_2_18', type: 'string'},
+                    { name: '10_3_0_18', type: 'string'},
+                    { name: '10_4_1_18', type: 'string'},
+                    { name: '10_4_2_18', type: 'string'},
+
+                    { name: '10_1_0_19', type: 'number'},
+                    { name: '10_2_1_19', type: 'string'},
+                    { name: '10_2_2_19', type: 'string'},
+                    { name: '10_3_0_19', type: 'string'},
+                    { name: '10_4_1_19', type: 'string'},
+                    { name: '10_4_2_19', type: 'string'},
+
+                    { name: '12_1_1_2', type: 'number'},
+                    { name: '12_1_2_2', type: 'number'},
+                    { name: '12_2_1_2', type: 'number'},
+                    { name: '12_2_2_2', type: 'number'},
+                    { name: '12_3_1_2', type: 'number'},
+                    { name: '12_3_2_2', type: 'number'},
+                    { name: '12_4_1_2', type: 'number'},
+                    { name: '12_4_2_2', type: 'number'},
+
+                    { name: '12_1_1_3', type: 'number'},
+                    { name: '12_1_2_3', type: 'number'},
+                    { name: '12_2_1_3', type: 'number'},
+                    { name: '12_2_2_3', type: 'number'},
+                    { name: '12_3_1_3', type: 'number'},
+                    { name: '12_3_2_3', type: 'number'},
+                    { name: '12_4_1_3', type: 'number'},
+                    { name: '12_4_2_3', type: 'number'},
+
+                    { name: '13_1_0_0', type: 'string'},
+                    { name: '13_0_0_1', type: 'float'},
+                    { name: '13_0_0_2', type: 'float'},
+                    { name: '13_0_0_3', type: 'float'},
+                    { name: '13_0_0_4', type: 'float'},
+                    { name: '13_0_0_5', type: 'float'},
+                    { name: '13_0_0_6', type: 'float'},
+                    { name: '13_0_0_7', type: 'float'},
+                    { name: '13_0_0_8', type: 'float'},
+                    { name: '13_0_0_9', type: 'float'},
+                    { name: '13_0_1_10', type: 'string'},
+                    { name: '13_0_2_10', type: 'float'},
+
+                    { name: '14_1_0_0', type: 'string'},
+                    { name: '14_0_0_1', type: 'float'},
+                    { name: '14_0_0_2', type: 'float'},
+                    { name: '14_0_0_3', type: 'float'},
+                    { name: '14_0_0_4', type: 'float'},
+                    { name: '14_0_0_5', type: 'float'},
+                    { name: '14_0_0_6', type: 'float'},
+                    { name: '14_0_0_7', type: 'float'},
+                    { name: '14_0_0_8', type: 'float'},
+                    { name: '14_0_0_9', type: 'float'},
+                    { name: '14_0_0_10', type: 'float'},
+                    { name: '14_0_1_11', type: 'string'},
+                    { name: '14_0_2_11', type: 'float'},
+
+                    { name: '15_1_0_0', type: 'string'},
+                    { name: '15_1_0_1', type: 'float'},
+                    { name: '15_1_0_2', type: 'float'},
+                    { name: '15_1_0_3', type: 'float'},
+                    { name: '15_1_0_4', type: 'float'},
+                    { name: '15_1_0_5', type: 'float'},
+                    { name: '15_1_0_6', type: 'float'},
+                    { name: '15_1_0_7', type: 'float'},
+                    { name: '15_1_0_8', type: 'float'},
+                    { name: '15_1_0_9', type: 'float'},
+                    { name: '15_2_1_1', type: 'string'},
+                    { name: '15_2_2_1', type: 'float'},
+                    { name: '15_2_1_2', type: 'string'},
+                    { name: '15_2_2_2', type: 'float'},
+                    { name: '15_2_1_3', type: 'string'},
+                    { name: '15_2_2_3', type: 'float'},
+                    { name: '15_3_0_1', type: 'float'},
+                    { name: '15_3_0_2', type: 'float'},
+                    { name: '15_4_0_1', type: 'float'},
+                    { name: '15_4_0_2', type: 'float'},
+                    { name: '15_5_0_1', type: 'float'},
+                    { name: '15_5_0_2', type: 'float'},
+                    { name: '15_6_0_1', type: 'float'},
+                    { name: '15_7_0_1', type: 'float'},
+                    { name: '15_7_0_2', type: 'float'},
+                    { name: '15_8_0_1', type: 'float'},
+                    { name: '15_8_1_2', type: 'string'},
+                    { name: '15_8_2_2', type: 'float'},
+                    { name: '16_1_0_0', type: 'string'},
+                    { name: '16_2_0_0', type: 'string'},
+                    { name: '16_3_0_0', type: 'string'},
+                    { name: '16_4_0_0', type: 'string'},
+                    { name: '16_0_1_1', type: 'number'},
+                    { name: '16_0_2_1', type: 'string'},
+                    { name: '16_0_3_1', type: 'string'},
+                    { name: '16_0_4_1', type: 'string'},
+                    { name: '16_0_5_1', type: 'string'},
+                    { name: '16_0_1_2', type: 'number'},
+                    { name: '16_0_2_2', type: 'string'},
+                    { name: '16_0_3_2', type: 'string'},
+                    { name: '16_0_4_2', type: 'string'},
+                    { name: '16_0_5_2', type: 'string'},
+                    { name: '16_0_1_3', type: 'number'},
+                    { name: '16_0_2_3', type: 'string'},
+                    { name: '16_0_3_3', type: 'string'},
+                    { name: '16_0_4_3', type: 'string'},
+                    { name: '16_0_5_3', type: 'string'},
+                    { name: '16_0_1_4', type: 'number'},
+                    { name: '16_0_2_4', type: 'string'},
+                    { name: '16_0_3_4', type: 'string'},
+                    { name: '16_0_4_4', type: 'string'},
+                    { name: '16_0_5_4', type: 'string'},
+                    { name: '16_0_1_5', type: 'number'},
+                    { name: '16_0_2_5', type: 'string'},
+                    { name: '16_0_3_5', type: 'string'},
+                    { name: '16_0_4_5', type: 'string'},
+                    { name: '16_0_5_5', type: 'string'},
+                    { name: '16_0_1_6', type: 'number'},
+                    { name: '16_0_2_6', type: 'string'},
+                    { name: '16_0_3_6', type: 'string'},
+                    { name: '16_0_4_6', type: 'string'},
+                    { name: '16_0_5_6', type: 'string'},
+                    { name: '16_0_1_7', type: 'number'},
+                    { name: '16_0_2_7', type: 'string'},
+                    { name: '16_0_3_7', type: 'string'},
+                    { name: '16_0_4_7', type: 'string'},
+                    { name: '16_0_5_7', type: 'string'},
+                    { name: '16_0_1_8', type: 'number'},
+                    { name: '16_0_2_8', type: 'string'},
+                    { name: '16_0_3_8', type: 'string'},
+                    { name: '16_0_4_8', type: 'string'},
+                    { name: '16_0_5_8', type: 'string'},
+                    { name: '16_0_1_9', type: 'number'},
+                    { name: '16_0_2_9', type: 'string'},
+                    { name: '16_0_3_9', type: 'string'},
+                    { name: '16_0_4_9', type: 'string'},
+                    { name: '16_0_5_9', type: 'string'},
+                    { name: '16_0_1_10', type: 'number'},
+                    { name: '16_0_2_10', type: 'string'},
+                    { name: '16_0_3_10', type: 'string'},
+                    { name: '16_0_4_10', type: 'string'},
+                    { name: '16_0_5_10', type: 'string'},
+                    { name: '16_0_1_11', type: 'number'},
+                    { name: '16_0_2_11', type: 'string'},
+                    { name: '16_0_3_11', type: 'string'},
+                    { name: '16_0_4_11', type: 'string'},
+                    { name: '16_0_5_11', type: 'string'},
+                    { name: '16_0_1_11', type: 'number'},
+                    { name: '16_0_2_11', type: 'string'},
+                    { name: '16_0_3_11', type: 'string'},
+                    { name: '16_0_4_11', type: 'string'},
+                    { name: '16_0_5_11', type: 'string'},
+                    { name: '16_0_1_12', type: 'number'},
+                    { name: '16_0_2_12', type: 'string'},
+                    { name: '16_0_3_12', type: 'string'},
+                    { name: '16_0_4_12', type: 'string'},
+                    { name: '16_0_5_12', type: 'string'},
+                    { name: '16_0_1_13', type: 'number'},
+                    { name: '16_0_2_13', type: 'string'},
+                    { name: '16_0_3_13', type: 'string'},
+                    { name: '16_0_4_13', type: 'string'},
+                    { name: '16_0_5_13', type: 'string'},
+                    { name: '16_0_1_14', type: 'number'},
+                    { name: '16_0_2_14', type: 'string'},
+                    { name: '16_0_3_14', type: 'string'},
+                    { name: '16_0_4_14', type: 'string'},
+                    { name: '16_0_5_14', type: 'string'},
+                    { name: '16_0_0_15', type: 'string'},
+                    { name: '16_0_1_15', type: 'number'},
+                    { name: '16_0_2_15', type: 'string'},
+                    { name: '16_0_3_15', type: 'string'},
+                    { name: '16_0_4_15', type: 'string'},
+                    { name: '16_0_5_15', type: 'string'},
+
+                    { name: '18_1_0_1', type: 'number'},
+                    { name: '18_1_0_2', type: 'number'},
+                    { name: '18_1_0_3', type: 'number'},
+                    { name: '18_1_0_4', type: 'number'},
+                    { name: '18_1_0_5', type: 'number'},
+
+                    { name: '18_2_0_1', type: 'number'},
+                    { name: '18_2_0_2', type: 'number'},
+                    { name: '18_2_0_3', type: 'number'},
+                    { name: '18_2_0_4', type: 'number'},
+                    { name: '18_2_0_5', type: 'number'},
+
+                    { name: '18_3_0_1', type: 'number'},
+                    { name: '18_3_0_2', type: 'number'},
+                    { name: '18_3_0_3', type: 'number'},
+                    { name: '18_3_0_4', type: 'number'},
+                    { name: '18_3_0_5', type: 'number'},
+
+                    { name: '18_4_0_1', type: 'number'},
+                    { name: '18_4_0_2', type: 'number'},
+                    { name: '18_4_0_3', type: 'number'},
+                    { name: '18_4_0_4', type: 'number'},
+                    { name: '18_4_0_5', type: 'number'},
+
+                    { name: '18_5_0_1', type: 'number'},
+                    { name: '18_5_0_2', type: 'number'},
+                    { name: '18_5_0_3', type: 'number'},
+                    { name: '18_5_0_4', type: 'number'},
+                    { name: '18_5_0_5', type: 'number'},
+
+                    { name: '18_6_0_1', type: 'number'},
+                    { name: '18_6_0_2', type: 'number'},
+                    { name: '18_6_0_3', type: 'number'},
+                    { name: '18_6_0_4', type: 'number'},
+                    { name: '18_6_0_5', type: 'number'},
+
+                    { name: '19_0_0_1', type: 'string'},
+                    { name: '19_0_0_2', type: 'string'},
+                    { name: '19_0_0_3', type: 'string'},
+
+                    { name: '20_0_0_1', type: 'number'},
+                    { name: '20_0_0_2', type: 'number'},
+
+                    { name: '21_1_0_1', type: 'number'},
+                    { name: '21_1_0_2', type: 'number'},
+                    { name: '21_1_0_3', type: 'number'},
+                    { name: '21_1_0_4', type: 'number'},
+                    { name: '21_1_1_5', type: 'string'},
+                    { name: '21_1_2_5', type: 'number'},
+
+                    { name: '22_0_0_1', type: 'string'},
+                    { name: '22_0_0_2', type: 'string'},
+                    { name: '22_0_0_3', type: 'string'},
+                    { name: '22_0_0_4', type: 'string'},
+                    { name: '22_0_0_5', type: 'string'},
+                    { name: '22_0_0_6', type: 'string'},
+                    { name: '22_0_1_7', type: 'string'},
+                    { name: '22_0_2_7', type: 'string'},
+                    { name: '22_0_3_7', type: 'string'},
+                    { name: '22_0_4_7', type: 'string'},
+                    { name: '22_0_5_7', type: 'string'},
+                    { name: '22_0_0_8', type: 'number'},
+
+                    { name: '23_0_0_1', type: 'string'},
+                    { name: '23_0_0_2', type: 'string'},
+                    { name: '23_0_1_3', type: 'string'},
+                    { name: '23_0_2_3', type: 'string'},
+                    { name: '23_0_3_3', type: 'string'},
+                    { name: '23_0_4_3', type: 'string'},
+                    { name: '23_0_5_3', type: 'string'},
+                    { name: '23_0_0_4', type: 'string'},
+
+                    { name: '24_0_0_1', type: 'number'},
+
+                    { name: '25_1_0_0', type: 'string'},
+                    { name: '25_0_0_1', type: 'number'},
+                    { name: '25_0_0_2', type: 'number'},
+                    { name: '25_0_0_3', type: 'number'},
+                    { name: '25_0_0_4', type: 'number'},
+                    { name: '25_0_0_5', type: 'number'},
+                    { name: '25_0_0_6', type: 'number'},
+                    { name: '25_0_0_7', type: 'number'},
+
+                    { name: '27_0_0_1', type: 'string'},
+                    { name: '27_0_0_2', type: 'number'},
+
+                    { name: '28_0_1_1', type: 'string'},
+                    { name: '28_0_2_1', type: 'string'},
+                    { name: '28_0_3_1', type: 'string'},
+                    { name: '28_0_4_1', type: 'string'},
+                    { name: '28_0_5_1', type: 'string'},
+
+                    { name: '29_0_0_1', type: 'string'},
+                    { name: '29_0_0_2', type: 'string'},
+                    { name: '29_0_0_3', type: 'string'},
+
+                    { name: '30_0_0_1', type: 'string'},
+                    { name: '30_0_0_2', type: 'string'},
+                    { name: '30_0_0_3', type: 'string'},
+
+                    { name: '31_0_0_1', type: 'string'},
+                    { name: '31_0_1_2', type: 'string'},
+                    { name: '31_0_2_2', type: 'string'},
+                    { name: '31_0_3_2', type: 'string'},
+                    { name: '31_0_4_2', type: 'string'},
+                    { name: '31_0_5_2', type: 'string'},
+                    { name: '31_0_6_2', type: 'string'},
+                    { name: '31_0_0_3', type: 'string'},
+                    { name: '31_0_1_4', type: 'string'},
+                    { name: '31_0_2_4', type: 'string'},
+                    { name: '31_0_3_4', type: 'string'},
+
+                    { name: '32_0_1_1', type: 'string'},
+                    { name: '32_0_2_1', type: 'string'},
+                    { name: '32_0_3_1', type: 'string'},
+                    { name: '32_0_4_1', type: 'string'},
+                    { name: '32_0_5_1', type: 'string'},
+
+                    { name: '32_0_1_2', type: 'string'},
+                    { name: '32_0_2_2', type: 'string'},
+
+                    { name: '32_1_1_3', type: 'string'},
+                    { name: '32_1_2_3', type: 'string'},
+                    { name: '32_2_1_3', type: 'string'},
+                    { name: '32_2_2_3', type: 'string'},
+                    { name: '32_3_1_3', type: 'string'},
+                    { name: '32_3_2_3', type: 'string'},
+                    { name: '32_4_1_3', type: 'string'},
+                    { name: '32_4_2_3', type: 'string'},
+
+                    { name: '32_0_1_4', type: 'string'},
+                    { name: '32_0_2_4', type: 'string'},
+                    { name: '32_0_3_4', type: 'string'},
+
+                    { name: '33_0_0_1', type: 'string'},
+
+                    { name: '33_1_1_1', type: 'string'},
+                    { name: '33_1_2_1', type: 'string'},
+                    { name: '33_1_3_1', type: 'number'},
+
+                    { name: '33_2_1_1', type: 'string'},
+                    { name: '33_2_2_1', type: 'string'},
+                    { name: '33_2_3_1', type: 'number'},
+
+                    { name: '33_3_1_1', type: 'string'},
+                    { name: '33_3_2_1', type: 'string'},
+                    { name: '33_3_3_1', type: 'number'},
+
+                    { name: '33_4_1_1', type: 'string'},
+                    { name: '33_4_2_1', type: 'string'},
+                    { name: '33_4_3_1', type: 'number'},
+
+                    { name: '33_5_1_1', type: 'string'},
+                    { name: '33_5_2_1', type: 'string'},
+                    { name: '33_5_3_1', type: 'number'},
+
+                    { name: '33_6_0_1', type: 'string'},
+                    { name: '33_6_1_1', type: 'string'},
+                    { name: '33_6_2_1', type: 'string'},
+                    { name: '33_6_3_1', type: 'number'},
+
+                    { name: '33_1_0_2', type: 'string'},
+                    { name: '33_2_0_2', type: 'string'},
+                    { name: '33_3_0_2', type: 'string'},
+                    { name: '33_4_0_2', type: 'string'},
+                    { name: '33_5_0_2', type: 'string'},
+                    { name: '33_6_0_2', type: 'string'},
+
+                    { name: '34_0_0_1', type: 'string'},
+                    { name: '34_1_1_2', type: 'string'},
+                    { name: '34_1_2_2', type: 'string'},
+                    { name: '34_2_1_2', type: 'string'},
+                    { name: '34_2_2_2', type: 'string'},
+                    { name: '34_3_1_2', type: 'string'},
+                    { name: '34_3_2_2', type: 'string'},
+                    { name: '34_4_1_2', type: 'string'},
+                    { name: '34_4_2_2', type: 'string'},
+                    { name: '34_5_1_2', type: 'string'},
+                    { name: '34_5_2_2', type: 'string'},
+                    { name: '34_6_1_2', type: 'string'},
+                    { name: '34_6_2_2', type: 'string'},
+                    { name: '34_7_1_2', type: 'string'},
+                    { name: '34_7_2_2', type: 'string'},
+                    { name: '34_8_0_2', type: 'string'},
+                    { name: '34_8_1_2', type: 'string'},
+                    { name: '34_8_2_2', type: 'string'},
+                    
+                    { name: '34_0_0_3', type: 'string'},
+                    { name: '34_1_1_3', type: 'string'},
+                    { name: '34_1_2_3', type: 'string'},
+                    { name: '34_1_3_3', type: 'string'},
+                    { name: '34_2_1_3', type: 'string'},
+                    { name: '34_2_2_3', type: 'string'},
+                    { name: '34_2_3_3', type: 'string'},
+                    { name: '34_3_1_3', type: 'string'},
+                    { name: '34_3_2_3', type: 'string'},
+                    { name: '34_3_3_3', type: 'string'},
+                    { name: '34_4_1_3', type: 'string'},
+                    { name: '34_4_2_3', type: 'string'},
+                    { name: '34_4_3_3', type: 'string'},
+                    { name: '34_5_1_3', type: 'string'},
+                    { name: '34_5_2_3', type: 'string'},
+                    { name: '34_5_3_3', type: 'string'},
+                    { name: '34_6_1_3', type: 'string'},
+                    { name: '34_6_2_3', type: 'string'},
+                    { name: '34_6_3_3', type: 'string'},
+                    { name: '34_7_1_3', type: 'string'},
+                    { name: '34_7_2_3', type: 'string'},
+                    { name: '34_7_3_3', type: 'string'},
+                    { name: '34_8_0_3', type: 'string'},
+                    { name: '34_8_1_3', type: 'string'},
+                    { name: '34_8_2_3', type: 'string'},
+                    { name: '34_8_3_3', type: 'string'},
+
+                    { name: '34_1_1_4', type: 'string'},
+                    { name: '34_1_2_4', type: 'string'},
+                    { name: '34_2_1_4', type: 'string'},
+                    { name: '34_2_2_4', type: 'string'},
+                    { name: '34_3_1_4', type: 'string'},
+                    { name: '34_3_2_4', type: 'string'},
+                    { name: '34_4_1_4', type: 'string'},
+                    { name: '34_4_2_4', type: 'string'},
+                    { name: '34_5_1_4', type: 'string'},
+                    { name: '34_5_2_4', type: 'string'},
+                    { name: '34_6_1_4', type: 'string'},
+                    { name: '34_6_2_4', type: 'string'},
+                    { name: '34_7_1_4', type: 'string'},
+                    { name: '34_7_2_4', type: 'string'},
+                    { name: '34_8_0_4', type: 'string'},
+                    { name: '34_8_1_4', type: 'string'},
+                    { name: '34_8_2_4', type: 'string'},
+
+                    { name: '34_1_0_5', type: 'string'},
+                    { name: '34_2_1_5', type: 'string'},
+                    { name: '34_2_2_5', type: 'string'},
+                    { name: '34_2_3_5', type: 'string'},
+                    { name: '34_2_4_5', type: 'string'},
+                    { name: '34_2_5_5', type: 'string'},
+                    { name: '34_2_6_5', type: 'string'},
+                    { name: '34_2_7_5', type: 'string'},
+                    { name: '34_2_8_5', type: 'string'},
+
+                    { name: '34_0_0_6', type: 'string'},
+                    
+
+                    
+                    
+                ],
+                datatype: "array",
+                localdata: data
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            var tooltiprenderer = function (element) {
+                $(element).jqxTooltip({position: 'mouse', content: $(element).text() });
+            }
+       
+            $("#grid").jqxGrid(
+            {
+                width: '96%',
+                source: dataAdapter,
+                columnsresize: true,
+                filterable: true,
+                pageable: true,
+                autoheight: true,
+                sortable: true,
+                altrows: true,
+                enabletooltips: true,
+                columns: [
+                  { text: 'Id',  columngroup: 'metaData', datafield: 'id' , width: 40, rendered: tooltiprenderer },
+                  { text: 'User Id',columngroup: 'metaData', datafield: 'user_id', width: 200 , rendered: tooltiprenderer },
+                  { text: 'Interview Id',columngroup: 'metaData', datafield: 'interview_id', width: 100, rendered: tooltiprenderer },
+                  { text: 'First interview',columngroup: 'metaData', datafield: 'first_interview', width: 100, rendered: tooltiprenderer },
+                  { text: 'Coop Union', columngroup: 'metaData',datafield: 'coop_union', width: 100, rendered: tooltiprenderer },
+                  { text: 'Prime Coop', columngroup: 'metaData',datafield: 'prime_coop', width: 150 , rendered: tooltiprenderer},
+                  { text: 'Latitude', columngroup: 'metaData',datafield: 'latitude', width: 100, rendered: tooltiprenderer },
+                  { text: 'Longitude', columngroup: 'metaData',datafield: 'longitude', width: 100 , rendered: tooltiprenderer},
+                  { text: 'Last question',columngroup: 'metaData', datafield: 'current_section', width: 80 , rendered: tooltiprenderer },
+                  { text: 'Date',columngroup: 'metaData', datafield: 'field_date', width: 100, rendered: tooltiprenderer },
+                  { text: 'A. Respondent Name',  columngroup: 'Q1',datafield: '1_0_1_1', width: 200, rendered: tooltiprenderer },
+                  { text: 'B. Village', columngroup: 'Q1', datafield: '1_0_1_2', width: 150 , rendered: tooltiprenderer},
+                  { text: 'C. Age', columngroup: 'Q1',datafield: '1_0_1_3', width: 60 , rendered: tooltiprenderer},
+                  { text: 'D. Gender', columngroup: 'Q1',datafield: '1_0_1_4', width: 65 , rendered: tooltiprenderer },
+                  { text: 'E. Phone', columngroup: 'Q1',datafield: '1_0_1_5', width: 130 , rendered: tooltiprenderer },
+                  { text: 'Male', columngroup: 'Q2_a', datafield: '2_1_1_1', width: 60 , rendered: tooltiprenderer },
+                  { text: 'Female', columngroup: 'Q2_a',datafield: '2_2_1_1', width: 60 , rendered: tooltiprenderer },
+                  { text: 'Male ', columngroup: 'Q2_b',datafield: '2_1_1_2', width: 60 , rendered: tooltiprenderer },
+                  { text: 'Female ', columngroup: 'Q2_b',datafield: '2_2_1_2', width: 60 , rendered: tooltiprenderer },
+                  { text: 'Male ', columngroup: 'Q2_c',datafield: '2_1_1_3', width: 60 , rendered: tooltiprenderer },
+                  { text: 'Female ', columngroup: 'Q2_c',datafield: '2_2_1_3', width: 60, rendered: tooltiprenderer },
+                  { text: 'Male ', columngroup: 'Q2_d',datafield: '2_1_1_4', width: 60, rendered: tooltiprenderer },
+                  { text: 'Female ', columngroup: 'Q2_d',datafield: '2_2_1_4', width: 60 },
+                  { text: 'Male ', columngroup: 'Q2_e',datafield: '2_1_1_5', width: 60 },
+                  { text: 'Female ', columngroup: 'Q2_e',datafield: '2_2_1_5', width: 60 },
+                  { text: 'A. Years in farming ', columngroup: 'Q4',datafield: '4_0_1_1', width: 60 , rendered: tooltiprenderer },
+                  { text: 'B. Years in Dairy farming', columngroup: 'Q4',datafield: '4_0_1_2', width: 60 , rendered: tooltiprenderer },
+                  { text: 'C. How you started.. ', columngroup: 'Q4',datafield: '4_0_1_3', width: 190 },
+                  { text: 'D. Is Dairy Farmaing main occupation ', columngroup: 'Q4',datafield: '4_0_1_4', width: 60 , rendered: tooltiprenderer },
+                  { text: 'E. Main occupation ', columngroup: 'Q4',datafield: '4_0_1_5', width: 90  , rendered: tooltiprenderer},
+                  { text: 'A. Cooperative membership ', columngroup: 'Q5',datafield: '5_0_1_1', width: 180 , rendered: tooltiprenderer},
+                  { text: 'B. Membership status ', columngroup: 'Q5',datafield: '5_0_1_2', width: 260 , rendered: tooltiprenderer},
+                  { text: 'C. Intend to provide milk ', columngroup: 'Q5',datafield: '5_0_1_3', width: 90 , rendered: tooltiprenderer},
+                  { text: 'i ', columngroup: 'Q5_0_0_4',datafield: '5_0_1_4', width: 160 },
+                  { text: 'ii ', columngroup: 'Q5_0_0_4',datafield: '5_0_2_4', width: 160 },
+                  { text: 'iii ', columngroup: 'Q5_0_0_4',datafield: '5_0_3_4', width: 160 },
+                  { text: 'vi ', columngroup: 'Q5_0_0_4',datafield: '5_0_4_4', width: 160 },
+                  { text: 'v ', columngroup: 'Q5_0_0_4',datafield: '5_0_5_4', width: 120 },
+                  { text: 'vi ', columngroup: 'Q5_0_0_4',datafield: '5_0_6_4', width: 160 },
+                  { text: 'Other ', columngroup: 'Q5_0_0_4',datafield: '5_0_7_4', width: 90 },
+                  { text: ' -- ', columngroup: 'Q5_0_0_4',datafield: '5_0_8_4', width: 200 },
+                  
+                  { text: 'i. Own/ Freehold ', columngroup: 'Q6',datafield: '6_0_1_1', width: 90, rendered: tooltiprenderer },
+                  { text: 'ii. Settlement (Lease GRZ) ', columngroup: 'Q6',datafield: '6_0_1_2', width: 90, rendered: tooltiprenderer },
+                  { text: 'iv. Rent/ Sub-lease/ informal lease ', columngroup: 'Q6',datafield: '6_0_1_3', width: 90 , rendered: tooltiprenderer },
+                  { text: 'v. Traditional land ', columngroup: 'Q6',datafield: '6_0_1_4', width: 90 , rendered: tooltiprenderer},
+                  { text: 'v. Other ', columngroup: 'Q6',datafield: '6_0_1_5', width: 90 },
+
+                  { text: 'A. Land within 1 Km radius ', columngroup: 'Q7',datafield: '7_0_1_1', width: 60 },
+                  { text: 'B. How Far ', columngroup: 'Q7',datafield: '7_0_1_2', width: 60 },
+
+                  { text: 'Well ', columngroup: 'Q8_0_0_1',datafield: '8_0_1_1', width: 60 },
+                  { text: 'Hand-pump ', columngroup: 'Q8_0_0_1',datafield: '8_0_2_1', width: 60 },
+                  { text: 'Community Well ', columngroup: 'Q8_0_0_1',datafield: '8_0_3_1', width: 90 },
+                  { text: 'Natural Stream ', columngroup: 'Q8_0_0_1',datafield: '8_0_4_1', width: 90 },
+                  { text: 'Dams ', columngroup: 'Q8_0_0_1',datafield: '8_0_5_1', width: 60 },
+                  { text: 'Other ', columngroup: 'Q8_0_0_1',datafield: '8_0_6_1', width: 60 },
+
+                  { text: 'Well ', columngroup: 'Q8_0_0_2',datafield: '8_0_1_2', width: 40 },
+                  { text: 'Hand-pump ', columngroup: 'Q8_0_0_2',datafield: '8_0_2_2', width: 60 },
+                  { text: 'Community Well ', columngroup: 'Q8_0_0_2',datafield: '8_0_3_2', width: 90 },
+                  { text: 'Natural Stream ', columngroup: 'Q8_0_0_2',datafield: '8_0_4_2', width: 90 },
+                  { text: 'Dams ', columngroup: 'Q8_0_0_2',datafield: '8_0_5_2', width: 40 },
+                  { text: 'Other ', columngroup: 'Q8_0_0_2',datafield: '8_0_6_2', width: 40 },
+
+                  { text: 'C. Have Water for irrigation ', columngroup: 'Q8',datafield: '8_0_1_3', width: 60 },
+                  { text: 'D. Use forms of water conservation ', columngroup: 'Q8',datafield: '8_0_1_4', width: 120 },
+
+                  { text: 'Dams ', columngroup: 'Q8_0_0_5',datafield: '8_0_1_5', width: 60 },
+                  { text: 'Wells ', columngroup: 'Q8_0_0_5',datafield: '8_0_2_5', width: 60 },
+                  { text: 'Ponds ', columngroup: 'Q8_0_0_5',datafield: '8_0_3_5', width: 60 },
+                  { text: 'Rainwater tanks ', columngroup: 'Q8_0_0_5',datafield: '8_0_4_5', width: 100 },
+                  { text: 'Other ', columngroup: 'Q8_0_0_5',datafield: '8_0_5_5', width: 60 },
+                  { text: ' -- ', columngroup: 'Q8_0_0_5', datafield: '8_0_6_5', width: 60 },
+
+                  { text: 'Electricity ', columngroup: 'Q9_0_0_1',datafield: '9_0_1_1', width: 100 },
+                  { text: 'Solar ', columngroup: 'Q9_0_0_1',datafield: '9_0_2_1', width: 80 },
+                  { text: 'Charcoal ', columngroup: 'Q9_0_0_1',datafield: '9_0_3_1', width: 90 },
+                  { text: 'Improved Charcoal ', columngroup: 'Q9_0_0_1',datafield: '9_0_4_1', width: 120 },
+                  { text: 'Firewood ', columngroup: 'Q9_0_0_1',datafield: '9_0_5_1', width: 100 },
+                  { text: 'Bio-gas ', columngroup: 'Q9_0_0_1',datafield: '9_0_6_1', width: 100 },
+                  { text: 'Other ', columngroup: 'Q9_0_0_1',datafield: '9_0_7_1', width: 100 },
+                  { text: ' -- ', columngroup: 'Q9_0_0_1', datafield: '9_0_8_1', width: 60 },
+
+                  { text: 'Area planted',columngroup: 'rhodes_grass',datafield: '10_1_0_1', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_1',datafield: '10_2_1_1', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_1',datafield: '10_2_2_1', width: 80 },
+                  { text: 'Demo',columngroup: 'rhodes_grass',datafield: '10_3_0_1', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_1',datafield: '10_4_1_1', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_1',datafield: '10_4_2_1', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'napier_grass',datafield: '10_1_0_2', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_2',datafield: '10_2_1_2', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_2',datafield: '10_2_2_2', width: 80 },
+                  { text: 'Demo',columngroup: 'napier_grass',datafield: '10_3_0_2', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_2',datafield: '10_4_1_2', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_2',datafield: '10_4_2_2', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'cow_pea',datafield: '10_1_0_3', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_3',datafield: '10_2_1_3', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_3',datafield: '10_2_2_3', width: 80 },
+                  { text: 'Demo',columngroup: 'cow_pea',datafield: '10_3_0_3', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_3',datafield: '10_4_1_3', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_3',datafield: '10_4_2_3', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'pigean_pea',datafield: '10_1_0_4', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_4',datafield: '10_2_1_4', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_4',datafield: '10_2_2_4', width: 80 },
+                  { text: 'Demo',columngroup: 'pigean_pea',datafield: '10_3_0_4', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_4',datafield: '10_4_1_4', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_4',datafield: '10_4_2_4', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'velvet_beans',datafield: '10_1_0_5', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_5',datafield: '10_2_1_5', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_5',datafield: '10_2_2_5', width: 80 },
+                  { text: 'Demo',columngroup: 'velvet_beans',datafield: '10_3_0_5', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_5',datafield: '10_4_1_5', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_5',datafield: '10_4_2_5', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'stylo',datafield: '10_1_0_6', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_6',datafield: '10_2_1_6', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_6',datafield: '10_2_2_6', width: 80 },
+                  { text: 'Demo',columngroup: 'stylo',datafield: '10_3_0_6', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_6',datafield: '10_4_1_6', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_6',datafield: '10_4_2_6', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'brachiaria',datafield: '10_1_0_7', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_7',datafield: '10_2_1_7', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_7',datafield: '10_2_2_7', width: 80 },
+                  { text: 'Demo',columngroup: 'brachiaria',datafield: '10_3_0_7', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_7',datafield: '10_4_1_7', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_7',datafield: '10_4_2_7', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'sweet_sorghum',datafield: '10_1_0_8', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_8',datafield: '10_2_1_8', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_8',datafield: '10_2_2_8', width: 80 },
+                  { text: 'Demo',columngroup: 'sweet_sorghum',datafield: '10_3_0_8', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_8',datafield: '10_4_1_8', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_8',datafield: '10_4_2_8', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'sunn_hemp',datafield: '10_1_0_9 ', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_9',datafield: '10_2_1_9', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_9',datafield: '10_2_2_9', width: 80 },
+                  { text: 'Demo',columngroup: 'sunn_hemp',datafield: '10_3_0_9', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_9',datafield: '10_4_1_9', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_9',datafield: '10_4_2_9', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'lablab',datafield: '10_1_0_10', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_10',datafield: '10_2_1_10', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_10',datafield: '10_2_2_10', width: 80 },
+                  { text: 'Demo',columngroup: 'lablab',datafield: '10_3_0_10', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_10',datafield: '10_4_1_10', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_10',datafield: '10_4_2_10', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'yellow_maize',datafield: '10_1_0_11', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_11',datafield: '10_2_1_11', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_11',datafield: '10_2_2_11', width: 80 },
+                  { text: 'Demo',columngroup: 'yellow_maize',datafield: '10_3_0_11', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_11',datafield: '10_4_1_11', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_11',datafield: '10_4_2_11', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'white_maize',datafield: '10_1_0_12', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_12',datafield: '10_2_1_12', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_12',datafield: '10_2_2_12', width: 80 },
+                  { text: 'Demo',columngroup: 'white_maize',datafield: '10_3_0_12', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_12',datafield: '10_4_1_12', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_12',datafield: '10_4_2_12', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'soya_beans',datafield: '10_1_0_13', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_13',datafield: '10_2_1_13', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_13',datafield: '10_2_2_13', width: 80 },
+                  { text: 'Demo',columngroup: 'soya_beans',datafield: '10_3_0_13', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_13',datafield: '10_4_1_13', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_13',datafield: '10_4_2_13', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'sunflower',datafield: '10_1_0_14', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_14',datafield: '10_2_1_14', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_14',datafield: '10_2_2_14', width: 80 },
+                  { text: 'Demo',columngroup: 'sunflower',datafield: '10_3_0_14', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_14',datafield: '10_4_1_14', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_14',datafield: '10_4_2_14', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'cotton',datafield: '10_1_0_15', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_15',datafield: '10_2_1_15', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_15',datafield: '10_2_2_15', width: 80 },
+                  { text: 'Demo',columngroup: 'cotton',datafield: '10_3_0_15', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_15',datafield: '10_4_1_15', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_15',datafield: '10_4_2_15', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'sweet_potatoes',datafield: '10_1_0_16', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_16',datafield: '10_2_1_16', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_16',datafield: '10_2_2_16', width: 80 },
+                  { text: 'Demo',columngroup: 'sweet_potatoes',datafield: '10_3_0_16', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_16',datafield: '10_4_1_16', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_16',datafield: '10_4_2_16', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'pumpkin',datafield: '10_1_0_17', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_17',datafield: '10_2_1_17', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_17',datafield: '10_2_2_17', width: 80 },
+                  { text: 'Demo',columngroup: 'pumpkin',datafield: '10_3_0_17', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_17',datafield: '10_4_1_17', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_17',datafield: '10_4_2_17', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'cassava',datafield: '10_1_0_18', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_18',datafield: '10_2_1_18', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_18',datafield: '10_2_2_18', width: 80 },
+                  { text: 'Demo',columngroup: 'cassava',datafield: '10_3_0_18', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_18',datafield: '10_4_1_18', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_18',datafield: '10_4_2_18', width: 80 },
+
+                  { text: 'Area planted',columngroup: 'other_10',datafield: '10_1_0_19', width: 80 },
+                  { text: '--',columngroup: 'Q10_2_0_19',datafield: '10_2_1_19', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_2_0_19',datafield: '10_2_2_19', width: 80 },
+                  { text: 'Demo',columngroup: 'other_10',datafield: '10_3_0_19', width: 80 },
+                  { text: '--',columngroup: 'Q10_4_0_19',datafield: '10_4_1_19', width: 220 },
+                  { text: 'Other',columngroup: 'Q10_4_0_19',datafield: '10_4_2_19', width: 80 },
+
+                  { text: 'Part time',columngroup: 'Q12_male_outside',datafield: '12_1_1_2', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_male_outside',datafield: '12_1_2_2', width: 80 },
+                  { text: 'Part time',columngroup: 'Q12_female_outside',datafield: '12_2_1_2', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_female_outside',datafield: '12_2_2_2', width: 80 },
+                  { text: 'Part time',columngroup: 'Q12_youth_male_outside',datafield: '12_3_1_2', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_youth_female_outside',datafield: '12_3_2_2', width: 80 },
+                  { text: 'Part time',columngroup: 'Q12_children_outside',datafield: '12_4_1_2', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_children_outside',datafield: '12_4_2_2', width: 80 },
+
+                  { text: 'Part time',columngroup: 'Q12_male_inside',datafield: '12_1_1_3', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_male_inside',datafield: '12_1_2_3', width: 80 },
+                  { text: 'Part time',columngroup: 'Q12_female_inside',datafield: '12_2_1_3', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_female_inside',datafield: '12_2_2_3', width: 80 },
+                  { text: 'Part time',columngroup: 'Q12_youth_male_inside',datafield: '12_3_1_3', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_youth_female_inside',datafield: '12_3_2_3', width: 80 },
+                  { text: 'Part time',columngroup: 'Q12_children_inside',datafield: '12_4_1_3', width: 80 },
+                  { text: 'Full time',columngroup: 'Q12_children_inside',datafield: '12_4_2_3', width: 80 },
+
+                  { text: 'PER',columngroup: 'Q13',datafield: '13_1_0_0', width: 80 },
+                  { text: 'Milk sales to Dairy Coop',columngroup: 'Q13',datafield: '13_0_0_1', width: 200 },
+                  { text: 'Milk sales to other customers',columngroup: 'Q13',datafield: '13_0_0_2', width: 200 },
+                  { text: 'Sour milk sales to other customers',columngroup: 'Q13',datafield: '13_0_0_3', width: 200 },
+                  { text: 'Sale of culled cows',columngroup: 'Q13',datafield: '13_0_0_4', width: 200 },
+                  { text: 'Sale of excess dairy stock',columngroup: 'Q13',datafield: '13_0_0_5', width: 200 },
+                  { text: 'Sale of manure',columngroup: 'Q13',datafield: '13_0_0_6', width: 200 },
+                  { text: 'Sale of excess forage /fodder',columngroup: 'Q13',datafield: '13_0_0_7', width: 200 },
+                  { text: 'Loaned cow',columngroup: 'Q13',datafield: '13_0_0_8', width: 200 },
+                  { text: 'Sold home made yoghurt',columngroup: 'Q13',datafield: '13_0_0_9', width: 200 },
+                  { text: 'Name',columngroup: 'other_13_0_0_10',datafield: '13_0_1_10', width: 200 },
+                  { text: 'Value',columngroup: 'other_13_0_0_10',datafield: '13_0_2_10', width: 200 },
+
+                  { text: 'PER',columngroup: 'Q14',datafield: '14_1_0_0', width: 80 },
+                  { text: 'Income from labour hired out',columngroup: 'Q14',datafield: '14_0_0_1', width: 200 },
+                  { text: 'Income from land rented out',columngroup: 'Q14',datafield: '14_0_0_2', width: 200 },
+                  { text: 'Sale of cash crops',columngroup: 'Q14',datafield: '14_0_0_3', width: 200 },
+                  { text: 'Sale of beef animals',columngroup: 'Q14',datafield: '14_0_0_4', width: 200 },
+                  { text: 'Renting oxen for draught power',columngroup: 'Q14',datafield: '14_0_0_5', width: 200 },
+                  { text: 'Sale of sheep',columngroup: 'Q14',datafield: '14_0_0_6', width: 200 },
+                  { text: 'Sale of other livestock e.g chickens',columngroup: 'Q14',datafield: '14_0_0_7', width: 200 },
+                  { text: 'Sale of livestock products, e.g eggs, honey',columngroup: 'Q14',datafield: '14_0_0_8', width: 200 },
+                  { text: 'Forestry',columngroup: 'Q14',datafield: '14_0_0_9', width: 200 },
+                  { text: 'Off-farm income',columngroup: 'Q14',datafield: '14_0_0_10', width: 200 },
+                  { text: 'Name',columngroup: 'other_14_0_0_11',datafield: '14_0_1_11', width: 200 },
+                  { text: 'Value',columngroup: 'other_14_0_0_11',datafield: '14_0_2_11', width: 200 },
+
+                  { text: 'PER',columngroup: 'Q15',datafield: '15_1_0_0', width: 80 },
+                  { text: 'Cost of maize / wheat bran',columngroup: 'eeeee1',datafield: '15_1_0_1', width: 200 },
+                  { text: 'Cost of pregnant cows',columngroup: 'eeeee1',datafield: '15_1_0_2', width: 200 },
+                  { text: 'Cost of calf feeds',columngroup: 'eeeee1',datafield: '15_1_0_3', width: 200 },
+                  { text: 'Cost of other bought in ready-made feeds',columngroup: 'eeeee1',datafield: '15_1_0_4', width: 200 },
+                  { text: 'Cost of bought in concertrates',columngroup: 'eeeee1',datafield: '15_1_0_5', width: 200 },
+                  { text: 'Cost of additives e.g Salt, DCP',columngroup: 'eeeee1',datafield: '15_1_0_6', width: 200 },
+                  { text: 'Cost of raw materials to produce on-farm forage / fodder(seeds, fertiliser, etc) ',columngroup: 'eeeee1',datafield: '15_1_0_7', width: 200 },
+                  { text: 'Cost of urea / molasses treatment for crop residues',columngroup: 'eeeee1',datafield: '15_1_0_8', width: 200 },
+                  { text: 'Cost of agricultural by-products, e.g brewery yeast',columngroup: 'eeeee1',datafield: '15_1_0_9', width: 200 },
+                  { text: 'Name',columngroup: 'Q15_one',datafield: '15_2_1_1', width: 60 },
+                  { text: 'Value',columngroup: 'Q15_one',datafield: '15_2_2_1', width: 60 },
+                  { text: 'Name',columngroup: 'Q15_two',datafield: '15_2_1_2', width: 60 },
+                  { text: 'Value',columngroup: 'Q15_two',datafield: '15_2_2_2', width: 60 },
+                  { text: 'Name',columngroup: 'Q15_three',datafield: '15_2_1_3', width: 60 },
+                  { text: 'Value',columngroup: 'Q15_three',datafield: '15_2_2_3', width: 60 },
+                  { text: 'Cost of veterinery drugs',columngroup: 'eeeee3',datafield: '15_3_0_1', width: 200 },
+                  { text: 'Cost of veterinery treatment(service provision) excluding drugs',columngroup: 'eeeee3',datafield: '15_3_0_2', width: 200 },
+                  { text: 'Reproduction costs A.I/Bull',columngroup: 'eeeee4',datafield: '15_4_0_1', width: 200 },
+                  { text: 'Cost of replacement heifers',columngroup: 'eeeee4',datafield: '15_4_0_2', width: 200 },
+                  { text: 'Cost of milk transport to the MCC',columngroup: 'eeeee5',datafield: '15_5_0_1', width: 200 },
+                  { text: 'Cost of transport for feed and other farm inputs',columngroup: 'eeeee5',datafield: '15_5_0_2', width: 200 },
+                  { text: 'Cost of energy',columngroup: 'eeeee6',datafield: '15_6_0_1', width: 200 },
+                  { text: 'Labour paid in cash',columngroup: 'eeeee7',datafield: '15_7_0_1', width: 200 },
+                  { text: 'Labour paid in kind (cash equivalent)',columngroup: 'eeeee7',datafield: '15_7_0_2', width: 200 },
+                  { text: 'Rental of land',columngroup: 'eeeee8',datafield: '15_8_0_1', width: 140 },
+                  { text: 'Name',columngroup: 'Q15_other',datafield: '15_8_1_2', width: 50 },
+                  { text: 'Value',columngroup: 'Q15_other',datafield: '15_8_2_2', width: 50 },
+
+                  { text: 'Own Tractor',columngroup: 'Q16',datafield: '16_1_0_0', width: 100 },
+                  { text: 'Access to a Tractor',columngroup: 'Q16',datafield: '16_2_0_0', width: 100 },
+                  { text: 'Own Chopper',columngroup: 'Q16',datafield: '16_3_0_0', width: 100 },
+                  { text: 'Access to a chopper',columngroup: 'Q16',datafield: '16_4_0_0', width: 100 },
+                  { text: 'Number',columngroup: 'tractor',datafield: '16_0_1_1', width: 60 },
+                  { text: 'New',columngroup: 'tractor',datafield: '16_0_2_1', width: 60 },
+                  { text: 'Used',columngroup: 'tractor',datafield: '16_0_3_1', width: 60 },
+                  { text: 'Not working',columngroup: 'tractor',datafield: '16_0_4_1', width: 60 },
+                  { text: 'Comment',columngroup: 'tractor',datafield: '16_0_5_1', width: 100 },
+                  { text: 'Number',columngroup: 'hand_tractor',datafield: '16_0_1_2', width: 60 },
+                  { text: 'New',columngroup: 'hand_tractor',datafield: '16_0_2_2', width: 60 },
+                  { text: 'Used',columngroup: 'hand_tractor',datafield: '16_0_3_2', width: 60 },
+                  { text: 'Not working',columngroup: 'hand_tractor',datafield: '16_0_4_2', width: 60 },
+                  { text: 'Comment',columngroup: 'hand_tractor',datafield: '16_0_5_2', width: 100 },
+                  { text: 'Number',columngroup: 'planter',datafield: '16_0_1_3', width: 60 },
+                  { text: 'New',columngroup: 'planter',datafield: '16_0_2_3', width: 60 },
+                  { text: 'Used',columngroup: 'planter',datafield: '16_0_3_3', width: 60 },
+                  { text: 'Not working',columngroup: 'planter',datafield: '16_0_4_3', width: 60 },
+                  { text: 'Comment',columngroup: 'planter',datafield: '16_0_5_3', width: 100 },
+                  { text: 'Number',columngroup: 'plough',datafield: '16_0_1_4', width: 60 },
+                  { text: 'New',columngroup: 'plough',datafield: '16_0_2_4', width: 60 },
+                  { text: 'Used',columngroup: 'plough',datafield: '16_0_3_4', width: 60 },
+                  { text: 'Not working',columngroup: 'plough',datafield: '16_0_4_4', width: 60 },
+                  { text: 'Comment',columngroup: 'plough',datafield: '16_0_5_4', width: 100 },
+                  { text: 'Number',columngroup: 'bicycle',datafield: '16_0_1_5', width: 60 },
+                  { text: 'New',columngroup: 'bicycle',datafield: '16_0_2_5', width: 60 },
+                  { text: 'Used',columngroup: 'bicycle',datafield: '16_0_3_5', width: 60 },
+                  { text: 'Not working',columngroup: 'bicycle',datafield: '16_0_4_5', width: 60 },
+                  { text: 'Comment',columngroup: 'bicycle',datafield: '16_0_5_5', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_F',datafield: '16_0_1_6', width: 60 },
+                  { text: 'New',columngroup: 'Q16_F',datafield: '16_0_2_6', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_F',datafield: '16_0_3_6', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_F',datafield: '16_0_4_6', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_F',datafield: '16_0_5_6', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_G',datafield: '16_0_1_7', width: 60 },
+                  { text: 'New',columngroup: 'Q16_G',datafield: '16_0_2_7', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_G',datafield: '16_0_3_7', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_G',datafield: '16_0_4_7', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_G',datafield: '16_0_5_7', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_H',datafield: '16_0_1_8', width: 60 },
+                  { text: 'New',columngroup: 'Q16_H',datafield: '16_0_2_8', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_H',datafield: '16_0_3_8', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_H',datafield: '16_0_4_8', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_H',datafield: '16_0_5_8', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_I',datafield: '16_0_1_9', width: 60 },
+                  { text: 'New',columngroup: 'Q16_I',datafield: '16_0_2_9', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_I',datafield: '16_0_3_9', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_I',datafield: '16_0_4_9', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_I',datafield: '16_0_5_9', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_J',datafield: '16_0_1_10', width: 60 },
+                  { text: 'New',columngroup: 'Q16_J',datafield: '16_0_2_10', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_J',datafield: '16_0_3_10', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_J',datafield: '16_0_4_10', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_J',datafield: '16_0_5_10', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_K',datafield: '16_0_1_11', width: 60 },
+                  { text: 'New',columngroup: 'Q16_K',datafield: '16_0_2_11', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_K',datafield: '16_0_3_11', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_K',datafield: '16_0_4_11', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_K',datafield: '16_0_5_11', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_L',datafield: '16_0_1_12', width: 60 },
+                  { text: 'New',columngroup: 'Q16_L',datafield: '16_0_2_12', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_L',datafield: '16_0_3_12', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_L',datafield: '16_0_4_12', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_L',datafield: '16_0_5_12', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_M',datafield: '16_0_1_13', width: 60 },
+                  { text: 'New',columngroup: 'Q16_M',datafield: '16_0_2_13', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_M',datafield: '16_0_3_13', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_M',datafield: '16_0_4_13', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_M',datafield: '16_0_5_13', width: 100 },
+                  { text: 'Number',columngroup: 'Q16_N',datafield: '16_0_1_14', width: 60 },
+                  { text: 'New',columngroup: 'Q16_N',datafield: '16_0_2_14', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_N',datafield: '16_0_3_14', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_N',datafield: '16_0_4_14', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_N',datafield: '16_0_5_14', width: 100 },
+
+                  { text: 'Other',columngroup: 'Q16_other',datafield: '16_0_0_15', width: 60 },
+                  { text: 'Number',columngroup: 'Q16_other',datafield: '16_0_1_15', width: 60 },
+                  { text: 'New',columngroup: 'Q16_other',datafield: '16_0_2_15', width: 60 },
+                  { text: 'Used',columngroup: 'Q16_other',datafield: '16_0_3_15', width: 60 },
+                  { text: 'Not working',columngroup: 'Q16_other',datafield: '16_0_4_15', width: 60 },
+                  { text: 'Comment',columngroup: 'Q16_other',datafield: '16_0_5_15', width: 100 },
+
+                  { text: 'Pure Jersey',columngroup: 'Q18_A',datafield: '18_1_0_1', width: 100 },
+                  { text: 'Pure friesian/ Holstein',columngroup: 'Q18_A',datafield: '18_1_0_2', width: 100 },
+                  { text: 'X bred improved breed',columngroup: 'Q18_A',datafield: '18_1_0_3', width: 100 },
+                  { text: 'Crossbred Dairy X local',columngroup: 'Q18_A',datafield: '18_1_0_4', width: 100 },
+                  { text: 'Local Breed',columngroup: 'Q18_A',datafield: '18_1_0_5', width: 100 },
+
+                  { text: 'Pure Jersey',columngroup: 'Q18_B',datafield: '18_2_0_1', width: 100 },
+                  { text: 'Pure friesian/ Holstein',columngroup: 'Q18_B',datafield: '18_2_0_2', width: 100 },
+                  { text: 'X bred improved breed',columngroup: 'Q18_B',datafield: '18_2_0_3', width: 100 },
+                  { text: 'Crossbred Dairy X local',columngroup: 'Q18_B',datafield: '18_2_0_4', width: 100 },
+                  { text: 'Local Breed',columngroup: 'Q18_B',datafield: '18_2_0_5', width: 100 },
+
+                  { text: 'Pure Jersey',columngroup: 'Q18_C',datafield: '18_3_0_1', width: 100 },
+                  { text: 'Pure friesian/ Holstein',columngroup: 'Q18_C',datafield: '18_3_0_2', width: 100 },
+                  { text: 'X bred improved breed',columngroup: 'Q18_C',datafield: '18_3_0_3', width: 100 },
+                  { text: 'Crossbred Dairy X local',columngroup: 'Q18_C',datafield: '18_3_0_4', width: 100 },
+                  { text: 'Local Breed',columngroup: 'Q18_C',datafield: '18_3_0_5', width: 100 },
+
+                  { text: 'Pure Jersey',columngroup: 'Q18_D',datafield: '18_4_0_1', width: 100 },
+                  { text: 'Pure friesian/ Holstein',columngroup: 'Q18_D',datafield: '18_4_0_2', width: 100 },
+                  { text: 'X bred improved breed',columngroup: 'Q18_D',datafield: '18_4_0_3', width: 100 },
+                  { text: 'Crossbred Dairy X local',columngroup: 'Q18_D',datafield: '18_4_0_4', width: 100 },
+                  { text: 'Local Breed',columngroup: 'Q18_D',datafield: '18_4_0_5', width: 100 },
+
+                  { text: 'Pure Jersey',columngroup: 'Q18_E',datafield: '18_5_0_1', width: 100 },
+                  { text: 'Pure friesian/ Holstein',columngroup: 'Q18_E',datafield: '18_5_0_2', width: 100 },
+                  { text: 'X bred improved breed',columngroup: 'Q18_E',datafield: '18_5_0_3', width: 100 },
+                  { text: 'Crossbred Dairy X local',columngroup: 'Q18_E',datafield: '18_5_0_4', width: 100 },
+                  { text: 'Local Breed',columngroup: 'Q18_E',datafield: '18_5_0_5', width: 100 },
+
+                  { text: 'Pure Jersey',columngroup: 'Q18_F',datafield: '18_6_0_1', width: 100 },
+                  { text: 'Pure friesian/ Holstein',columngroup: 'Q18_F',datafield: '18_6_0_2', width: 100 },
+                  { text: 'X bred improved breed',columngroup: 'Q18_F',datafield: '18_6_0_3', width: 100 },
+                  { text: 'Crossbred Dairy X local',columngroup: 'Q18_F',datafield: '18_6_0_4', width: 100 },
+                  { text: 'Local Breed',columngroup: 'Q18_F',datafield: '18_6_0_5', width: 100 },
+
+                  { text: 'Did you recieve any grass silage for your cattle between May 2016 - 2017',
+                           columngroup: 'Q19',datafield: '19_0_0_1', width: 200 },
+                   { text: 'Did you make any whole crop silage(cob in) for your cattle between May 2016 - 2017',
+                           columngroup: 'Q19',datafield: '19_0_0_2', width: 200 },
+                  { text: 'Did you feed your cattle maize over silage from your farm between May 2016 - 2017',
+                           columngroup: 'Q19',datafield: '19_0_0_3', width: 200 }, 
+
+                  { text: 'A. Hay bales made',columngroup: 'Q20',datafield: '20_0_0_1', width: 100 },                         
+                  { text: 'B. Hay bales purchased',columngroup: 'Q20',datafield: '20_0_0_2', width: 100 },
+
+                  { text: 'D19',columngroup: 'Q21__',datafield: '21_1_0_1', width: 40 },
+                  { text: 'D12',columngroup: 'Q21__',datafield: '21_1_0_2', width: 40 },
+                  { text: 'Meal No3',columngroup: 'Q21__',datafield: '21_1_0_3', width: 40 },
+                  { text: 'Novamil k 35',columngroup: 'Q21__',datafield: '21_1_0_4', width: 50 },      
+                  { text: 'Name',columngroup: 'Q21_other',datafield: '21_1_1_5', width: 50 },      
+                  { text: 'Value',columngroup: 'Q21_other',datafield: '21_1_2_5', width: 50 },    
+
+                  { text: 'A. Who normally milks the cows',columngroup: 'Q22',datafield: '22_0_0_1', width: 180 }, 
+                  { text: 'B. Where do they normally milk your animals',columngroup: 'Q22',datafield: '22_0_0_2', width: 180 }, 
+                  { text: 'C. When do you normally milk the animals ',columngroup: 'Q22',datafield: '22_0_0_3', width: 180 }, 
+                  { text: 'D. Where do you normally take the milk',columngroup: 'Q22',datafield: '22_0_0_4', width: 180 }, 
+                  { text: 'E. Who normally takes the milk to the collection point/ MCC',columngroup: 'Q22',datafield: '22_0_0_5', width: 180 }, 
+                  { text: 'F. How does the milk normally get to the collection point/ MCC',columngroup: 'Q22',datafield: '22_0_0_6', width: 180 },
+
+                  { text: 'Tarred',columngroup: 'Q22_0_0_7',datafield: '22_0_1_7', width: 50 }, 
+                  { text: 'Gravel',columngroup: 'Q22_0_0_7',datafield: '22_0_2_7', width: 50 }, 
+                  { text: 'Seasonal (only passable when dry)',columngroup: 'Q22_0_0_7',datafield: '22_0_3_7', width: 100 }, 
+                  { text: 'Path across fields',columngroup: 'Q22_0_0_7',datafield: '22_0_4_7', width: 90 }, 
+                  { text: 'Other',columngroup: 'Q22_0_0_7',datafield: '22_0_5_7', width: 50 },                            
+                  { text: 'H. Kiilometers to collection point/ MCC',columngroup: 'Q22',datafield: '22_0_0_8', width: 180 },
+
+                  { text: 'A. Do you use a stainless-steel milking bucket',columngroup: 'Q23',datafield: '23_0_0_1', width: 180 },
+                  { text: 'B. Do you use a stainless-steel milking can',columngroup: 'Q23',datafield: '23_0_0_2', width: 180 },
+                  { text: 'Cold water',columngroup: 'Q23_0_0_3',datafield: '23_0_1_3', width: 80 },
+                  { text: 'Warm water',columngroup: 'Q23_0_0_3',datafield: '23_0_2_3', width: 80 },
+                  { text: 'Boiling water',columngroup: 'Q23_0_0_3',datafield: '23_0_3_3', width: 80 },
+                  { text: 'Detergent',columngroup: 'Q23_0_0_3',datafield: '23_0_4_3', width: 80 },
+                  { text: 'Other',columngroup: 'Q23_0_0_3',datafield: '23_0_5_3', width: 80 },
+                  { text: 'D. Do you use a drying rack',columngroup: 'Q23',datafield: '23_0_0_4', width: 180 },
+
+                  { text: 'What is the average lactation length of your animals',columngroup: 'Q24',datafield: '24_0_0_1', width: 180 },
+
+                  { text: 'PER ',columngroup: 'Q25',datafield: '25_1_0_0', width: 50 },
+                  { text: 'A. Average milk production per cow  ',columngroup: 'Q25',datafield: '25_0_0_1', width: 100 },
+                  { text: 'B. Average herd milk production ',columngroup: 'Q25',datafield: '25_0_0_2', width: 100 },
+                  { text: 'C. Milk sold by the roadside ',columngroup: 'Q25',datafield: '25_0_0_3', width: 100 },
+                  { text: 'D. Milk for home consumption ',columngroup: 'Q25',datafield: '25_0_0_4', width: 100 },
+                  { text: 'E. Milk for calf rearing ',columngroup: 'Q25',datafield: '25_0_0_5', width: 100 },
+                  { text: 'F. Other milk losses ',columngroup: 'Q25',datafield: '25_0_0_6', width: 100 },
+                  { text: 'G. Total milk to MCC ',columngroup: 'Q25',datafield: '25_0_0_7', width: 100 },
+
+                  { text: 'Have you had any milk rejected during the previos 12 months(i.e since May 2017) ',columngroup: 'Q27',datafield: '27_0_0_1', width: 100 },
+                  { text: 'How many litres(if yes)',columngroup: 'Q27',datafield: '27_0_0_2', width: 60 },
+                  
+                  { text: 'Rent Dairy Bull ',columngroup: 'Q28',datafield: '28_0_1_1', width: 100 },
+                  { text: 'Rent Local Breed Bull ',columngroup: 'Q28',datafield: '28_0_2_1', width: 100 },
+                  { text: 'Use own Dairy Bull ',columngroup: 'Q28',datafield: '28_0_3_1', width: 100 },
+                  { text: 'Use own Local Breed Bull  ',columngroup: 'Q28',datafield: '28_0_4_1', width: 100 },
+                  { text: 'AI(Artifical Insemination) ',columngroup: 'Q28',datafield: '28_0_5_1', width: 100 },
+
+                  { text: 'Had any problems getting cows pregnant',columngroup: 'Q29',datafield: '29_0_0_1', width: 100 },
+                  { text: 'Had any still births',columngroup: 'Q29',datafield: '29_0_0_2', width: 100 },
+                  { text: 'Had any calf deaths',columngroup: 'Q29',datafield: '29_0_0_3', width: 100 },
+
+                  { text: 'A. How are your adult cattle identified',columngroup: 'Q30',datafield: '30_0_0_1', width: 100 },
+                  { text: 'B. Do you keep records for your cattle',columngroup: 'Q30',datafield: '30_0_0_2', width: 100 },
+                  { text: 'C. Do you keep records for your for your farm business',columngroup: 'Q30',datafield: '30_0_0_3', width: 100 },
+                  
+                  { text: 'A. Are your animals vaccinated ',columngroup: 'Q31',datafield: '31_0_0_1', width: 100 },
+                  { text: 'Anthrax ',columngroup: 'Q31_0_0_2',datafield: '31_0_1_2', width: 50 },
+                  { text: 'Blackleg ',columngroup: 'Q31_0_0_2',datafield: '31_0_2_2', width: 50 },
+                  { text: 'Foot and Mouth disease ',columngroup: 'Q31_0_0_2',datafield: '31_0_3_2', width: 100 },
+                  { text: 'Haemorrhagic Septicaemia (HS) ',columngroup: 'Q31_0_0_2',datafield: '31_0_4_2', width: 100 },
+                  { text: 'Lumpy skin ',columngroup: 'Q31_0_0_2',datafield: '31_0_5_2', width: 50 },
+                  { text: 'Other ',columngroup: 'Q31_0_0_2',datafield: '31_0_6_2', width: 50 },
+                  { text: 'C. Have your animals been tested against any diseases within the last 12 months ',columngroup: 'Q31',datafield: '31_0_0_3', width: 100 },
+                  { text: 'Brucellosis ',columngroup: 'Q31_0_0_4',datafield: '31_0_1_4', width: 50 },
+                  { text: 'Tuberculosis ',columngroup: 'Q31_0_0_4',datafield: '31_0_2_4', width: 50 },
+                  { text: 'Other ',columngroup: 'Q31_0_0_4',datafield: '31_0_3_4', width: 50 },
+
+                  { text: 'Government vet',columngroup: 'Q32_0_0_1',datafield: '32_0_1_1', width: 100 },
+                  { text: 'Private vet',columngroup: 'Q32_0_0_1',datafield: '32_0_2_1', width: 100 },
+                  { text: 'CAHW',columngroup: 'Q32_0_0_1',datafield: '32_0_3_1', width: 100 },
+                  { text: 'AI Technicain',columngroup: 'Q32_0_0_1',datafield: '32_0_4_1', width: 100 },
+                  { text: 'Other',columngroup: 'Q32_0_0_1',datafield: '32_0_5_1', width: 100 },
+                  { text: 'Vet drug company ',columngroup: 'Q32_1_0_2',datafield: '32_0_1_2', width: 150 },
+                  { text: 'Specify ',columngroup: 'Q32_1_0_2',datafield: '32_0_2_2', width: 150 },
+                  
+                  { text: 'Fertiliser',columngroup: 'Q32_1_0_3',datafield: '32_1_1_3', width: 100 },
+                  { text: 'Specify',columngroup: 'Q32_1_0_3',datafield: '32_1_2_3', width: 100 },
+                  
+                  { text: 'Seeds',columngroup: 'Q32_2_0_3',datafield: '32_2_1_3', width: 100 },
+                  { text: 'Specify',columngroup: 'Q32_2_0_3',datafield: '32_2_2_3', width: 100 },
+                  
+                  { text: 'Equipment supply',columngroup: 'Q32_3_0_3',datafield: '32_3_1_3', width: 100 },
+                  { text: 'Specify',columngroup: 'Q32_3_0_3',datafield: '32_3_2_3', width: 100 },
+                  
+                  { text: 'Equipment maintenance',columngroup: 'Q32_4_0_3',datafield: '32_4_1_3', width: 100 },
+                  { text: 'Specify',columngroup: 'Q32_4_0_3',datafield: '32_4_2_3', width: 50 },
+                  
+                  { text: '--',columngroup: 'Q32_0_0_4',datafield: '32_0_1_4', width: 50 },
+                  { text: '--',columngroup: 'Q32_0_0_4',datafield: '32_0_2_4', width: 50 },
+                  { text: '--',columngroup: 'Q32_0_0_4',datafield: '32_0_3_4', width: 50 },
+
+                  { text: '--',columngroup: 'Q33_A',datafield: '33_0_0_1', width: 50 },
+                  { text: '(i) Training recieved?',columngroup: 'ai_technician',datafield: '33_1_1_1', width: 100 },
+                  { text: '(ii) Provided by ',columngroup: 'ai_technician',datafield: '33_1_2_1', width: 100 },
+                  { text: '(iii) When ',columngroup: 'ai_technician',datafield: '33_1_3_1', width: 60 },
+
+                  { text: '(i) Training recieved? ',columngroup: 'comm_b_anim_health',datafield: '33_2_1_1', width: 100 },
+                  { text: '(ii) Provided by ',columngroup: 'comm_b_anim_health',datafield: '33_2_2_1', width: 100 },
+                  { text: '(iii) When ',columngroup: 'comm_b_anim_health',datafield: '33_2_3_1', width: 60 },
+
+                  { text: '(i) Training recieved?',columngroup: 'community_c',datafield: '33_3_1_1', width: 100 },
+                  { text: '(ii) Provided by ',columngroup: 'community_c',datafield: '33_3_2_1', width: 100 },
+                  { text: '(iii) When ',columngroup: 'community_c',datafield: '33_3_3_1', width: 60 },
+
+                  { text: '(i) Training recieved?',columngroup: 'sdsdsdadafdfa',datafield: '33_4_1_1', width: 50 },
+                  { text: '(ii) Provided by ',columngroup: 'sdsdsdadafdfa',datafield: '33_4_2_1', width: 100 },
+                  { text: '(iii) When ',columngroup: 'sdsdsdadafdfa',datafield: '33_4_3_1', width: 60 },
+
+                  { text: '(i) Training recieved?',columngroup: '_entrep',datafield: '33_5_1_1', width: 50 },
+                  { text: '(ii) Provided by ',columngroup: '_entrep',datafield: '33_5_2_1', width: 50 },
+                  { text: '(iii) When ',columngroup: '_entrep',datafield: '33_5_3_1', width: 50 },
+
+                  { text: 'Other',columngroup: 'Q33_other_1',datafield: '33_6_0_1', width: 50 },  
+                  { text: '(i) Training recieved?',columngroup: 'Q33_other_1',datafield: '33_6_1_1', width: 50 },
+                  { text: '(ii) Provided by ',columngroup: 'Q33_other_1',datafield: '33_6_2_1', width: 50 },
+                  { text: '(iii) When ',columngroup: 'Q33_other_1',datafield: '33_6_3_1', width: 50 },
+
+                   { text: 'AI Technicain',columngroup: 'Q33_B',datafield: '33_1_0_2', width: 100 },
+                   { text: 'Community animal health worker',columngroup: 'Q33_B',datafield: '33_2_0_2', width: 100 },
+                   { text: 'Community livestock volunteer/ worker',columngroup: 'Q33_B',datafield: '33_3_0_2', width: 100 },
+                   { text: 'Community Facilitator',columngroup: 'Q33_B',datafield: '33_4_0_2', width: 100 },
+                   { text: 'Agro-entreprenuer',columngroup: 'Q33_B',datafield: '33_5_0_2', width: 100 },
+                   { text: 'Other',columngroup: 'Q33_B',datafield: '33_6_0_2', width: 50 },
+
+                   { text: '--',columngroup: 'Q34_A',datafield: '34_0_0_1', width: 50 },
+                   { text: 'Advice',columngroup: 'Q34_fodder_crop_production',datafield: '34_1_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_fodder_crop_production',datafield: '34_1_2_2', width: 100 },
+                   { text: 'Advice',columngroup: 'Q34_cattle_nutrition',datafield: '34_2_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_cattle_nutrition',datafield: '34_2_2_2', width: 100 },
+
+                   { text: 'Advice',columngroup: 'Q34_hygiene',datafield: '34_3_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_hygiene',datafield: '34_3_2_2', width: 100 },
+
+                   { text: 'Advice',columngroup: 'Q34_animal_health',datafield: '34_4_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_animal_health',datafield: '34_4_2_2', width: 100 },
+
+                   { text: 'Advice',columngroup: 'Q34_farm_record',datafield: '34_5_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_farm_record',datafield: '34_5_2_2', width: 100 },
+
+                   { text: 'Advice',columngroup: 'Q34_cattle_breeding',datafield: '34_6_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_cattle_breeding',datafield: '34_6_2_2', width: 100 },
+
+                   { text: 'Advice',columngroup: 'Q34_accounting',datafield: '34_7_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_accounting',datafield: '34_7_2_2', width: 100 },
+                    { text: '--',columngroup: 'Q34_b_other',datafield: '34_8_0_2', width: 100 },
+                   { text: 'Advice',columngroup: 'Q34_b_other',datafield: '34_8_1_2', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_b_other',datafield: '34_8_2_2', width: 100 },
+
+                   { text: '--',columngroup: 'Q34_C',datafield: '34_0_0_3', width: 50 },
+                   { text: 'When',columngroup: 'Q34_c_fodder_crop_production',datafield: '34_1_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_fodder_crop_production',datafield: '34_1_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_fodder_crop_production',datafield: '34_1_3_3', width: 100 },
+
+                   { text: 'When',columngroup: 'Q34_c_cattle_nutrition',datafield: '34_2_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_cattle_nutrition',datafield: '34_2_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_cattle_nutrition',datafield: '34_2_3_3', width: 100 },
+
+                   { text: 'When',columngroup: 'Q34_c_hygiene',datafield: '34_3_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_hygiene',datafield: '34_3_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_hygiene',datafield: '34_3_3_3', width: 100 },
+
+
+                   { text: 'When',columngroup: 'Q34_c_animal_health',datafield: '34_4_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_animal_health',datafield: '34_4_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_animal_health',datafield: '34_4_3_3', width: 100 },
+
+                   { text: 'When',columngroup: 'Q34_c_farm_record',datafield: '34_5_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_farm_record',datafield: '34_5_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_farm_record',datafield: '34_5_3_3', width: 100 },
+
+                   { text: 'When',columngroup: 'Q34_c_cattle_breeding',datafield: '34_6_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_cattle_breeding',datafield: '34_6_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_cattle_breeding',datafield: '34_6_3_3', width: 100 },
+
+
+                   { text: 'When',columngroup: 'Q34_c_accounting',datafield: '34_7_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_accounting',datafield: '34_7_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_accounting',datafield: '34_7_3_3', width: 100 },
+                    { text: '--',columngroup: 'Q34_c_other',datafield: '34_8_0_3', width: 100 },
+                   { text: 'When',columngroup: 'Q34_c_other',datafield: '34_8_1_3', width: 100 },
+                   { text: 'Organisation',columngroup: 'Q34_c_other',datafield: '34_8_2_3', width: 100 },
+                   { text: 'Comment',columngroup: 'Q34_c_other',datafield: '34_8_3_3', width: 100 },
+
+                   { text: 'How applying',columngroup: 'Q34_d_fodder_crop_production',datafield: '34_1_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_fodder_crop_production',datafield: '34_1_2_4', width: 100 },
+                   { text: 'How applying',columngroup: 'Q34_d_cattle_nutrition',datafield: '34_2_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_cattle_nutrition',datafield: '34_2_2_4', width: 100 },
+
+                   { text: 'How applying',columngroup: 'Q34_d_hygiene',datafield: '34_3_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_hygiene',datafield: '34_3_2_4', width: 100 },
+
+                   { text: 'How applying',columngroup: 'Q34_d_animal_health',datafield: '34_4_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_animal_health',datafield: '34_4_2_4', width: 100 },
+
+                   { text: 'How applying',columngroup: 'Q34_d_farm_record',datafield: '34_5_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_farm_record',datafield: '34_5_2_4', width: 100 },
+
+                   { text: 'How applying',columngroup: 'Q34_d_cattle_breeding',datafield: '34_6_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_cattle_breeding',datafield: '34_6_2_4', width: 100 },
+
+                   { text: 'How applying',columngroup: 'Q34_d_accounting',datafield: '34_7_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_accounting',datafield: '34_7_2_4', width: 100 },
+                   { text: '--',columngroup: 'Q34_d_other',datafield: '34_8_0_4', width: 100 },
+                   { text: 'How applying',columngroup: 'Q34_d_other',datafield: '34_8_1_4', width: 100 },
+                   { text: 'Benefits seen',columngroup: 'Q34_d_other',datafield: '34_8_2_4', width: 100 },
+
+                   { text: ' - - ',columngroup: 'Q34_E',datafield: '34_1_0_5', width: 50 },
+                   { text: 'Fodder crop production',columngroup: 'Q34_E',datafield: '34_2_1_5', width: 100 },
+                   { text: 'Cattle nutrition',columngroup: 'Q34_E',datafield: '34_2_2_5', width: 100 },
+                   { text: 'Milk hygiene',columngroup: 'Q34_E',datafield: '34_2_3_5', width: 100 },
+                   { text: 'Animal health, management, husbandry',columngroup: 'Q34_E',datafield: '34_2_4_5', width: 100 },
+                   { text: 'Farm record keeping',columngroup: 'Q34_E',datafield: '34_2_5_5', width: 100 },
+                   { text: 'Cattle breeding/ reproduction',columngroup: 'Q34_E',datafield: '34_2_6_5', width: 100 },
+                   { text: 'Accounting / Financial management',columngroup: 'Q34_E',datafield: '34_2_7_5', width: 100 },
+                   { text: 'Other',columngroup: 'Q34_E',datafield: '34_2_8_5', width: 100 },
+
+                   { text: 'Comments or Suggestions',columngroup: 'Q34',datafield: '34_0_0_6', width: 100 },
+
+
+
+
+                 
+                ],
+                //sectionNumber_subsection_number_answerNumber_questionNumber
+                columngroups: [
+                    { text: 'Meta Data', align: 'center', name: 'metaData'},
+                    { text: 'Q1 GENERAL INFORMATION', align: 'center', name: 'Q1'},
+                    { text: 'Q2 HOUSEHOLD INFORMATION', align: 'center', name: 'Q2'},
+                    { text: 'A. 16yrs and Under', parentgroup: 'Q2', align: 'center', name: 'Q2_a'},
+                    { text: 'B. 17 - 25yrs', parentgroup: 'Q2', align: 'center', name: 'Q2_b'},
+                    { text: 'C. 26 - 40yrs', parentgroup: 'Q2', align: 'center', name: 'Q2_c'},
+                    { text: 'D. 41 - 60yrs', parentgroup: 'Q2', align: 'center', name: 'Q2_d'},
+                    { text: 'E. Above 60yrs', parentgroup: 'Q2', align: 'center', name: 'Q2_e'},
+
+                    { text: 'Q4 HISTORY OF INVOLVEMENT IN DAIRY FARMING', align: 'center', name: 'Q4'},
+
+                    { text: 'D. Role within the Cooperative',parentgroup: 'Q5', align: 'center', name: 'Q5_0_0_4'},
+                    { text: 'Q5 COOPERATIVE MEMBERSHIP', align: 'center', name: 'Q5'},
+
+                    { text: 'Q6 LAND OWNERSHIP/ USE OF FARMER', align: 'center', name: 'Q6'},
+                    { text: 'Q7 WHERE DO YOU GRAZE YOUR CATTLE', align: 'center', name: 'Q7'},
+
+                    { text: 'A. Source of household water ', parentgroup: 'Q8', align: 'center', name: 'Q8_0_0_1'},
+                    { text: 'B. Source of household water for animals ', parentgroup: 'Q8', align: 'center', name: 'Q8_0_0_2'},
+                    { text: 'E. Methods of water conservation ', parentgroup: 'Q8', align: 'center', name: 'Q8_0_0_5'},
+                    { text: 'Q8 FARM INFORMATION - WATER', align: 'center', name: 'Q8'},
+                    
+                    { text: 'Energy sources used on farm ', parentgroup: 'Q9', align: 'center', name: 'Q9_0_0_1'},
+                    { text: 'Q9. FARM INFORMATION - ENERGY', align: 'center', name: 'Q9'},
+                    
+                    { text: 'Rhodes grass ', parentgroup: 'Q10', align: 'center', name: 'rhodes_grass'},
+                    { text: 'Use', parentgroup: 'rhodes_grass', align: 'center', name: 'Q10_2_0_1'},
+                    { text: 'Funded By', parentgroup: 'rhodes_grass', align: 'center', name: 'Q10_4_0_1'},
+
+                    { text: 'Napier grass ', parentgroup: 'Q10', align: 'center', name: 'napier_grass'},
+                    { text: 'Use', parentgroup: 'napier_grass', align: 'center', name: 'Q10_2_0_2'},
+                    { text: 'Funded By', parentgroup: 'napier_grass', align: 'center', name: 'Q10_4_0_2'},
+
+                    { text: 'Cow pea ', parentgroup: 'Q10', align: 'center', name: 'cow_pea'},
+                    { text: 'Use', parentgroup: 'cow_pea', align: 'center', name: 'Q10_2_0_3'},
+                    { text: 'Funded By', parentgroup: 'cow_pea', align: 'center', name: 'Q10_4_0_3'},
+
+                    { text: 'Pigeon pea ', parentgroup: 'Q10', align: 'center', name: 'pigean_pea'},
+                    { text: 'Use', parentgroup: 'pigean_pea', align: 'center', name: 'Q10_2_0_4'},
+                    { text: 'Funded By', parentgroup: 'pigean_pea', align: 'center', name: 'Q10_4_0_4'},
+
+                    { text: 'Velvet beans ', parentgroup: 'Q10', align: 'center', name: 'velvet_beans'},
+                    { text: 'Use', parentgroup: 'velvet_beans', align: 'center', name: 'Q10_2_0_5'},
+                    { text: 'Funded By', parentgroup: 'velvet_beans', align: 'center', name: 'Q10_4_0_5'},
+
+                    { text: 'Stylo ', parentgroup: 'Q10', align: 'center', name: 'stylo'},
+                    { text: 'Use', parentgroup: 'stylo', align: 'center', name: 'Q10_2_0_6'},
+                    { text: 'Funded By', parentgroup: 'stylo', align: 'center', name: 'Q10_4_0_6'},
+
+                    { text: 'Brachiaria ', parentgroup: 'Q10', align: 'center', name: 'brachiaria'},
+                    { text: 'Use', parentgroup: 'brachiaria', align: 'center', name: 'Q10_2_0_7'},
+                    { text: 'Funded By', parentgroup: 'brachiaria', align: 'center', name: 'Q10_4_0_7'},
+
+                    { text: 'Sweet sorghum(cow candy) ', parentgroup: 'Q10', align: 'center', name: 'sweet_sorghum'},
+                    { text: 'Use', parentgroup: 'sweet_sorghum', align: 'center', name: 'Q10_2_0_8'},
+                    { text: 'Funded By', parentgroup: 'sweet_sorghum', align: 'center', name: 'Q10_4_0_8'},
+
+                    { text: 'Sunn-hemp ', parentgroup: 'Q10', align: 'center', name: 'sunn_hemp'},
+                    { text: 'Use', parentgroup: 'sunn_hemp', align: 'center', name: 'Q10_2_0_9'},
+                    { text: 'Funded By', parentgroup: 'sunn_hemp', align: 'center', name: 'Q10_4_0_9'},
+
+                    { text: 'Lablab', parentgroup: 'Q10', align: 'center', name: 'lablab'},
+                    { text: 'Use', parentgroup: 'lablab', align: 'center', name: 'Q10_2_0_10'},
+                    { text: 'Funded By', parentgroup: 'lablab', align: 'center', name: 'Q10_4_0_10'},
+
+                    { text: 'Yellow maize', parentgroup: 'Q10', align: 'center', name: 'yellow_maize'},
+                    { text: 'Use', parentgroup: 'yellow_maize', align: 'center', name: 'Q10_2_0_11'},
+                    { text: 'Funded By', parentgroup: 'yellow_maize', align: 'center', name: 'Q10_4_0_11'},
+
+                    { text: 'White maize', parentgroup: 'Q10', align: 'center', name: 'white_maize'},
+                    { text: 'Use', parentgroup: 'white_maize', align: 'center', name: 'Q10_2_0_12'},
+                    { text: 'Funded By', parentgroup: 'white_maize', align: 'center', name: 'Q10_4_0_12'},
+
+                    { text: 'Soya Beans', parentgroup: 'Q10', align: 'center', name: 'soya_beans'},
+                    { text: 'Use', parentgroup: 'soya_beans', align: 'center', name: 'Q10_2_0_13'},
+                    { text: 'Funded By', parentgroup: 'soya_beans', align: 'center', name: 'Q10_4_0_13'},
+
+                    { text: 'Sunflower', parentgroup: 'Q10', align: 'center', name: 'sunflower'},
+                    { text: 'Use', parentgroup: 'sunflower', align: 'center', name: 'Q10_2_0_14'},
+                    { text: 'Funded By', parentgroup: 'sunflower', align: 'center', name: 'Q10_4_0_14'},
+
+                    { text: 'Cotton', parentgroup: 'Q10', align: 'center', name: 'cotton'},
+                    { text: 'Use', parentgroup: 'cotton', align: 'center', name: 'Q10_2_0_15'},
+                    { text: 'Funded By', parentgroup: 'cotton', align: 'center', name: 'Q10_4_0_15'},
+
+                    { text: 'Sweet potatoes', parentgroup: 'Q10', align: 'center', name: 'sweet_potatoes'},
+                    { text: 'Use', parentgroup: 'sweet_potatoes', align: 'center', name: 'Q10_2_0_16'},
+                    { text: 'Funded By', parentgroup: 'sweet_potatoes', align: 'center', name: 'Q10_4_0_16'},
+
+                    { text: 'Pumpkin', parentgroup: 'Q10', align: 'center', name: 'pumpkin'},
+                    { text: 'Use', parentgroup: 'pumpkin', align: 'center', name: 'Q10_2_0_17'},
+                    { text: 'Funded By', parentgroup: 'pumpkin', align: 'center', name: 'Q10_4_0_17'},
+
+                    { text: 'Cassava', parentgroup: 'Q10', align: 'center', name: 'cassava'},
+                    { text: 'Use', parentgroup: 'cassava', align: 'center', name: 'Q10_2_0_18'},
+                    { text: 'Funded By', parentgroup: 'cassava', align: 'center', name: 'Q10_4_0_18'},
+
+                    { text: 'Other', parentgroup: 'Q10', align: 'center', name: 'other_10'},
+                    { text: 'Use', parentgroup: 'other_10', align: 'center', name: 'Q10_2_0_19'},
+                    { text: 'Funded By', parentgroup: 'other_10', align: 'center', name: 'Q10_4_0_19'},
+
+                    { text: 'Q10 FODDER CROPS GROWN IN THE LAST 12 MONTHS (SINCE MAY 2017) ', align: 'center', name: 'Q10'},
+                    
+                    { text: 'Q12 LABOUR USED ON FARM - (PAID LABOUR(IN CASH/ IN KIND) FROM OUTSIDE THE FARM) ', align: 'center', name: 'Q12'},
+                    { text: 'Where do you source the labour from which you use on your farm', parentgroup: 'Q12', align: 'center', name: 'Q12_0_0_0' },
+                    { text: 'Labour from outside the household', align: 'center',parentgroup: 'Q12_0_0_0', name: 'Q12_outside'},
+
+                    { text: 'Male 17+', align: 'center',parentgroup: 'Q12_outside', name: 'Q12_male_outside'},
+                    { text: 'Female 17+', align: 'center',parentgroup: 'Q12_outside', name: 'Q12_female_outside'},
+                    { text: 'Youth Male 12 - 16', align: 'center',parentgroup: 'Q12_outside', name: 'Q12_youth_male_outside'},
+                    { text: 'Youth Female 12 - 16', align: 'center',parentgroup: 'Q12_outside', name: 'Q12_youth_female_outside'},
+                    { text: 'Children < 12 ', align: 'center',parentgroup: 'Q12_outside', name: 'Q12_children_outside'},
+
+                    { text: 'Labour from inside the household', align: 'center',parentgroup: 'Q12_0_0_0', name: 'Q12_inside'},
+
+                    { text: 'Male 17+', align: 'center',parentgroup: 'Q12_inside', name: 'Q12_male_inside'},
+                    { text: 'Female 17+', align: 'center',parentgroup: 'Q12_inside', name: 'Q12_female_inside'},
+                    { text: 'Youth Male 12 - 16', align: 'center',parentgroup: 'Q12_inside', name: 'Q12_youth_male_inside'},
+                    { text: 'Youth Female 12 - 16', align: 'center',parentgroup: 'Q12_inside', name: 'Q12_youth_female_inside'},
+                    { text: 'Children < 12 ', align: 'center',parentgroup: 'Q12_inside', name: 'Q12_children_inside'},
+
+                    { text: 'Q13 INCOME FROM DAIRY-RELATED ACTIVITIES DURING THE PREVIOUS 12 MONTHS (SINCE MAY 2017) ', align: 'center', name: 'Q13'},
+                    { text: 'Other ', align: 'center',parentgroup: 'Q13', name: 'other_13_0_0_10'},
+
+                    { text: 'Q14 INCOME FROM NON-DAIRY ACTIVITIES DURING THE PREVIOUS 12 MONTHS (SINCE MAY 2017) ', align: 'center', name: 'Q14'},
+                    { text: 'Other ', align: 'center',parentgroup: 'Q14', name: 'other_14_0_0_11'},
+
+                    { text: 'Q15 SMALLHOLDER EXPENDITURE DURING THE PREVIOUS 12 MONTHS (SINCE MAY 2017) ', align: 'center', name: 'Q15'},
+                    { text: 'Feed and other feeding technologies ', align: 'center',parentgroup: 'Q15', name: 'eeeee1'},
+                    { text: 'Other Feeding costs', align: 'center',parentgroup: 'Q15', name: 'eeeee2'},
+                    { text: 'one', align: 'center',parentgroup: 'eeeee2', name: 'Q15_one'},
+                    { text: 'two', align: 'center',parentgroup: 'eeeee2', name: 'Q15_two'},
+                    { text: 'three', align: 'center',parentgroup: 'eeeee2', name: 'Q15_three'},
+                    { text: 'Health', align: 'center',parentgroup: 'Q15', name: 'eeeee3'},
+                    { text: 'Reproduction', align: 'center',parentgroup: 'Q15', name: 'eeeee4'},
+                    { text: 'Transport', align: 'center',parentgroup: 'Q15', name: 'eeeee5'},
+                    { text: 'Energy', align: 'center',parentgroup: 'Q15', name: 'eeeee6'},
+                    { text: 'Labour', align: 'center',parentgroup: 'Q15', name: 'eeeee7'},
+                    { text: 'Other', align: 'center',parentgroup: 'Q15', name: 'eeeee8'},
+                    { text: '--', align: 'center',parentgroup: 'eeeee8', name: 'Q15_other'},
+
+                    { text: 'Q16 ASSET ', align: 'center', name: 'Q16'},
+                    { text: 'A. Tractor', align: 'center',parentgroup: 'Q16', name: 'tractor'},
+                    { text: 'B. Hand Tractor', align: 'center',parentgroup: 'Q16', name: 'hand_tractor'},
+                    { text: 'C. Planter', align: 'center',parentgroup: 'Q16', name: 'planter'},
+                    { text: 'D. Plough/ox driven', align: 'center',parentgroup: 'Q16', name: 'plough'},
+                    { text: 'E. Bicycle', align: 'center',parentgroup: 'Q16', name: 'bicycle'},
+                    { text: 'F. Motor Bike', align: 'center',parentgroup: 'Q16', name: 'Q16_F'},
+                    { text: 'G. Van', align: 'center',parentgroup: 'Q16', name: 'Q16_G'},
+                    { text: 'H. Small truck', align: 'center',parentgroup: 'Q16', name: 'Q16_H'},
+                    { text: 'I. Car', align: 'center',parentgroup: 'Q16', name: 'Q16_I'},
+                    { text: 'J. Fridge or milk vat', align: 'center',parentgroup: 'Q16', name: 'Q16_J'},
+                    { text: 'K. Small millking machine', align: 'center',parentgroup: 'Q16', name: 'Q16_K'},
+                    { text: 'L. Stainless steel/ alloy milk can', align: 'center',parentgroup: 'Q16', name: 'Q16_L'},
+                    { text: 'M. Stainless steel/ alloy milk bucket ', align: 'center',parentgroup: 'Q16', name: 'Q16_M'},
+                    { text: 'N. Solar light', align: 'center',parentgroup: 'Q16', name: 'Q16_N'},
+                    { text: 'O. Other', align: 'center',parentgroup: 'Q16', name: 'Q16_other'},
+
+                    { text: 'Q18 HERD DATA - CATTLE( AT TIME OF SURVEY ) ', align: 'center', name: 'Q18'},
+                    { text: 'A. Cows in milk ', align: 'center',parentgroup: 'Q18', name: 'Q18_A'},
+                    { text: 'B. Cows over 2yrs not in milk ', align: 'center',parentgroup: 'Q18', name: 'Q18_B'},
+                    { text: 'C. Heifers (4mths - 2yrs) ', align: 'center',parentgroup: 'Q18', name: 'Q18_C'},
+                    { text: 'D. Female calves less than 3 mths ', align: 'center',parentgroup: 'Q18', name: 'Q18_D'},
+                    { text: 'E. Male animals of any age not being used as breeding calves ', align: 'center',parentgroup: 'Q18', name: 'Q18_E'},
+                    { text: 'F. Breeding Bulls of any age ', align: 'center',parentgroup: 'Q18', name: 'Q18_F'},
+
+                    { text: 'Q19 SILAGE WHICH YOU FED TO YOUR CATTLE BETWEEN May 2017 - May 2018 ', align: 'center', name: 'Q19'},
+
+                    { text: 'Q20 HAY MADE AND PURCHASED DURING THE PREVIOUS 12 MONTHS (SINCE MAY 2017)  ', align: 'center', name: 'Q20'},
+
+                    { text: 'Q21 CONCERTRATES BOUGHT DURING THE PREVIOUS 12 YEAR (SINCE MAY 2017)  ', align: 'center', name: 'Q21'},
+                    { text: 'Concertrates bought - per 50kg bag ', align: 'center',parentgroup: 'Q21', name: 'Q21__'},
+                    { text: 'Other', align: 'center',parentgroup: 'Q21__', name: 'Q21_other'},
+
+                    { text: 'Q22 MILKING ROUTINE', align: 'center', name: 'Q22'},
+                    { text: 'G. Condition of the road normally used to get to the collection point/ MCC', align: 'center',parentgroup: 'Q22', name: 'Q22_0_0_7'},
+
+                    { text: 'Q23 MILKING HYGIENE', align: 'center', name: 'Q23'},
+                    { text: 'C. What do you use to clean your cans', align: 'center',parentgroup: 'Q23', name: 'Q23_0_0_3'},
+
+                    { text: 'Q24 LACTATION LENGTH', align: 'center', name: 'Q24'},
+
+                    { text: 'Q25 MILK PRODUCTION', align: 'center', name: 'Q25'},
+                    
+                    { text: 'Q27 MILK REJECTIONS BY MCC DURING THE PREVIOUS 12 Months', align: 'center', name: 'Q27'},
+                    
+                    { text: 'Q28 BREEDING METHOD ', align: 'center', name: 'Q28'},
+                    { text: 'Q29 REPRODUCTIVE PROBLEMS DURING THE PREVIOUS 12 MONTHS (I.E MAY 2016 - MAY 2107) ', align: 'center', name: 'Q29'},
+                    { text: 'Q30 IDENTIFICATION AND RECORD KEEPING ', align: 'center', name: 'Q30'},
+
+                    { text: 'Q31 ANIMAL HEALTH - DISEASE PREVENTION AND CONTROL ', align: 'center', name: 'Q31'},
+                    { text: 'Diseases, If yes', align: 'center',parentgroup: 'Q31', name: 'Q31_0_0_2'},
+                    { text: 'Diseases, If yes', align: 'center',parentgroup: 'Q31', name: 'Q31_0_0_4'},
+
+                    { text: 'Q32 WHICH SERVICE PROVIDERS DO YOU HAVE A RELATIONSHIP WITH  ', align: 'center', name: 'Q32'},
+                    { text: 'Animal Health Service providers', align: 'center',parentgroup: 'Q32', name: 'Q32_0_0_1'},
+                    { text: 'Animal Health input suppliers', align: 'center',parentgroup: 'Q32', name: 'Q32_0_0_2'},
+                    { text: '--', align: 'center',parentgroup: 'Q32_0_0_2', name: 'Q32_1_0_2'},
+                    { text: 'Farm input suppliers', align: 'center',parentgroup: 'Q32', name: 'Q32_0_0_3'},
+                    { text: '--', align: 'center',parentgroup: 'Q32_0_0_3', name: 'Q32_1_0_3'},
+                    { text: '--', align: 'center',parentgroup: 'Q32_0_0_3', name: 'Q32_2_0_3'},
+                    { text: '--', align: 'center',parentgroup: 'Q32_0_0_3', name: 'Q32_3_0_3'},
+                    { text: '--', align: 'center',parentgroup: 'Q32_0_0_3', name: 'Q32_4_0_3'},
+                    { text: 'Other', align: 'center',parentgroup: 'Q32', name: 'Q32_0_0_4'},
+
+                    { text: 'Q33 Training, experiance and service provision in animal health/ animal production  ', align: 'center', name: 'Q33'},
+                    { text: '(A) Has any one in your household recieved any animal health/ animal production training during the previous year  ', align: 'center' ,parentgroup: 'Q33', name: 'Q33_A'},
+                    { text: 'a. AI Technicain', align: 'center',parentgroup: 'Q33_A', name: 'ai_technician'}, 
+                    { text: 'b. Community Animal Health worker', align: 'center',parentgroup: 'Q33_A', name: 'comm_b_anim_health'}, 
+                    { text: 'c. Community livestock volunteer / Worker', align: 'center',parentgroup: 'Q33_A', name: 'community_c'},
+                    { text: 'd. Community Facilitator', align: 'center',parentgroup: 'Q33_A', name: 'sdsdsdadafdfa'},
+                    { text: 'd. Agro-entreprenuer', align: 'center',parentgroup: 'Q33_A', name: '_entrep'},
+                    { text: 'e. Other ', align: 'center',parentgroup: 'Q33_A', name: 'Q33_other_1'},
+                    { text: '(B) Does anyone in your household provide one or more of the following services ', align: 'center' ,parentgroup: 'Q33', name: 'Q33_B'},
+
+                    { text: 'Q34 EXTENSTION ADVICE, TRAINING AND SKILLS  ', align: 'center', name: 'Q34'},
+                    { text: '(A) Have you recieved any farm extension advice or assistance from MFL or others in the last 12 Months', 
+                      align: 'center',parentgroup: 'Q34', name: 'Q34_A'},
+                    //{ text: 'Advice recieved', align: 'center',parentgroup: 'Q34_A', name: 'Q34_advice'},
+                    { text: 'Fodder crop production', align: 'center',parentgroup: 'Q34_A', name: 'Q34_fodder_crop_production'},
+                    { text: 'Cattle nutrition', align: 'center',parentgroup: 'Q34_A', name: 'Q34_cattle_nutrition'},
+                    { text: 'Milk hygiene', align: 'center',parentgroup: 'Q34_A', name: 'Q34_hygiene'},
+                    { text: 'Animal helath management', align: 'center',parentgroup: 'Q34_A', name: 'Q34_animal_health'},
+                    { text: 'Farm record keeping', align: 'center',parentgroup: 'Q34_A', name: 'Q34_farm_record'},
+                    { text: 'Cattle breeding', align: 'center',parentgroup: 'Q34_A', name: 'Q34_cattle_breeding'},
+                    { text: 'Accounting/ Financial ', align: 'center',parentgroup: 'Q34_A', name: 'Q34_accounting'},
+                    { text: 'Other ', align: 'center',parentgroup: 'Q34_A', name: 'Q34_b_other'},
+
+                    { text: '(C) Have you recieved any training in one, or more of the following topics during the last 12 Months', 
+                      align: 'center',parentgroup: 'Q34', name: 'Q34_C'},
+
+                    { text: 'Fodder crop production', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_fodder_crop_production'},
+                    { text: 'Cattle nutrition', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_cattle_nutrition'},
+                    { text: 'Milk hygiene', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_hygiene'},
+                    { text: 'Animal helath management', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_animal_health'},
+                    { text: 'Farm record keeping', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_farm_record'},
+                    { text: 'Cattle breeding', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_cattle_breeding'},
+                    { text: 'Accounting/ Financial ', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_accounting'},
+                    { text: 'Other ', align: 'center',parentgroup: 'Q34_C', name: 'Q34_c_other'},
+
+                    { text: '(D) How are you applying the skills you have learnt, and what benefits have you seen ?', 
+                      align: 'center',parentgroup: 'Q34', name: 'Q34_D'},
+
+                    { text: 'Fodder crop production', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_fodder_crop_production'},
+                    { text: 'Cattle nutrition', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_cattle_nutrition'},
+                    { text: 'Milk hygiene', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_hygiene'},
+                    { text: 'Animal helath management', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_animal_health'},
+                    { text: 'Farm record keeping', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_farm_record'},
+                    { text: 'Cattle breeding', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_cattle_breeding'},
+                    { text: 'Accounting/ Financial ', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_accounting'},
+                    { text: 'Other ', align: 'center',parentgroup: 'Q34_D', name: 'Q34_d_other'},
+
+                    { text: '(E) Are there any dairy related topics you would like to recieve more training/ information on?', 
+                      align: 'center',parentgroup: 'Q34', name: 'Q34_E'},
+
+                    
+  
+
+                    
+                   
+                ]
+            });
+            $('#grid').jqxGrid({ pagesizeoptions: ['10', '20', '30','40']}); 
+            $("#excelExport").jqxButton();
+            $("#csvExport").jqxButton();
+            $("#pdfExport").jqxButton();
+            $("#excelExport").click(function () {
+                $("#grid").jqxGrid('exportdata', 'xls', 'jqxGrid');           
+            });
+            
+            $("#csvExport").click(function () {
+                $("#grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+            $("#pdfExport").click(function () {
+                $("#grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+            });
+
+            $('#clearfilteringbutton').click(function () {
+                $("#grid").jqxGrid('clearfilters');
+            });
+            $("#button").click(function () {
+                $("#grid").jqxGrid('autoresizecolumns');
+            });
+
+            var listSource = [
+                { label: 'ID', value: 'id', checked: true }, 
+                { label: 'User id', value: 'user_id', checked: true },
+                { label: 'Interview id', value: 'interview_id', checked: true }, 
+                { label: 'First interview', value: 'first_interview', checked: true }, 
+                { label: 'Cooperative Union', value: 'coop_union', checked: true},
+                { label: 'Primary Coop', value: 'prime_coop', checked: true},
+                { label: 'Longitude', value: 'longitude', checked: true},
+                { label: 'Latitude', value: 'latitude', checked: true},
+                { label: 'Last Question', value: 'current_section', checked: true},
+                { label: 'Date', value: 'field_date', checked: true}];
+            $("#jqxlistbox").jqxListBox(
+              { source: listSource, width: 200, height: 200,  checkboxes: true });
+
+            $("#jqxlistbox").on('checkChange', function (event) {
+                $("#grid").jqxGrid('beginupdate');
+                if (event.args.checked) {
+                    $("#grid").jqxGrid('showcolumn', event.args.value);
+                }
+                else {
+                    $("#grid").jqxGrid('hidecolumn', event.args.value);
+                }
+                $("#grid").jqxGrid('endupdate');
+            });
+        });
+
+    </script>  
+{% endblock %}
+

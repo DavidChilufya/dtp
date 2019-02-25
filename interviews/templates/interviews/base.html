@@ -1,0 +1,354 @@
+{% load render_bundle from webpack_loader %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>All Interviews </title>
+
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- global css -->
+ 	<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />
+    
+    {% block extra_head %}{% endblock %}
+
+    <!-- end of global css -->
+</head>
+
+<body class="skin-default">
+<div class="preloader">
+    <div class="loader_img"><img src="{% static 'img/loader.gif' %} " alt="loading..." height="64" width="64"></div>
+</div>
+<!-- header logo: style can be found in header-->
+<header class="header">
+    <nav class="navbar navbar-static-top" role="navigation">
+        <a href="" class="logo">    
+            <span style="color: white; font-size: 30px;">ZDTP ABS</span>
+            <!-- Add the class icon to your logo image or logo icon to add the marginin -->
+            <!-- <img src="{% static 'img/logo_white.png' %}" alt="logo"/> -->
+        </a>
+        <!-- Header Navbar: style can be found in header-->
+        <!-- Sidebar toggle button-->
+        <div class="mr-auto">
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button"> <i
+                    class="fa fa-fw ti-menu"></i>
+            </a>=
+        </div>
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <li></li>
+
+                <!--rightside toggle-->
+                <li>
+                    <a href="#" class="dropdown-toggle toggle-right" data-toggle="dropdown">
+                        <i class="fa fa-fw ti-view-list black"></i>
+                        <span class="badge badge-pill badge-danger">9</span>
+                    </a>
+                </li>
+                <!-- User Account: style can be found in dropdown-->
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle padding-user d-block" data-toggle="dropdown">
+                        <img src="{% static 'img/authors/avatar1.jpg' %}" width="35" class="rounded-circle img-fluid float-left"
+                             height="35" alt="User Image">
+                        <div class="riot">
+                            <div>
+                                Addison
+                               <span><i class="fa fa-sort-down"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <img src="{% static 'img/authors/avatar1.jpg' %}" class="rounded-circle" alt="User Image">
+                            <p> Addison</p>
+                        </li>
+                        <!-- Menu Body -->
+                        <li class="p-t-3"><a href="user_profile.html" class="dropdown-item"> <i class="fa fa-fw ti-user"></i> My Profile </a>
+                        </li>
+                        <li role="presentation"></li>
+                        <li><a href="edit_user.html" class="dropdown-item"><i class="fa fa-fw ti-settings"></i> Account Settings </a></li>
+                        <li role="presentation" class="dropdown-divider"></li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="float-left">
+                                <a href="lockscreen.html">
+                                    <i class="fa fa-fw ti-lock"></i>
+                                    Lock
+                                </a>
+                            </div>
+                            <div class="float-right">
+                                <a href="login.html">
+                                    <i class="fa fa-fw ti-shift-right"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <!-- Left side column. contains the logo and sidebar -->
+    {% if k %}
+    <aside class="left-side sidebar-offcanvas collapse-left">
+    {% else %}
+    <aside class="left-side sidebar-offcanvas ">
+    {% endif %}
+
+        <!-- sidebar: style can be found in sidebar-->
+        <section class="sidebar">
+            <div id="menu" role="navigation">
+                <div class="nav_profile">
+                    <div class="media profile-left">
+                        <a class="float-left profile-thumb" href="#">
+                            <img src="{% static 'img/authors/avatar1.jpg' %}" class="rounded-circle" alt="User Image"></a>
+                        <div class="content-profile">
+                            <h4 class="media-heading">Addison</h4>
+                            <ul class="icon-list">
+                                <li>
+                                    <a href="users.html" title="user">
+                                        <i class="fa fa-fw ti-user"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="lockscreen.html" title="lock">
+                                        <i class="fa fa-fw ti-lock"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="edit_user.html" title="settings">
+                                        <i class="fa fa-fw ti-settings"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="login.html" title="Login">
+                                        <i class="fa fa-fw ti-shift-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <ul class="navigation">
+                    <li>
+                        <a href="">
+                            <i class="menu-icon ti-desktop"></i>
+                            <span class="mm-text ">Dashboard </span>
+                        </a>
+                    </li>
+                    <li class="menu-dropdown">
+                        <a href="javascript:void(0)">
+                            <i class="menu-icon ti-check-box"></i>
+                            <span>Reports</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-fw ti-clipboard"></i> Survey Data
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="sub-menu p-l-40">
+                                    <li>
+                                    	<a href="interviews"><i class="fa fa-fw ti-files"></i> 
+                                    	Interviews                                        
+                                		</a>                                     
+                                    </li>
+                                    <li>
+                                    	<a href=""><i class="fa fa-fw ti-write"></i>
+                                    	Individual reports
+                                    	</a>
+                                	</li>
+                                	<li>
+                                    	<a href=""><i class="fa fa-fw ti-receipt"></i>
+                                    	Question Details
+                                    	</a>
+                                	</li>
+                                
+
+                                </ul>
+                            </li>
+                            
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="index.html">
+                            <i class="menu-icon ti-location-pin"></i>
+                            <span class="mm-text ">Location data </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="index.html">
+                            <i class="menu-icon ti-write"></i>
+                            <span class="mm-text ">Create </span>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="index.html">
+                            <i class="menu-icon ti-server"></i>
+                            <span class="mm-text ">Import </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html">
+                            <i class="menu-icon ti-settings"></i>
+                            <span class="mm-text ">Settings </span>
+                        </a>
+                    </li>
+
+                    
+                </ul>
+                <!-- / .navigation --> </div>
+            <!-- menu --> </section>
+        <!-- /.sidebar --> </aside>
+
+        {% if k %}
+    <aside class="right-side strech">
+        {% else %}
+    <aside class="right-side ">
+        {% endif %}
+
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>Dashboard</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a class = "active" href="">
+                        <i class="fa fa-fw ti-home"></i> Dashboard
+                    </a>
+                </li>
+            </ol>
+
+        </section>
+        <!-- Main content -->
+        <section class="content">
+   			
+
+        	{% block content %} {% endblock %}
+
+            <!--rightside bar -->
+            <div id="right">
+                <div id="right-slim">
+                    <div class="rightsidebar-right">
+                        <div class="rightsidebar-right-content">
+                            <div class="panel-tabs">
+                                <ul class="nav nav-tabs nav-float" role="tablist">
+                                    <li class="nav-item text-center">
+                                        <a href="#r_tab1" role="tab" data-toggle="tab" class="nav-link active "><i
+                                                class="fa fa-fw ti-server "></i></a>
+                                    </li>
+                                    <li class="text-center nav-item">
+                                        <a href="#r_tab2" role="tab" data-toggle="tab" class="nav-link"><i class="fa fa-fw ti-bell"></i></a>
+                                    </li>
+                                    <li class="text-center nav-item">
+                                        <a href="#r_tab3" role="tab" data-toggle="tab" class="nav-link"><i
+                                                class="fa fa-fw ti-settings"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="r_tab1">
+                                    <div id="slim_t1">
+                                        <h5 class="rightsidebar-right-heading text-uppercase text-xs">
+                                            <i class="menu-icon  fa fa-fw ti-world "></i>
+                                            Content1
+                                        </h5>
+                                        <ul class="list-unstyled margin-none">
+                                        </ul>
+
+                                        <h5 class="rightsidebar-right-heading text-uppercase text-xs">
+                                            <i class="fa fa-fw ti-export"></i>
+                                            Recent Updates
+                                        </h5>
+                                        <div>
+                                            <ul class="list-unstyled">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="r_tab2">
+                                    <div id="slim_t2">
+                                        <h5 class="rightsidebar-right-heading text-uppercase text-xs">
+                                            <i class="fa fa-fw ti-bell"></i>
+                                            Notifications
+                                        </h5>
+                                        <ul class="list-unstyled m-t-15 notifications">
+                                        </ul>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="r_tab3">
+                                    <div id="slim_t3">
+
+                                        <h5 class="rightsidebar-right-heading text-uppercase gen-sett-m-t text-xs">
+                                            <i class="fa fa-fw ti-settings"></i>
+                                            General
+                                        </h5>
+                                        <ul class="list-unstyled settings-list m-t-10">
+                                            <li>
+                                                <label for="status">Available</label>
+                                                <span class="float-right">
+                                            <input type="checkbox" id="status" name="my-checkbox" checked>
+                                        </span>
+                                            </li>
+                                            <li>
+                                                <label for="email-auth">Login with Email</label>
+                                                <span class="float-right">
+                                            <input type="checkbox" id="email-auth" name="my-checkbox">
+                                        </span>
+                                            </li>
+                                            <li>
+                                                <label for="update">Auto Update</label>
+                                                <span class="float-right">
+                                            <input type="checkbox" id="update" name="my-checkbox">
+                                        </span>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="background-overlay"></div>
+        </section>
+        <!-- /.content -->
+
+
+    </aside>
+    <!-- /.right-side -->
+</div>
+<!-- /.right-side -->
+<!-- ./wrapper -->
+<!-- global js -->
+<script src="{% static "js/app.js" %}"></script>
+
+<!-- end of page level js -->
+{% block jqwidgets %}{% endblock %}
+{% block custom_jqwidgets %}{% endblock %}
+    
+
+
+
+</body>
+
+</html>

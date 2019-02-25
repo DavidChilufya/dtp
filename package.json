@@ -1,0 +1,22 @@
+{
+  "name": "zdtp",
+  "version": "1.0.0",
+  "description": "An admin backend for the android survey/ data collection tool",
+  "scripts": {
+    "build_webpack": "webpack --config webpack.config.js",
+    "build_babel": "babel assets/src -d public"
+  },
+  "author": "David Chilufya",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "react": "^16.4.0",
+    "webpack": "^4.10.2",
+    "webpack-bundle-tracker": "^0.3.0",
+    "webpack-cli": "^3.0.1"
+  }
+}

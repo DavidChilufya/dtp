@@ -1,0 +1,1684 @@
+{% extends "interviews/base.html" %}
+{% load static %}
+{% block extra_head %}
+
+    <script type="text/javascript" src="{% static 'jqwidgets/scripts/jquery-1.12.4.min.js' %}"></script>
+    <!-- <script src= src="https://unpkg.com/ag-grid-enterprise@18.1.1/dist/ag-grid-enterprise.min.js"></script> -->
+    <script src="{% static 'ag-grid/ag-grid-enterprise.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'ag-grid/hover.css' %}" type="text/css" />
+
+
+
+{% endblock %}
+{% block content %}
+
+<div style=" top: 0px; left: 0px; padding-top: 7px; padding-bottom: 7px;">
+    Page Size:
+    <select class="btn btn-sm dropdown-toggle" onchange="onPageSizeChanged()" id="page-size">
+        <option value="20" selected>20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+        <option value="80">80</option>
+        <option value="100">100</option>
+    </select>
+    Theme:
+    <select class="btn btn-sm dropdown-toggle" onchange="setTheme()" id="theme-name">
+        <option value="ag-theme-balham" selected="">Light theme</option>
+        <option value="ag-theme-balham-dark">Dark theme</option>
+        <option value="ag-theme-fresh">Fresh</option>
+        <option value="ag-theme-material">Material</option>
+
+    </select>
+
+</div>
+<div id="myGrid" style=" height: 700px; padding-bottom: 7px;" class="ag-theme-balham">
+
+</div>
+{% endblock %}
+
+{% block custom_jqwidgets %}
+
+<script type="text/javascript">
+    function setTheme(baa) {
+      var value = document.getElementById('theme-name').value;
+      document.getElementById("myGrid").setAttribute("class", value); 
+    }
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+  $.ajax(
+                {
+                    method: 'POST', // Type of response and matches what we said in the route
+                    url: '/interviews/interviews_list', // This is the url we gave in the routeFIT84J4JFIT84J4J
+                    dataType: 'json',
+                    data: 
+                    { 
+                      data_:"payment_data",
+                      'csrfmiddlewaretoken' : csrftoken
+                      }, 
+                    
+                    success: function(response){ // What to do if we succeed
+                    //meta_data = JSON.parse(response)
+                    //meta_data = response;
+                    //console.log(response);
+                    gridOptions.api.setRowData(response);
+                    //alert("Payment Added");
+                },
+                error: function(jqXHR, textStatus, errorThrown) { // What to do if we fail
+                    console.log(JSON.stringify(jqXHR));
+                    console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+                    alert("an error occured, please refresh page and try again");
+                }
+          });
+ 
+   //specify the columns
+        var columnDefs = 
+        [  
+            {
+              headerName : 'Meta Data',
+                children:[
+                  {headerName: "ID", field: "id",rowDrag: true, width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                  {headerName: "User id", field: "user_id",width: 240,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "Farm Ref", field: "interview_id",width: 115,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "Unique ID", field: "household_id",width: 100,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},    
+                  {headerName: "First interview", field: "first_interview", width: 65,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "Coop union", field: "coop_union",width: 150},
+                  {headerName: "Prime Coop", field: "prime_coop", width: 150},
+                  {headerName: "Latitude", field: "latitude", width: 120,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "Longitude", field: "longitude", width: 120,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "Last question", field: "current_section",width: 50,
+                      filterParams: {clearButton:true}},
+                  {headerName: "Year", field: "year",width: 50,
+                      filterParams: {clearButton:true}},     
+                  {headerName: "Date", field: "field_date", width: 185, filter: 'agDateColumnFilter',
+                      filterParams: {clearButton:true,inRangeInclusive:true}}, 
+                
+                ]
+            },
+              ////////////////////////////////////////////////////////
+            {
+              headerName : 'Q1. General information',
+                children:[
+                  {headerName: "A. Respondent Name", field: "1_0_1_1",filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                  {headerName: "B. Village", field: "1_0_1_2"},
+                  {headerName: "C. Age", field: "1_0_1_3", width:80 , filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                  {headerName: "D. Gender", field: "1_0_1_4", width:90},
+                  {headerName: "E. Phone", field: "1_0_1_5",width: 150,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}},
+                ]
+            },
+            ///////////////////////////////////////////////////////////
+            {
+              headerName : 'Q2 HOUSEHOLD INFORMATION',
+                children:[
+                  {
+                    headerName : 'A. 16yrs and Under',
+                      children : [
+                        {headerName: "Male", field: "2_1_1_1", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        {headerName: "Female", field: "2_2_1_1", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        
+                        ]
+                  },
+                  {
+                    headerName : 'B. 17 - 25yrs',
+                      children : [
+                        {headerName: "Male", field: "2_2_1_2", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        {headerName: "Female", field: "2_2_1_2", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        
+                        ]
+                  },
+                  {
+                    headerName : 'C. 26 - 40yrs',
+                      children : [
+                        {headerName: "Male", field: "2_2_1_3", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        {headerName: "Female", field: "2_2_1_3", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        
+                        ]
+                  },
+                  {
+                    headerName : 'D. 41 - 60yrs',
+                      children : [
+                        {headerName: "Male", field: "2_2_1_4", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        {headerName: "Female", field: "2_2_1_4", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        
+                        ]
+                  },
+                  {
+                    headerName : 'E. Above 60yrs',
+                      children : [
+                        {headerName: "Male", field: "2_2_1_5", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        {headerName: "Female", field: "2_2_1_5", width: 70, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                        
+                        ]
+                  }
+                ]
+              },
+              ///////////////////////////////////////////////////////////////////              
+              {
+              headerName : 'Q4 HISTORY OF INVOLVEMENT IN DAIRY FARMING',
+                children:[
+                  {headerName: "A. Years in farming", field: "4_0_1_1",width: 80, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "B. Years in Dairy farming", field: "4_0_1_2",width: 80, filter: 'agNumberColumnFilter',
+                      filterParams: {clearButton:true}},
+                  {headerName: "C. How you started.. ", field: "4_0_1_3",width: 180,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                  {headerName: "D. Is Dairy Farmaing main occupation", field: "4_0_1_4",width: 80,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                  {headerName: "E. Main occupation ", field: "4_0_1_5",width: 180,filter: 'agTextColumnFilter',
+                      filterParams: {clearButton:true}}, 
+                ]
+              },
+              //////////////////////////////////////////////////////////
+              {
+              headerName : 'Q5 COOPERATIVE MEMBERSHIP',
+                children:[
+                  {headerName: "A. Cooperative membership", field: "5_0_1_1"},
+                  {headerName: "B. Membership status ", field: "5_0_1_2"},
+                  {headerName: "C. Intend to provide milk ", field: "5_0_1_3"},
+                  {headerName: "D. Cooperative role",
+                      children: [
+                          {headerName: "i ", field: "5_0_1_4"}, 
+                          {headerName: "ii ", field: "5_0_2_4"}, 
+                          {headerName: "iii ", field: "5_0_3_4"}, 
+                          {headerName: "iv ", field: "5_0_4_4"}, 
+                          {headerName: "v ", field: "5_0_5_4"}, 
+                          {headerName: "vi ", field: "5_0_6_4"}, 
+                          {headerName: "Other ", field: "5_0_7_4"}, 
+                          {headerName: " -- ", field: "5_0_8_4"}, 
+                      ]
+                  }
+                ]
+              },
+              /////////////////////////////////////////////////////////////
+              {
+              headerName : 'Q6 LAND OWNERSHIP/ USE OF FARMER',
+                children:[
+                  {headerName: "i. Own/ Freehold", field: "6_0_1_1"},
+                  {headerName: "ii. Settlement (Lease GRZ)", field: "6_0_1_2"},
+                  {headerName: "iii. Rent/ Sub-lease/ informal lease ", field: "6_0_1_3"},
+                  {headerName: "iv. Traditional land", field: "6_0_1_4"},
+                  {headerName: "v. Other", field: "6_0_1_5"},
+                ]
+              },
+              ////////////////////////////////////////////////////
+              {
+                headerName : 'Q7 WHERE DO YOU GRAZE YOUR CATTLE',
+                children:[
+                  {headerName: "A. Land within 1 Km radius", field: "7_0_1_1"},
+                  {headerName: "B. How far", field: "7_0_1_2"},
+                ]
+              },
+              ///////////////////////////////////////////////////
+              {
+              headerName : 'Q8 FARM INFORMATION - WATER',
+                children:[
+                  {
+                    headerName : 'A. Source of household water ',
+                      children : [
+                        {headerName: "Well", field: "8_0_1_1"},
+                        {headerName: "Hand-pump ", field: "8_0_2_1"},
+                        {headerName: "Community Well", field: "8_0_3_1"},
+                        {headerName: "Natural Stream", field: "8_0_4_1"},
+                        {headerName: "Dams", field: "8_0_5_1"},
+                        {headerName: "Other", field: "8_0_6_1"},
+                        ]
+                  },
+                  {
+                    headerName : 'B. Source of household water for animals',
+                      children : [
+                        {headerName: "Well", field: "8_0_1_2"},
+                        {headerName: "Hand-pump ", field: "8_0_2_2"},
+                        {headerName: "Community Well", field: "8_0_3_2"},
+                        {headerName: "Natural Stream", field: "8_0_4_2"},
+                        {headerName: "Dams", field: "8_0_5_2"},
+                        {headerName: "Other", field: "8_0_6_2"},
+                        ]
+                  },
+                  
+                    {headerName : "C. Have Water for irrigation", field: "8_0_1_3"},
+                    {headerName : "D. Use forms of water conservation", field: "8_0_1_4"},
+                     {
+                    headerName : 'E. Methods of water conservation',
+                      children : [
+                        {headerName: "Dams", field: "8_0_1_5"},
+                        {headerName: "Wells", field: "8_0_2_5"},
+                        {headerName: "Ponds", field: "8_0_3_5"},
+                        {headerName: "RainWater", field: "8_0_4_5"},
+                        {headerName: "Other", field: "8_0_5_5"},
+                        {headerName: "--", field: "8_0_6_5"},
+                        ]
+                    }
+                  ]
+                },
+                ////////////////////////////////////////////////////////////////////////////
+               {
+                headerName : 'Q9. FARM INFORMATION - ENERGY',
+                  
+                      children : [
+                        {headerName: "Energy sources used on farm ",
+                        children: [
+                          {headerName: "Electricity", field: "9_0_1_1"},
+                          {headerName: "Solar", field: "9_0_2_1"},
+                          {headerName: "Charcoal", field: "9_0_3_1"},
+                          {headerName: "Improved Charcoal", field: "9_0_4_1"},
+                          {headerName: "Firewood", field: "9_0_5_1"},
+                          {headerName: "Bio Gas", field: "9_0_6_1"},
+                          {headerName: "Other", field: "9_0_7_1"},
+                          {headerName: "--", field: "9_0_8_1"},
+                        ]
+                        }
+                        ]
+                },
+                /////////////////////////////////////////////////////////////////////
+
+               {
+                headerName : 'Q10. FODDER CROPS GROWN IN THE LAST 12 ... ',
+                  
+                      children : [
+                        {headerName: "Rhodes grass ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_1"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_1"},
+                              {headerName: "Other", field: "10_2_2_1"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_1"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_1"},
+                              {headerName: "Other", field: "10_4_2_1"},
+                            ]
+                          }
+                        ]
+                        },
+                        {headerName: "Napier grass ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_2"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_2"},
+                              {headerName: "Other", field: "10_2_2_2"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_2"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_2"},
+                              {headerName: "Other", field: "10_4_2_2"},
+                             ]
+                          }
+                        ]
+                        },
+                        {headerName: "Cow pea ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_3"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_3"},
+                              {headerName: "Other", field: "10_2_2_3"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_3"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_3"},
+                              {headerName: "Other", field: "10_4_2_3"},
+                             ]
+                          }
+                        ]
+                        },
+                        {headerName: "Pigeon pea ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_4"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_4"},
+                              {headerName: "Other", field: "10_2_2_4"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_4"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_4"},
+                              {headerName: "Other", field: "10_4_2_4"},
+                             ]
+                          }
+                        ]
+                        },
+                        {headerName: "Velvet beans ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_5"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_5"},
+                              {headerName: "Other", field: "10_2_2_5"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_5"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_5"},
+                              {headerName: "Other", field: "10_4_2_5"},
+                             ]
+                          }
+                        ]
+                        },
+                        {headerName: "Stylo",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_6"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_6"},
+                              {headerName: "Other", field: "10_2_2_6"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_6"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_6"},
+                              {headerName: "Other", field: "10_4_2_6"},
+                              ]
+                          }
+                        ]
+                        },
+                        {headerName: "Brachiaria",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_7"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_7"},
+                              {headerName: "Other", field: "10_2_2_7"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_7"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_7"},
+                              {headerName: "Other", field: "10_4_2_7"},
+                           ]
+                          }
+                        ]
+                        },
+                        {headerName: "Sweet sorghum(cow candy) ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_8"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_8"},
+                              {headerName: "Other", field: "10_2_2_8"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_8"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_8"},
+                              {headerName: "Other", field: "10_4_2_8"},
+                            ]
+                          },
+                        ]
+                        },
+                        {headerName: "Sunn-hemp ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_9"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_9"},
+                              {headerName: "Other", field: "10_2_2_9"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_9"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_9"},
+                              {headerName: "Other", field: "10_4_2_9"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Lablab ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_10"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_10"},
+                              {headerName: "Other", field: "10_2_2_10"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_10"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_10"},
+                              {headerName: "Other", field: "10_4_2_10"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Yellow maize ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_11"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_11"},
+                              {headerName: "Other", field: "10_2_2_11"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_11"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_11"},
+                              {headerName: "Other", field: "10_4_2_11"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "White maize ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_12"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_12"},
+                              {headerName: "Other", field: "10_2_2_12"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_12"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_12"},
+                              {headerName: "Other", field: "10_4_2_12"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Soya Beans",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_13"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_13"},
+                              {headerName: "Other", field: "10_2_2_13"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_13"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_13"},
+                              {headerName: "Other", field: "10_4_2_13"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Sunflower",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_14"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_14"},
+                              {headerName: "Other", field: "10_2_2_14"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_14"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_14"},
+                              {headerName: "Other", field: "10_4_2_14"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Cotton",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_15"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_15"},
+                              {headerName: "Other", field: "10_2_2_15"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_15"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_15"},
+                              {headerName: "Other", field: "10_4_2_15"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Sweet Potatoes ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_16"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_16"},
+                              {headerName: "Other", field: "10_2_2_16"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_16"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_16"},
+                              {headerName: "Other", field: "10_4_2_16"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Pumpkin ",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_17"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_17"},
+                              {headerName: "Other", field: "10_2_2_17"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_17"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_17"},
+                              {headerName: "Other", field: "10_4_2_17"},
+                            ]
+                          }
+                        ]
+                        },
+                         {headerName: "Cassava",
+                        children: [
+                          {headerName: "Area planted", field: "10_1_0_18"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_18"},
+                              {headerName: "Other", field: "10_2_2_18"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_18"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_18"},
+                              {headerName: "Other", field: "10_4_2_18"},
+                            ]
+                          }
+                        ]
+                        },
+                        {headerName: "Other",
+                        children: [
+                          {headerName: "--", field: "10_0_0_19"},
+                          {headerName: "Area planted", field: "10_1_0_19"},
+                          {headerName: "Use",
+                            children: [
+                              {headerName: "--", field: "10_2_1_19"},
+                              {headerName: "Other", field: "10_2_2_19"},
+                            ]
+                          },
+                          {headerName: "Demo", field: "10_3_0_19"},
+                          {headerName: "Funded By",
+                            children: [
+                              {headerName: "--", field: "10_4_1_19"},
+                              {headerName: "Other", field: "10_4_2_19"},
+                            ]
+                          }
+                        ]
+                        }
+                        
+                    ]
+                },
+                //////////////////////////////////////////////////////////////////////////
+
+                {
+                  headerName : 'Q12 LABOUR USED ON FARM - .. ',
+                  children : [
+                    {
+                      headerName : ' Labour from outside the household - ',
+                      children : [
+                        {
+                          headerName : 'Part time - less than 5 days',
+                            children : [
+                              {headerName : "Male +17", field:'12_1_1_2', width: 90},
+                              {headerName : "Female 17+", field:'12_2_1_2', width: 90},
+                              {headerName : "Youth male 12 - 16yrs", field:'12_3_1_2', width: 90},
+                              {headerName : "Youth female 12 - 16yrs", field:'12_4_1_2', width: 90},
+                              {headerName : "Children < 12yrs", field:'12_5_1_2', width: 90},
+
+                            ]
+     
+                        },{
+                            headerName : 'Full time - 5 or more days',
+                            children : [
+                              {headerName : "Male +17", field:'12_1_2_2', width: 90},
+                              {headerName : "Female 17+", field:'12_2_2_2', width: 90},
+                              {headerName : "Youth male 12 - 16yrs", field:'12_3_2_2', width: 90},
+                              {headerName : "Youth female 12 - 16yrs", field:'12_4_2_2', width: 90},
+                              {headerName : "Children < 12yrs", field:'12_5_2_2', width: 90},
+
+                            ]  
+                        }
+                      ]
+                    },
+                    {
+                      headerName : ' Labour from within the household  - ',
+                      children : [
+                        {
+                          headerName : 'Part time - less than 5 days',
+                            children : [
+                              {headerName : "Male +17", field:'12_1_1_3', width: 90},
+                              {headerName : "Female 17+", field:'12_2_1_3', width: 90},
+                              {headerName : "Youth male 12 - 16yrs", field:'12_3_1_3', width: 90},
+                              {headerName : "Youth female 12 - 16yrs", field:'12_4_1_3', width: 90},
+                              {headerName : "Children < 12yrs", field:'12_5_1_3', width: 90},
+
+                            ]
+     
+                        },{
+                            headerName : 'Full time - 5 or more days',
+                            children : [
+                              {headerName : "Male +17", field:'12_1_2_3', width: 90},
+                              {headerName : "Female 17+", field:'12_2_2_3', width: 90},
+                              {headerName : "Youth male 12 - 16yrs", field:'12_3_2_3', width: 90},
+                              {headerName : "Youth female 12 - 16yrs", field:'12_4_2_3', width: 90},
+                              {headerName : "Children < 12yrs", field:'12_5_2_3', width: 90},
+
+                            ]  
+                        }
+                      ]
+                    }
+                  ]
+                },
+                /////////////////////////////////////////////////////////////////////////
+                {
+                  headerName : 'Q13. INCOME FROM DAIRY-RELATED ACTIVITIES DURING THE..',
+                  children : [
+                      {headerName : "Per", field : "13_1_0_0", width: 90},
+                      {headerName : "Milk sales to Dairy Coop", field : "13_0_0_1", width: 200},
+                      {headerName : "Milk sales to other customers", field : "13_0_0_2", width: 200},
+                      {headerName : "Sour milk sales to other customers", field : "13_0_0_3", width: 200},
+                      {headerName : "Sale of culled cows", field : "13_0_0_4", width: 200},
+                      {headerName : "Sale of excess dairy stock", field : "13_0_0_5", width: 200},
+                      {headerName : "Sale of manure", field : "13_0_0_6", width: 200},
+                      {headerName : "Sale of excess forage /fodder", field : "13_0_0_7", width: 200},
+                      {headerName : "Loaned cow", field : "13_0_0_8", width: 200},
+                      {headerName : "Sold home made yoghurt", field : "13_0_0_9", width: 200},
+                      {headerName : "Other",
+                          children: [
+                            {headerName : "Name", field : "13_0_1_10", width: 200},
+                            {headerName : "Other", field : "13_0_2_10", width: 200},
+                          ]
+                      }
+
+                  ]
+                },
+                 /////////////////////////////////////////////////////////////////////////
+                {
+                  headerName : 'Q14. INCOME FROM NON-DAIRY ACTIVITIES DURING THE..',
+                  children : [
+                      {headerName : "Per", field : "14_1_0_0", width: 90},
+                      {headerName : "Income from labour hired out", field : "14_0_0_1", width: 200},
+                      {headerName : "Income from land rented out", field : "14_0_0_2", width: 200},
+                      {headerName : "Sale of cash crops", field : "14_0_0_3", width: 200},
+                      {headerName : "Sale of beef animals", field : "14_0_0_4", width: 200},
+                      {headerName : "Renting oxen for draught power", field : "14_0_0_5", width: 200},
+                      {headerName : "Sale of sheep", field : "14_0_0_6", width: 200},
+                      {headerName : "Sale of other livestock e.g chickens", field : "14_0_0_7", width: 200},
+                      {headerName : "Sale of livestock products, e.g eggs, honey", field : "14_0_0_8", width: 200},
+                      {headerName : "Forestry", field : "14_0_0_9", width: 200},
+                      {headerName : "Off-farm income", field : "14_0_0_10", width: 200},
+                      {headerName : "Other",
+                          children: [
+                            {headerName : "Name", field : "14_0_1_11", width: 200},
+                            {headerName : "Other", field : "14_0_2_11", width: 200},
+                          ]
+                      }
+
+                  ]
+                },
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                  {
+                    headerName : 'Q15 SMALLHOLDER EXPENDITURE DURING THE ...',
+                      children : [
+                          {headerName : "Per", field : "15_1_0_0", width: 90},
+                            {headerName : "Feed and feeding technologies", 
+                              children : [
+                                {headerName : "Cost of maize/ wheat bran", field : "15_1_0_1", width:90},
+                                {headerName : "Cost of feeds for pregnant cows", field : "15_1_0_2", width:90},
+                                {headerName : "Cost of calf feeds", field : "15_1_0_3", width:90},
+                                {headerName : "Cost of other bought in 'ready-made' feeds", 
+                                              field : "15_1_0_4", width:90},
+                                {headerName : "Cost of bought in concentrates", field : "15_1_0_5", width:90},
+                                {headerName : "Cost of feed additives e.g Salt, DCP ", field : "15_1_0_6", width:90},
+                                {headerName : "Cost of raw materials to produce on-farm forage..", 
+                                              field : "15_1_0_7", width:90},
+                                {headerName : "Cost of urea / molasses treatment for crop residues", 
+                                              field : "15_1_0_8", width:90},
+                                {headerName : "Cost of agricultural by-products, e.g brewery yeast", 
+                                              field : "15_1_0_9", width:90},
+                              ]
+                            },
+                            {
+                              headerName : "Other feeding costs",
+                                  children: [
+                                    {headerName : "One", 
+                                        children:[
+                                          {headerName : "Name", field : "15_2_1_1", width:90},
+                                          {headerName : "Value", field : "15_2_2_1", width:90},
+                                        ]
+                                    },
+                                    {headerName : "Two", 
+                                        children:[
+                                          {headerName : "Name", field : "15_2_1_2", width:90},
+                                          {headerName : "Value", field : "15_2_2_2", width:90},
+                                        ]
+                                    },
+                                    {headerName : "Three", 
+                                        children:[
+                                          {headerName : "Name", field : "15_2_1_3", width:90},
+                                          {headerName : "Value", field : "15_2_2_3", width:90},
+                                        ]
+                                    }
+                                  ]
+                            },
+                            {headerName : "Health", 
+                              children : [
+                                {headerName : "Cost of veterinary drugs", field : "15_3_0_1", width:90},
+                                {headerName : "Cost of veterinary treatment..", 
+                                              field : "15_3_0_2", width:90},
+                              ]
+                            },
+                            {headerName : "Reproduction", 
+                              children : [
+                                {headerName : "Reproduction costs A.I/Bull", field : "15_4_0_1", width:90},
+                                {headerName : "Cost of replacement heifers", 
+                                              field : "15_4_0_2", width:90},
+                              ]
+                            },
+                            {headerName : "Transport", 
+                              children : [
+                                {headerName : "Cost of milk transport to the MCC", field : "15_5_0_1", width:90},
+                                {headerName : "Cost of transport for feed and other farm inputs", 
+                                              field : "15_5_0_2", width:90},
+                              ]
+                            },
+                            {
+                              headerName : "Energy", 
+                              children : [
+                              {headerName : "Cost of energy", field : "15_6_0_1", width:90},
+                              ]
+                            },
+                            {headerName : "Labour", 
+                              children : [
+                                {headerName : "Labour paid in cash", field : "15_7_0_1", width:90},
+                                {headerName : "Labour paid 'in kind'", 
+                                              field : "15_7_0_2", width:90},
+                              ]
+                            },
+                            {headerName : "Other", 
+                              children : [
+                                {headerName : "Rental of land", field : "15_8_0_1", width:90},
+                                {headerName : "Other", 
+                                    children : [
+                                        {headerName : "--", field : "15_8_1_2", width:90},
+                                        {headerName : "value", field : "15_8_2_2", width:90},
+                                              
+                                    ]          
+
+                                }
+                              ]
+                            }
+                            //////
+                          ]
+                        },
+                        ////////////////////////////////////////////////////////////////////////////////
+                    {
+                      headerName : 'Q16. ASSETS',
+                        children:[
+                          {headerName: "Own Tractor", field : "16_1_0_0", width: 90},
+                          {headerName: "Access to Tractor", field : "16_2_0_0", width: 90},
+                          {headerName: "Own Chopper", field : "16_3_0_0", width: 90},
+                          {headerName: "Access to Chopper", field : "16_4_0_0", width: 90},
+                          {headerName: "A. Tractor ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_1", width: 90},
+                              {headerName: "New", field : "16_0_2_1", width: 90},
+                              {headerName: "Used", field : "16_0_3_1", width: 90},
+                              {headerName: "Not working", field : "16_0_4_1", width: 90},
+                              {headerName: "Comment", field : "16_0_5_1", width: 90},
+
+                            ]
+                          },
+                          {headerName: "B. Hand Tractor", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_2", width: 90},
+                              {headerName: "New", field : "16_0_2_2", width: 90},
+                              {headerName: "Used", field : "16_0_3_2", width: 90},
+                              {headerName: "Not working", field : "16_0_4_2", width: 90},
+                              {headerName: "Comment", field : "16_0_5_2", width: 90},
+
+                            ]
+                          },
+                          {headerName: "C. Planter ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_3", width: 90},
+                              {headerName: "New", field : "16_0_2_3", width: 90},
+                              {headerName: "Used", field : "16_0_3_3", width: 90},
+                              {headerName: "Not working", field : "16_0_4_3", width: 90},
+                              {headerName: "Comment", field : "16_0_5_3", width: 90},
+
+                            ]
+                          },
+                          {headerName: "D. Plough/ox driven ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_4", width: 90},
+                              {headerName: "New", field : "16_0_2_4", width: 90},
+                              {headerName: "Used", field : "16_0_3_4", width: 90},
+                              {headerName: "Not working", field : "16_0_4_4", width: 90},
+                              {headerName: "Comment", field : "16_0_5_4", width: 90},
+
+                            ]
+                          },
+                          {headerName: "E. Bicycle ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_5", width: 90},
+                              {headerName: "New", field : "16_0_2_5", width: 90},
+                              {headerName: "Used", field : "16_0_3_5", width: 90},
+                              {headerName: "Not working", field : "16_0_4_5", width: 90},
+                              {headerName: "Comment", field : "16_0_5_5", width: 90},
+
+                            ]
+                          },
+                          {headerName: "F. Motor Bike", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_6", width: 90},
+                              {headerName: "New", field : "16_0_2_6", width: 90},
+                              {headerName: "Used", field : "16_0_3_6", width: 90},
+                              {headerName: "Not working", field : "16_0_4_6", width: 90},
+                              {headerName: "Comment", field : "16_0_5_6", width: 90},
+
+                            ]
+                          },
+                          {headerName: "G. Van ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_7", width: 90},
+                              {headerName: "New", field : "16_0_2_7", width: 90},
+                              {headerName: "Used", field : "16_0_3_7", width: 90},
+                              {headerName: "Not working", field : "16_0_4_7", width: 90},
+                              {headerName: "Comment", field : "16_0_5_7", width: 90},
+
+                            ]
+                          },
+                          {headerName: "H. Small truck", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_8", width: 90},
+                              {headerName: "New", field : "16_0_2_8", width: 90},
+                              {headerName: "Used", field : "16_0_3_8", width: 90},
+                              {headerName: "Not working", field : "16_0_4_8", width: 90},
+                              {headerName: "Comment", field : "16_0_5_8", width: 90},
+
+                            ]
+                          },
+                          {headerName: "I. Car ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_9", width: 90},
+                              {headerName: "New", field : "16_0_2_9", width: 90},
+                              {headerName: "Used", field : "16_0_3_9", width: 90},
+                              {headerName: "Not working", field : "16_0_4_9", width: 90},
+                              {headerName: "Comment", field : "16_0_5_9", width: 90},
+
+                            ]
+                          },
+                          {headerName: "J. Fridge or Milk Vat", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_10", width: 90},
+                              {headerName: "New", field : "16_0_2_10", width: 90},
+                              {headerName: "Used", field : "16_0_3_10", width: 90},
+                              {headerName: "Not working", field : "16_0_4_10", width: 90},
+                              {headerName: "Comment", field : "16_0_5_10", width: 90},
+
+                            ]
+                          },
+                          {headerName: "K. Small miking machine ", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_11", width: 90},
+                              {headerName: "New", field : "16_0_2_11", width: 90},
+                              {headerName: "Used", field : "16_0_3_11", width: 90},
+                              {headerName: "Not working", field : "16_0_4_11", width: 90},
+                              {headerName: "Comment", field : "16_0_5_11", width: 90},
+
+                            ]
+                          },
+                          {headerName: "Stainless steel/ alloy milk can", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_12", width: 90},
+                              {headerName: "New", field : "16_0_2_12", width: 90},
+                              {headerName: "Used", field : "16_0_3_12", width: 90},
+                              {headerName: "Not working", field : "16_0_4_12", width: 90},
+                              {headerName: "Comment", field : "16_0_5_12", width: 90},
+
+                            ]
+                          },
+                          {headerName: "Stainless steel/ alloy milk bucket", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_13", width: 90},
+                              {headerName: "New", field : "16_0_2_13", width: 90},
+                              {headerName: "Used", field : "16_0_3_13", width: 90},
+                              {headerName: "Not working", field : "16_0_4_13", width: 90},
+                              {headerName: "Comment", field : "16_0_5_13", width: 90},
+
+                            ]
+                          },
+                          {headerName: "Solar", 
+                            children: [
+                              {headerName: "Number", field : "16_0_1_14", width: 90},
+                              {headerName: "New", field : "16_0_2_14", width: 90},
+                              {headerName: "Used", field : "16_0_3_14", width: 90},
+                              {headerName: "Not working", field : "16_0_4_14", width: 90},
+                              {headerName: "Comment", field : "16_0_5_14", width: 90},
+
+                            ]
+                          },
+                          {headerName: "Other", 
+                            children: [
+                              {headerName: "--", field : "16_0_0_15", width: 90},
+                              {headerName: "Number", field : "16_0_1_15", width: 90},
+                              {headerName: "New", field : "16_0_2_15", width: 90},
+                              {headerName: "Used", field : "16_0_3_15", width: 90},
+                              {headerName: "Not working", field : "16_0_4_15", width: 90},
+                              {headerName: "Comment", field : "16_0_5_15", width: 90},
+
+                            ]
+                          }
+
+                        ]
+                    },
+                    ////////////////////////////////////////////////////////////////////
+                    {
+                      headerName: "Q18 HERD DATA - CATTLE( AT TIME OF SURVEY ) ",
+                      children: [
+                        {headerName:"A. Cows on milk", 
+                          children:[
+                            {headerName: "Pure Jersey", field: "18_1_0_1", width: 90},  
+                            {headerName: "Pure friesian/ Holstein", field: "18_1_0_2", width: 90},  
+                            {headerName: "X bred improved breed", field: "18_1_0_3", width: 90},  
+                            {headerName: "Crossbred Dairy X local", field: "18_1_0_4", width: 90},  
+                            {headerName: "Local Breed", field: "18_1_0_5", width: 90},  
+                          ]
+                        },
+                        {headerName:"B. Cows over 2yrs not on milk", 
+                          children:[
+                            {headerName: "Pure Jersey", field: "18_2_0_1", width: 90},  
+                            {headerName: "Pure friesian/ Holstein", field: "18_2_0_2", width: 90},  
+                            {headerName: "X bred improved breed", field: "18_2_0_3", width: 90},  
+                            {headerName: "Crossbred Dairy X local", field: "18_2_0_4", width: 90},  
+                            {headerName: "Local Breed", field: "18_2_0_5", width: 90},  
+                          ]
+                        },
+                        {headerName:"C. Heifers (4mths - 2yrs)", 
+                          children:[
+                            {headerName: "Pure Jersey", field: "18_3_0_1", width: 90},  
+                            {headerName: "Pure friesian/ Holstein", field: "18_3_0_2", width: 90},  
+                            {headerName: "X bred improved breed", field: "18_3_0_3", width: 90},  
+                            {headerName: "Crossbred Dairy X local", field: "18__0_4", width: 90},  
+                            {headerName: "Local Breed", field: "18_3_0_5", width: 90},  
+                          ]
+                        },
+                        {headerName:"D. Female calves less than 3 mths", 
+                          children:[
+                            {headerName: "Pure Jersey", field: "18_4_0_1", width: 90},  
+                            {headerName: "Pure friesian/ Holstein", field: "18_4_0_2", width: 90},  
+                            {headerName: "X bred improved breed", field: "18_4_0_3", width: 90},  
+                            {headerName: "Crossbred Dairy X local", field: "18_4_0_4", width: 90},  
+                            {headerName: "Local Breed", field: "18_4_0_5", width: 90},  
+                          ]
+                        },
+                        {headerName:"E. Male animals of age, not used as breeding bulls", 
+                          children:[
+                            {headerName: "Pure Jersey", field: "18_5_0_1", width: 90},  
+                            {headerName: "Pure friesian/ Holstein", field: "18_5_0_2", width: 90},  
+                            {headerName: "X bred improved breed", field: "18_5_0_3", width: 90},  
+                            {headerName: "Crossbred Dairy X local", field: "18_5_0_4", width: 90},  
+                            {headerName: "Local Breed", field: "18_5_0_5", width: 90},  
+                          ]
+                        },
+                        {headerName:"F. Breeding Bulls of any age ", 
+                          children:[
+                            {headerName: "Pure Jersey", field: "18_6_0_1", width: 90},  
+                            {headerName: "Pure friesian/ Holstein", field: "18_6_0_2", width: 90},  
+                            {headerName: "X bred improved breed", field: "18_6_0_3", width: 90},  
+                            {headerName: "Crossbred Dairy X local", field: "18_6_0_4", width: 90},  
+                            {headerName: "Local Breed", field: "18_6_0_5", width: 90},  
+                          ]
+                        }
+                      ]
+                    },
+                    /////////////////////////////////////////////////////////////////////////////
+                     {
+                          headerName: 'Q19 SILAGE WHICH YOU FED TO YOUR CATTLE BETWEEN May 2017 - May 2018 ',
+                          children:[
+                            {headerName: "A. Did you recieve any grass silage for your cattle between May 2016 - 2017", field:'19_0_0_1', width:90},
+                            {headerName: "B. Did you make any whole crop silage(cob in) for your cattle between May 2016 - 2017", field:'19_0_0_2', width:90},
+                            {headerName: "C. Did you feed your cattle maize over silage from your farm between May 2016 - 2017", field:'19_0_0_3', width:90},
+                          ]
+                        }
+                        /////////////////////////////////////////////////////////////////////
+                        , {
+                          headerName: 'Q20 HAY MADE AND PURCHASED DURING THE PREVIOUS 12 MONTHS (SINCE MAY 2017)  ',
+                            children:[
+                            {headerName: "A. Hay bales made", field:'20_0_0_1', width:90},
+                            {headerName: "B. Hay bales purchased", field:'20_0_0_2', width:90},
+                          ]
+                        }/////////////////////////////////////////////////////////////////////
+                        , {
+                          headerName: 'Q21 CONCERTRATES BOUGHT DURING THE PREVIOUS 12 YEAR (SINCE MAY 2017)  ',
+                            children:[
+                              { headerName : "Concertrates bought - per 50kg bag",
+                                  children: [
+                                    {headerName: "D19", field:'21_1_0_1', width:90},
+                                    {headerName: "D12", field:'21_1_0_2', width:90},
+                                    {headerName: "Meal No3", field:'21_1_0_3', width:90},
+                                    {headerName: "Novamil k 35", field:'21_1_0_4', width:90},
+                                    {headerName: "Other",
+                                      children: [
+                                        {headerName: "--", field:'21_1_1_5', width:90},
+                                        {headerName: "Value", field:'21_1_2_5', width:90},
+
+                                      ]
+                                    }
+                                    
+                                  ]
+                              }
+                            ]
+                        },
+                        /////////////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q22 MILKING ROUTINE',
+                          children:[
+                            {headerName: 'A. Who normally milks the cows', field:'22_0_0_1', width:180},
+                            {headerName: 'B. Where do they normally milk your animals', field:'22_0_0_2', width:180},
+                            {headerName: 'C. When do you normally milk the animals', field:'22_0_0_3', width:180},
+                            {headerName: 'D. Where do you normally take the milk', field:'22_0_0_4', width:180},
+                            {headerName: 'E. Who normally takes the milk to the collection point/ MCC', field:'22_0_0_5', width:180},
+                            {headerName: 'F. How does the milk normally get to the collection point/ MCC', field:'22_0_0_6', width:180},
+                            {
+                              headerName: 'G. Condition of the road normally used to get to the collection point/ MCC',
+                              children : [
+                                {headerName: 'Tarred', field:'22_0_1_7', width:90},
+                                {headerName: 'Gravel', field:'22_0_2_7', width:90},
+                                {headerName: 'Seasonal', field:'22_0_3_7', width:90},
+                                {headerName: 'Path across fields', field:'22_0_4_7', width:90},
+                                {headerName: 'Other', field:'22_0_5_7', width:90},
+                              ]
+                            },
+                            {headerName: 'H. Kilometers to collection point', field:'22_0_0_8', width:90},
+
+                           
+                          ]
+                        }, 
+                        ///////////////////////////////////////////////////////////////////
+
+                       {
+                          headerName: 'Q23 MILKING HYGIENE',
+                          children:[
+                            {headerName: 'A. Do you use a stainless-steel milking bucket', field:'23_0_0_1', width:90},
+                            {headerName: 'B. Do you use a stainless-steel milking can', field:'23_0_0_2', width:90},
+                            {
+                              headerName: 'C. What do you use to clean your cans',
+                              children : [
+                                {headerName: 'Cold Water', field:'23_0_1_3', width:90},
+                                {headerName: 'Warm Water', field:'23_0_2_3', width:90},
+                                {headerName: 'Boiling water', field:'23_0_3_3', width:90},
+                                {headerName: 'Detergent', field:'23_0_4_3', width:90},
+                              ]
+                            },
+                            {headerName: 'D. Do you use a drying rack', field:'23_0_0_4', width:90},
+
+                           
+                          ]
+                        },
+                        ////////////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q24 LACTATION LENGTH',
+                          children:[
+                            {headerName: 'Average Lactation length', field:'24_0_0_1', width:90},
+                          ]
+                        }
+                        /////////////////////////////////////////////////////
+                        , {
+                          headerName: 'Q25 MILK PRODUCTION',
+                          children:[
+                            {headerName: 'Per', field:'25_1_0_0', width:90},
+                            {headerName: 'A. Average milk production per cow', field:'25_0_0_1', width:90},
+                            {headerName: 'B. Average herd per milk production', field:'25_0_0_2', width:90},
+                            {headerName: 'C. Milk sold by the roadside', field:'25_0_0_3', width:90},
+                            {headerName: 'D. Milk for home consumption', field:'25_0_0_4', width:90},
+                            {headerName: 'E. Milk for calf rearing ', field:'25_0_0_5', width:90},
+                            {headerName: 'F. Other milk losses', field:'25_0_0_6', width:90},
+                            {headerName: 'G. total milk to MCC', field:'25_0_0_7', width:90},
+                          ]
+                        }, 
+                        //////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q27 MILK REJECTIONS BY MCC DURING THE PREVIOUS 12 Months',
+                          children:[
+                            {headerName: 'Milk rejected', field:'27_0_0_1', width:90},
+                            {headerName: 'Litres', field:'27_0_0_2', width:90},
+                          ]
+                        }, 
+                        ////////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q28 BREEDING METHOD',
+                          children:[
+                            {headerName: 'Rent Dairy Bull', field:'28_0_1_1', width:90},
+                            {headerName: 'Rent Local Breed Bull', field:'28_0_2_1', width:90},
+                            {headerName: 'Use own Dairy Bull', field:'28_0_3_1', width:90},
+                            {headerName: 'Use own Local Breed Bull', field:'28_0_4_1', width:90},
+                            {headerName: 'AI', field:'28_0_5_1', width:90},
+                          ]
+                        },
+                        ////////////////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q29 REPRODUCTIVE PROBLEMS DURING THE PREVIOUS 12 MONTHS (I.E MAY 2016 - MAY 2107) ',
+                          children:[
+                            {headerName: 'A. Have you had any problems getting cow(s) pregnant', field:'29_0_0_1', width:90},
+                            {headerName: 'B. Have you had any still births /Abortions', field:'29_0_0_2' ,width:90},
+                            {headerName: 'C. Have you had any calf deaths', field:'29_0_0_3', width:90},
+                          ]
+                        }, 
+                        ////////////////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q30 IDENTIFICATION AND RECORD KEEPING',
+                          children:[
+                            {headerName: 'A. How are your adult cattle identified', field:'30_0_0_1', width:90},
+                            {headerName: 'B. Do you keep records for your cattle', field:'30_0_0_2' ,width:90},
+                            {headerName: 'C. Do you keep records for your farm business accounts', field:'30_0_0_3', width:90},
+                          ]
+                        },
+                        ////////////////////////////////////////////////////////////////////////
+                        
+                        {
+                          headerName: 'Q31 ANIMAL HEALTH - DISEASE PREVENTION AND CONTROL',
+                          children:[
+                            {headerName: 'A. Are your animals vaccinated', field:'31_0_0_1', width:90},
+                            {
+                              headerName: 'B. Diseases, If yes',
+                              children : [
+                                {headerName: 'Anthrax', field:'31_0_1_2', width:90},
+                                {headerName: 'Blackleg', field:'31_0_2_2', width:90},
+                                {headerName: 'Foot and Mouth Disease', field:'31_0_3_2', width:90},
+                                {headerName: 'Haemorrhagic Septicaemia (Hs)', field:'31_0_4_2', width:90},
+                                {headerName: 'Lumpy skin Disease', field:'31_0_5_2', width:90},
+                                {headerName: 'Other', field:'31_0_6_2', width:90},
+
+                              ]
+                            },
+                            {headerName: 'C. Have your animals been tested against any diseases', field:'31_0_0_3', width:90},
+
+                            {
+                              headerName: 'D. Diseases, If yes',
+                              children : [
+                                {headerName: 'Brucellosis', field:'31_0_1_4', width:90},
+                                {headerName: 'Tuberculosis(TB)', field:'31_0_2_4', width:90},
+                                {headerName: 'Other', field:'31_0_3_4', width:90},
+
+                              ]
+                            }
+                          ]
+                        },
+                        //////////////////////////////////////////////////////////////////////
+                        {
+                          headerName: 'Q32 WHICH SERVICE PROVIDERS DO YOU HAVE A RELATIONSHIP WITH ',
+                          children:[
+                            {
+                              headerName: 'Animal Health service providers',
+                              children : [
+                                {headerName: 'Govt Vet', field:'32_0_1_1', width:90},
+                                {headerName: 'Private vet', field:'32_0_2_1', width:90},
+                                {headerName: 'CAHW', field:'32_0_3_1', width:90},
+                                {headerName: 'AI technician', field:'32_0_4_1', width:90},
+                                {headerName: 'Other', field:'32_0_5_1', width:90},
+
+                              ]
+                            },
+
+                            {
+                              headerName: 'Animal Health input suppliers',
+                              children : [
+                                {headerName: 'Vet drug company', field:'32_0_1_2', width:90},
+                                {headerName: 'Specify', field:'32_0_2_2', width:90},
+
+                              ]
+                            },
+                            {
+                              headerName: 'Farm input suppliers',
+                              children : [
+                                {headerName: "--",
+                                  children:[
+                                    {headerName: 'Fertiliser', field:'32_1_1_3', width:90},
+                                    {headerName: 'Specify', field:'32_1_2_3', width:90},
+                                    ]},
+                                 {headerName: "--",
+                                  children:[
+                                    {headerName: 'Seeds', field:'32_2_1_3', width:90},
+                                    {headerName: 'Specify', field:'32_2_2_3', width:90},
+
+                                    ]},
+                                 {headerName: "--",
+                                  children:[
+                                    {headerName: 'Equipment supply', field:'32_3_1_3', width:90},
+                                    {headerName: 'Specify', field:'32_3_2_3', width:90},
+
+                                  ]},
+                                 {headerName: "--",
+                                  children:[
+                                    {headerName: 'Equipment maintenance', field:'32_4_1_3', width:90},
+                                    {headerName: 'Specify', field:'32_4_2_3', width:90},
+
+                                    ]}
+                              ]
+                            }, {
+                              headerName: 'Other',
+                              children : [
+                                { headerName: '--',field: '32_0_1_4', width: 50 },
+                                { headerName: '--',field: '32_0_2_4', width: 50 },
+                                { headerName: '--',field: '32_0_3_4', width: 50 },
+
+                              ]
+                            }
+                            
+                          ]
+                        },
+                        ///////////////////////////////////////////////////////////////////////
+                                              ,{
+                          headerName: 'Q33. TRAINING, EXPERIANCE AND SERVICE PROVISION IN ANIMAL HEALTH/ ANIMAL PRODUCTION',
+                          children:[
+                            {headerName: "A. Has anyone in your household recieved animal health/ animal production training during..",
+                            children: [
+                              {headerName: '--', field:'33_0_0_1', width:90},
+                              {
+                                headerName: 'A. AL technician',
+                                children : [
+                                  {headerName: 'Recieved', field:'33_1_1_1', width:90},
+                                  {headerName: 'Provided by', field:'33_1_2_1', width:90},
+                                  {headerName: 'When', field:'33_1_3_1', width:90},
+                                ]
+                              },{
+                                headerName: 'B. Community animal health worker',
+                                children : [
+                                  {headerName: 'Recieved', field:'33_2_1_1', width:90},
+                                  {headerName: 'Provided by', field:'33_2_2_1', width:90},
+                                  {headerName: 'When', field:'33_2_3_1', width:90},
+                                ]
+                                },{
+                                  headerName: 'C. Community Livestock Volunteer / worker',
+                                  children : [
+                                    {headerName: 'Recieved', field:'33_3_1_1', width:90},
+                                    {headerName: 'Provided by', field:'33_3_2_1', width:90},
+                                    {headerName: 'When', field:'33_3_3_1', width:90},
+                                  ]
+                                },{
+                                headerName: 'D. Community Livestock Volunteer / worker',
+                                children : [
+                                  {headerName: 'Recieved', field:'33_4_1_1', width:90},
+                                  {headerName: 'Provided by', field:'33_4_2_1', width:90},
+                                  {headerName: 'When', field:'33_4_3_1', width:90},
+                                ]
+                              },{
+                                headerName: 'E. Agro-entrepreneur',
+                                children : [
+                                  {headerName: 'Recieved', field:'33_5_1_1', width:90},
+                                  {headerName: 'Provided by', field:'33_5_2_1', width:90},
+                                  {headerName: 'When', field:'33_5_3_1', width:90},
+                                ]
+                              },{
+                                headerName: 'F. Other',
+                                children : [
+                                  {headerName: '--', field:'33_6_0_1', width:90},
+                                  {headerName: 'Recieved', field:'33_6_1_1', width:90},
+                                  {headerName: 'Provided by', field:'33_6_2_1', width:90},
+                                  {headerName: 'When', field:'33_6_3_1', width:90},
+                                ]
+                              }
+                            ]
+                          },
+
+
+                            {
+                              headerName: 'Services provided',
+                              children : [
+                                {headerName: 'AI technician', field:'33_1_0_2', width:90},
+                                {headerName: 'CAHW', field:'33_2_0_2', width:90},
+                                {headerName: 'Community livestock Volunteer /worker', field:'33_3_0_2', width:90},
+                                {headerName: 'Community facilitator', field:'33_4_0_2', width:90},
+                                {headerName: 'Agro-entrepreneur', field:'33_5_0_2', width:90},
+                                {headerName: 'Other', field:'33_6_0_2', width:90},
+
+                              ]
+                            }
+                          ]
+                        },
+                        ///////////////////////////////////////////////////////////////////////////
+                        ,{
+                          headerName: 'Q34 EXTENSTION ADVICE, TRAINING AND SKILLS ',
+                          children:[
+                            {headerName: "(A) Have you recieved any farm extension advice or assistance from MFL or others in the last 12 Months",
+                            children: [
+                              {headerName: '--', field:'34_0_0_1', width:90},
+                              {
+                                headerName: 'Fodder crop production',
+                                children : [
+                                  {headerName: 'Advice', field:'34_1_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_1_2_2', width:90},
+                                ]
+                              },
+                              {
+                                headerName: 'Cattle nutrition',
+                                children : [
+                                  {headerName: 'Advice', field:'34_2_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_2_2_2', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Milk hygiene',
+                                children : [
+                                  {headerName: 'Advice', field:'34_3_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_3_2_2', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Animal helath management',
+                                children : [
+                                  {headerName: 'Advice', field:'34_4_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_4_2_2', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Farm record keeping',
+                                children : [
+                                  {headerName: 'Advice', field:'34_5_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_5_2_2', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Cattle breeding',
+                                children : [
+                                  {headerName: 'Advice', field:'34_6_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_6_2_2', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Accounting/ Financial ',
+                                children : [
+                                  {headerName: 'Advice', field:'34_7_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_7_2_2', width:90},
+                                ]
+                              },
+                              {
+                                headerName: 'Other',
+                                children : [
+                                  {headerName: '--', field:'34_8_0_2', width:90},
+                                  {headerName: 'Advice', field:'34_8_1_2', width:90},
+                                  {headerName: 'Organisation', field:'34_8_2_2', width:90},
+                                ]
+                              }
+                            ]
+                          },
+                          { headerName: "(C) Have you recieved any training in one, or more of the following topics during the last 12 Months",
+                            children: [
+                              {headerName: '--', field:'34_0_0_3', width:90},
+                              {
+                                headerName: 'Fodder crop production',
+                                children : [
+                                  {headerName: 'when', field:'34_1_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_1_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_1_3_3', width:90},
+                                  ]
+                              },
+                              {
+                                headerName: 'Cattle nutrition',
+                                children : [
+                                  {headerName: 'when', field:'34_2_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_2_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_2_3_3', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Milk hygiene',
+                                children : [
+                                  {headerName: 'when', field:'34_3_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_3_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_3_3_3', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Animal helath management',
+                                children : [
+                                  {headerName: 'when', field:'34_4_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_4_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_4_3_3', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Farm record keeping',
+                                children : [
+                                  {headerName: 'when', field:'34_5_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_5_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_5_3_3', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Cattle breeding',
+                                children : [
+                                  {headerName: 'when', field:'34_6_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_6_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_6_3_3', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Accounting/ Financial ',
+                                children : [
+                                  {headerName: 'when', field:'34_7_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_7_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_7_3_3', width:90},
+                                ]
+                              },
+                              {
+                                headerName: 'Other',
+                                children : [
+                                  {headerName: '--', field:'34_8_0_3', width:90},
+                                  {headerName: 'when', field:'34_8_1_3', width:90},
+                                  {headerName: 'Organisation', field:'34_8_2_3', width:90},
+                                  {headerName: 'Comment', field:'34_8_3_3', width:90},
+                                ]
+                              }
+                            ]
+                          },
+                          {headerName: "(D) How are you applying the skills you have learnt, and what benefits have you seen ? ",
+                            children: [
+                              {
+                                headerName: 'Fodder crop production',
+                                children : [
+                                  {headerName: 'How applying', field:'34_1_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_1_2_4', width:90},
+                                ]
+                              },
+                              {
+                                headerName: 'Cattle nutrition',
+                                children : [
+                                  {headerName: 'How applying', field:'34_2_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_2_2_4', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Milk hygiene',
+                                children : [
+                                  {headerName: 'How applying', field:'34_3_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_3_2_4', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Animal helath management',
+                                children : [
+                                  {headerName: 'How applying', field:'34_4_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_4_2_4', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Farm record keeping',
+                                children : [
+                                  {headerName: 'How applying', field:'34_5_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_5_2_4', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Cattle breeding',
+                                children : [
+                                  {headerName: 'How applying', field:'34_6_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_6_2_4', width:90},
+                                ]
+                              }
+                              ,
+                              {
+                                headerName: 'Accounting/ Financial ',
+                                children : [
+                                  {headerName: 'How applying', field:'34_7_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_7_2_4', width:90},
+                                ]
+                              },
+                              {
+                                headerName: 'Other',
+                                children : [
+                                  {headerName: '--', field:'34_8_0_4', width:90},
+                                  {headerName: 'How applying', field:'34_8_1_4', width:90},
+                                  {headerName: 'Benefits seen', field:'34_8_2_4', width:90},
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                                headerName: '(E) Are there any dairy related topics you would like to recieve more training/ information on?',
+                                children : [
+                                  {headerName: '--', field:'34_1_0_5', width:90},
+
+                                  {headerName: 'Fodder crop production', field:'34_2_1_5', width:90},
+                                  {headerName: 'Cattle nutrition', field:'34_2_2_5', width:90},
+                                  {headerName: 'Milk hygiene', field:'34_2_3_5', width:90},
+                                  {headerName: 'Animal health, management, husbandry', field:'34_2_4_5', width:90},
+                                  {headerName: 'Farm record keepinge', field:'34_2_5_5', width:90},
+                                  {headerName: 'Cattle breeding/ reproduction', field:'34_2_6_5', width:90},
+                                  {headerName: 'Accounting / Financial management', field:'34_2_7_5', width:90},
+                                  {headerName: 'Other', field:'34_2_8_5', width:90},
+
+                                ]
+                              },
+                          {headerName : "Any Comments or Suggestions", field:'34_0_0_6', width:130}
+
+                          ]
+                        }
+
+
+        ];
+              
+
+    // let the grid know which columns and what data to use
+    var gridOptions = {
+      defaultColDef: {
+        editable: true,
+        // allow every column to be aggregated
+        enableValue: true,
+        // allow every column to be grouped
+        enableRowGroup: true,
+        // allow every column to be pivoted
+        enablePivot: true,
+      },
+      columnDefs: columnDefs,
+      rowData: null,
+      enableSorting: true,
+      enableFilter: true,
+      enableColResize: true,
+      pagination: true,
+      animateRows: true,
+      rowDragManaged: true,
+      paginationPageSize: 20,
+      rowGroupPanelShow: 'always',
+      rowSelection: 'multiple',
+      onRowDoubleClicked : onRowDoubleClicked,
+      paginationNumberFormatter: function(params) {
+        return '[' + params.value.toLocaleString() + ']';
+      },
+    };
+    
+    function onRowDoubleClicked(event){
+          var ref = event.node.data.interview_id;
+          window.open("all/details/"+ref);
+        }      
+    
+    function onPageSizeChanged(newPageSize) {
+      var value = document.getElementById('page-size').value;
+      gridOptions.api.paginationSetPageSize(Number(value));
+    }
+
+    function sizeToFit() {
+            gridOptions.api.sizeColumnsToFit();
+        }
+
+        function autoSizeAll() {
+            var allColumnIds = [];
+            columnDefs.forEach( function(columnDef) {
+                allColumnIds.push(columnDef.field);
+            });
+            gridOptions.columnApi.autoSizeColumns(allColumnIds);
+        }
+
+
+  // setup the grid after the page has finished loading
+document.addEventListener('DOMContentLoaded', function() {
+    var gridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(gridDiv, gridOptions);
+
+});
+</script>
+
+{% endblock %}

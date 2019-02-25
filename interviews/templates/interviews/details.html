@@ -1,0 +1,2059 @@
+{% extends "interviews/base.html" %}
+
+{% load static %}
+{% block extra_head %}
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script> 
+<link href="{% static 'x-editable/css/bootstrap-editable.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'x-editable/css/typeahead.js-bootstrap.css' %}" rel="stylesheet" type="text/css" />
+<!-- <link rel="stylesheet" href="{% static 'vendors/iCheck/css/all.css' %}" type="text/css" /> -->
+<link href="{% static 'css/inlinedit.css' %}" rel="stylesheet" type="text/css" /> 
+
+{% endblock %}
+{% block content %}
+<p><h4>Meta Data</h4></p>
+
+  <div class="row">
+    <div class="col-xs-12 table">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Survey Date</th>
+            <td> 
+<a href="#" id="usernamez" data-type="text" data-pk="1" data-url="/post" data-title="Enter username">superusersss</a>
+          <a href="#" id="username" data-type="text" data-pk="1" data-title="Enter username" class="editable editable-click" data-original-title="" title="">superuser</a>
+            <span id = "meta_date"></span></td>
+          </tr>
+          <tr>
+            <th>System Entry Date</th>
+            <td contenteditable> <span id = "meta_date_updated"></span></td>
+          </tr>
+          <tr>
+            <th contenteditable>Time</th>
+            <td> <span id = "meta_time"></span></td>
+          </tr>
+          <tr>
+            <th>Farm reference No</th>
+            <td> <span id = "meta_reference_no" contenteditable></span></td>
+          </tr>
+          <tr>
+            <th>Latitude</th>
+            <td> <span id = "meta_latitude"></span></td>
+          </tr>
+          <tr>
+            <th>Longitude</th>
+            <td> <span id = "meta_longitude"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+  </diV>
+  <p><h4>Q1. General Information</h4></p>
+  <!-- General Info -->
+  <div class="row">
+    <div class="col-xs-12 table">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th style="width: 59%">Answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>A</th>
+            <th>Name Of Respondent</th>
+            <td><span id = "respondant" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><span>
+            </td>
+          </tr>
+          <tr>
+            <th>B</th>
+            <th>Dairy Cooperative Union</th>
+            <td><span id = "coop_union"><span></td>
+          </tr>
+          <tr>
+            <th>C</th>
+            <th>Primary Coop</th>
+            <td><span id = "prime_coop"><span></td>
+          </tr>
+          <tr>
+            <th>D</th>
+            <th>Village</th>
+            <td><span id = "village"><span></td>
+          </tr>
+
+          <tr>
+            <th>E</th>
+            <th>Age of respondant</th>
+            <td><span id = "age"><span></td>
+          </tr>
+
+          <tr>
+            <th>F</th>
+            <th>Gender</th>
+            <td><span id = "gender"><span></td>
+          </tr>
+
+          <tr>
+            <th>G</th>
+            <th>Contact</th>
+            <td><span id = "contact"><span></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <!-- /.general info -->
+
+    <p><h4>Q2. Household Information</h4></p>
+    <!-- Household Info -->
+    <div class="row">
+      <div class="col-xs-12 table">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Question</th>
+              <th style="width: 59%">Answer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>A</th>
+              <th>Children 16 yrs and under</th>
+              <td><span id = "_under16"><span>
+              </td>
+            </tr>
+            <tr>
+              <th>B</th>
+              <th>Young Adults, 17 - 25 yrs and over</th>
+              <td><span id = "_17_25"><span></td>
+            </tr>
+            <tr>
+              <th>C</th>
+              <th>26 - 40 year olds</th>
+              <td><span id = "_26_40"><span></td>
+            </tr>
+            <tr>
+              <th>D</th>
+              <th>40 - 60 year olds</th>
+              <td><span id = "40_60"><span></td>
+            </tr>
+
+            <tr>
+              <th>E</th>
+              <th>People older than 60 years old</th>
+              <td><span id = "_over60"><span></td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+      <!-- /.general info -->
+
+      <p><h4>Q3. Household Nutrition</h4></p>
+      <!-- Household Nutrition -->
+      <div class="row">
+        <div class="col-xs-12 table">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Question</th>
+                <th style="width: 59%">Answer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>A</th>
+                <th>Was Yesterday a feast day</th>
+                <td><span id = "_q3_a"><span>
+                </td>
+              </tr>
+              <tr>
+                <th>B</th>
+                <th>Do you eat a different mix of food in the wet and dry seasons</th>
+                <td><span id = "_q3_b"><span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th colspan="6">C. ..</th>
+              </tr>
+              <tr>
+                <th>i. Cereals </th>
+                <th>ii. Roots and tubers</th>
+                <th>iii. Vegetables </th>
+                <th>iv. Fruits</th>
+                <th>v. Meat, poultry </th>
+                <th>vi. Eggs </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span id = "_q3_1"><span>
+                <td><span id = "_q3_2"><span>
+                <td><span id = "_q3_3"><span>
+                <td><span id = "_q3_4"><span>
+                <td><span id = "_q3_5"><span>
+                <td><span id = "_q3_6"><span>
+              </tr>
+              <tr>
+                <th>vii. Fish and Seafood</th>
+                <th>viii. Pulses, legumes, ..</th>
+                <th>ix. Milk and milk products </th>
+                <th>x. Oils and fats </th>
+                <th>xi. Sugar, honey and fats </th>
+                <th>xii. Miscellenous</th>
+              </tr>
+
+              <tr>
+                <td><span id = "_q3_7"><span>
+                <td><span id = "_q3_8"><span>
+                <td><span id = "_q3_9"><span>
+                <td><span id = "_q3_10"><span>
+                <td><span id = "_q3_11"><span>
+                <td><span id = "_q3_12"><span>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+        <!-- /.Household Nutrition -->
+
+        <p><h4>Q4. History of involvment in dairy farming</h4></p>
+        <!-- History of involvment -->
+        <div class="row">
+          <div class="col-xs-12 table">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Question</th>
+                  <th style="width: 59%">Answer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>A</th>
+                  <th>Years involved in farming</th>
+                  <td><span id = "_q4_a"><span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>B</th>
+                  <th>Years involved in dairy farming</th>
+                  <td><span id = "_q4_b"><span></td>
+                </tr>
+                <tr>
+                  <th>C</th>
+                  <th>How did you get started in dairy farming </th>
+                  <td><span id = "_q4_c"><span></td>
+                </tr>
+                <tr>
+                  <th>D</th>
+                  <th>Is dairy farming your main occupation</th>
+                  <td><span id = "_q4_d"><span></td>
+                </tr>
+
+                <tr>
+                  <th>E</th>
+                  <th>Main occupation</th>
+                  <td><span id = "_q4_e"><span></td>
+                </tr>
+
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+          <!-- /.History of involvment -->
+
+          <p><h4>Q5. Cooperative membership </h4></p>
+          <!-- Cooperative membership -->
+          <div class="row">
+            <div class="col-xs-12 table">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Question</th>
+                    <th style="width: 59%">Answer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>A</th>
+                    <th>Cooperative membership</th>
+                    <td><span id = "_q5_a"><span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>B</th>
+                    <th>Membership status</th>
+                    <td><span id = "_q5_b"><span></td>
+                  </tr>
+                  <tr>
+                    <th>C</th>
+                    <th>Intend to provide milk within the next six months</th>
+                    <td><span id = "_q5_c"><span></td>
+                  </tr>
+                  <tr>
+                    <th>D</th>
+                    <th>Role within the cooperative </th>
+                    <td><span id = "_q5_d"><span></td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+            <!-- / Cooperative membership -->
+            <p><h4>Q6. Land Ownership </h4></p>
+            <!-- Cooperative membership -->
+          <div class="row">
+            <div class="col-xs-12 table">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>i. Own/Freehold </th>
+                  <th>ii. Settlement</th>
+                  <th>iii. Rent/Sub-lease.. </th>
+                  <th>iv. Traditional land</th>
+                  <th>v. Other </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span id = "_q6_1"><span>
+                  <td><span id = "_q6_2"><span>
+                  <td><span id = "_q6_3"><span>
+                  <td><span id = "_q6_4"><span>
+                  <td><span id = "_q6_5"><span>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+          <!-- / Land ownership -->
+
+          <p><h4>Q7. Where do you graze your cattle </h4></p>
+          <!-- cattle graze -->
+          <div class="row">
+            <div class="col-xs-12 table">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Question</th>
+                    <th style="width: 59%">Answer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>A</th>
+                    <th>Is the land for grazing your cattle within a 1 km radius of your household</th>
+                    <td><span id = "_q7_a"><span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>B</th>
+                    <th>If No, how far is it</th>
+                    <td><span id = "_q7_b"><span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- /cattle graze-->
+
+          <p><h4>Q8. Farm information - water </h4></p>
+          <!-- Farm information - water  -->
+        <div class="row">
+          <div class="col-xs-12 table">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th> </th>
+                <th>i. Well </th>
+                <th>ii. Hand Pump</th>
+                <th>iii. Community Well </th>
+                <th>iv. Natural Stream </th>
+                <th>v. Dams </th>
+                <th>vi. <span id = "_q8_a_other"><span> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>A. Source of household water</th>
+                <td><span id = "_q8_1_a"><span></td>
+                <td><span id = "_q8_2_a"><span></td>
+                <td><span id = "_q8_3_a"><span></td>
+                <td><span id = "_q8_4_a"><span></td>
+                <td><span id = "_q8_5_a"><span></td>
+                <td><span id = "_q8_a_other_answer"><span></td>
+              </tr>
+
+              <tr>
+                <th>B. Source of water for animals</th>
+                <td><span id = "_q8_1_b"><span></td>
+                <td><span id = "_q8_2_b"><span></td>
+                <td><span id = "_q8_3_b"><span></td>
+                <td><span id = "_q8_4_b"><span></td>
+                <td><span id = "_q8_5_b"><span></td>
+                <td><span id = "_q8_b_other_answer"><span></td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th style="width: 59%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>C</th>
+                <th>Do you have water for irrigation</th>
+                <td><span id = "_q8_c"><span>
+                </td>
+              </tr>
+              <tr>
+                <th>D</th>
+                <th>Do you use any methods for water conservation, or harvesting?</th>
+                <td><span id = "_q8_d"><span></td>
+              </tr>
+              <tr>
+                <th>E</th>
+                <th>Methods for water conservation, or harvesting</th>
+                <td><span id = "_q8_e"><span></td>
+                <tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+        <!-- / Farm information - water  -->
+
+      <p><h4>Q9. Farm information - Energy Source </h4></p>
+        <!-- Farm information - enegy source  -->
+      <div class="row">
+        <div class="col-xs-12 table">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Electricit</th>
+              <th>Solar</th>
+              <th>Charcoal</th>
+              <th>Improved Charcoal </th>
+              <th>Firewood</th>
+              <th>Bio Gas </th>
+              <th>Other </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><span id = "_q9_1"><span></th>
+              <td><span id = "_q9_1"><span></td>
+              <td><span id = "_q9_2"><span></td>
+              <td><span id = "_q9_3"><span></td>
+              <td><span id = "_q9_4"><span></td>
+              <td><span id = "_q9_5"><span></td>
+              <td><span id = "_q9_6"><span></td>
+                <td><span id = "_q9_other"><span></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+      <!-- / Farm information - enegy source  -->
+
+      <p><h4>Q10. Fodder crops grown during the 2016 Dry season(April-Oct) </h4></p>
+        <!-- Farm information - enegy source  -->
+      <div class="row">
+        <div class="col-xs-12 table">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th rowspan="2" style="text-align:center">Name of crop</th>
+              <th rowspan="2" style="text-align:center">Area Planted(Ha)</th>
+              <th colspan="5" style="text-align:center">Use(yield data, i.e no 50kg bags)</th>
+              <th rowspan="2" style="text-align:center">Demo plot</th>
+            </tr>
+            <tr>
+
+              <th style="text-align:center">Animal grazing</th>
+              <th style="text-align:center">Animal fodder </th>
+              <th style="text-align:center">Human food</th>
+              <th style="text-align:center">Sale</th>
+              <th style="text-align:center">Other </th>
+
+            </tr>
+
+          </thead>
+          <tbody>
+            <tr>
+              <th>A. Rhodes grass</th>
+              <td><span id = "_q10_1_a"><span></td>
+              <td><span id = "_q10_2_a"><span></td>
+              <td><span id = "_q10_3_a"><span></td>
+              <td><span id = "_q10_4_a"><span></td>
+              <td><span id = "_q10_5_a"><span></td>
+              <td><span id = "_q10_6_a"><span></td>
+              <td><span id = "_q10_6_a_demo"><span></td>
+            </tr>
+            <tr>
+              <th>B. Napier grass</th>
+              <td><span id = "_q10_1_b"><span></td>
+              <td><span id = "_q10_2_b"><span></td>
+              <td><span id = "_q10_3_b"><span></td>
+              <td><span id = "_q10_4_b"><span></td>
+              <td><span id = "_q10_5_b"><span></td>
+              <td><span id = "_q10_6_b"><span></td>
+              <td><span id = "_q10_6_b_demo"><span></td>
+            </tr>
+            <tr>
+              <th>C. Cow pea</th>
+              <td><span id = "_q10_1_c"><span></td>
+              <td><span id = "_q10_2_c"><span></td>
+              <td><span id = "_q10_3_c"><span></td>
+              <td><span id = "_q10_4_c"><span></td>
+              <td><span id = "_q10_5_c"><span></td>
+              <td><span id = "_q10_6_c"><span></td>
+                <td><span id = "_q10_6_c_demo"><span></td>
+            </tr>
+            <tr>
+              <th >D. Pigeon pea</th>
+              <td><span id = "_q10_1_d"><span></td>
+              <td><span id = "_q10_2_d"><span></td>
+              <td><span id = "_q10_3_d"><span></td>
+              <td><span id = "_q10_4_d"><span></td>
+              <td><span id = "_q10_5_d"><span></td>
+              <td><span id = "_q10_6_d"><span></td>
+                <td><span id = "_q10_6_d_demo"><span></td>
+            </tr>
+            <tr>
+              <th >E. Velvet beans</th>
+              <td><span id = "_q10_1_e"><span></td>
+              <td><span id = "_q10_2_e"><span></td>
+              <td><span id = "_q10_3_e"><span></td>
+              <td><span id = "_q10_4_e"><span></td>
+              <td><span id = "_q10_5_e"><span></td>
+              <td><span id = "_q10_6_e"><span></td>
+                <td><span id = "_q10_6_e_demo"><span></td>
+            </tr>
+            <tr>
+              <th >F. Stylo</th>
+              <td><span id = "_q10_1_f"><span></td>
+              <td><span id = "_q10_2_f"><span></td>
+              <td><span id = "_q10_3_f"><span></td>
+              <td><span id = "_q10_4_f"><span></td>
+              <td><span id = "_q10_5_f"><span></td>
+              <td><span id = "_q10_6_f"><span></td>
+                <td><span id = "_q10_6_f_demo"><span></td>
+            </tr>
+            <tr>
+              <th >G. Brachiaria</th>
+              <td><span id = "_q10_1_g"><span></td>
+              <td><span id = "_q10_2_g"><span></td>
+              <td><span id = "_q10_3_g"><span></td>
+              <td><span id = "_q10_4_g"><span></td>
+              <td><span id = "_q10_5_g"><span></td>
+              <td><span id = "_q10_6_g"><span></td>
+                <td><span id = "_q10_6_g_demo"><span></td>
+            </tr>
+            <tr>
+              <th >H. Sweet Sorghum</th>
+              <td><span id = "_q10_1_h"><span></td>
+              <td><span id = "_q10_2_h"><span></td>
+              <td><span id = "_q10_3_h"><span></td>
+              <td><span id = "_q10_4_h"><span></td>
+              <td><span id = "_q10_5_h"><span></td>
+              <td><span id = "_q10_6_h"><span></td>
+                <td><span id = "_q10_h_a_demo"><span></td>
+            </tr>
+            <tr>
+              <th >I. Sun-hemp</th>
+              <td><span id = "_q10_1_i"><span></td>
+              <td><span id = "_q10_2_i"><span></td>
+              <td><span id = "_q10_3_i"><span></td>
+              <td><span id = "_q10_4_i"><span></td>
+              <td><span id = "_q10_5_i"><span></td>
+              <td><span id = "_q10_6_i"><span></td>
+                <td><span id = "_q10_6_i_demo"><span></td>
+            </tr>
+            <tr>
+              <th >J. Lablab</th>
+              <td><span id = "_q10_1_j"><span></td>
+              <td><span id = "_q10_2_j"><span></td>
+              <td><span id = "_q10_3_j"><span></td>
+              <td><span id = "_q10_4_j"><span></td>
+              <td><span id = "_q10_5_j"><span></td>
+              <td><span id = "_q10_6_j"><span></td>
+                <td><span id = "_q10_6_j_demo"><span></td>
+            </tr>
+            <tr>
+              <th >K. Yellow maize</th>
+              <td><span id = "_q10_1_k"><span></td>
+              <td><span id = "_q10_2_k"><span></td>
+              <td><span id = "_q10_3_k"><span></td>
+              <td><span id = "_q10_4_k"><span></td>
+              <td><span id = "_q10_5_k"><span></td>
+              <td><span id = "_q10_6_k"><span></td>
+                <td><span id = "_q10_6_k_demo"><span></td>
+            </tr>
+            <tr>
+              <th >L. White maize</th>
+              <td><span id = "_q10_1_l"><span></td>
+              <td><span id = "_q10_2_l"><span></td>
+              <td><span id = "_q10_3_l"><span></td>
+              <td><span id = "_q10_4_l"><span></td>
+              <td><span id = "_q10_5_l"><span></td>
+              <td><span id = "_q10_6_l"><span></td>
+                <td><span id = "_q10_6_l_demo"><span></td>
+            </tr>
+            <tr>
+              <th >M. Soya beans</th>
+              <td><span id = "_q10_1_m"><span></td>
+              <td><span id = "_q10_2_m"><span></td>
+              <td><span id = "_q10_3_m"><span></td>
+              <td><span id = "_q10_4_m"><span></td>
+              <td><span id = "_q10_5_m"><span></td>
+              <td><span id = "_q10_6_m"><span></td>
+                <td><span id = "_q10_6_m_demo"><span></td>
+            </tr>
+            <tr>
+              <th >N. Sunflower</th>
+              <td><span id = "_q10_1_n"><span></td>
+              <td><span id = "_q10_2_n"><span></td>
+              <td><span id = "_q10_3_n"><span></td>
+              <td><span id = "_q10_4_n"><span></td>
+              <td><span id = "_q10_5_n"><span></td>
+              <td><span id = "_q10_6_n"><span></td>
+                <td><span id = "_q10_6_n_demo"><span></td>
+            </tr>
+            <tr>
+              <th>O. Cotton</th>
+              <td><span id = "_q10_1_o"><span></td>
+              <td><span id = "_q10_2_o"><span></td>
+              <td><span id = "_q10_3_o"><span></td>
+              <td><span id = "_q10_4_o"><span></td>
+              <td><span id = "_q10_5_o"><span></td>
+              <td><span id = "_q10_6_o"><span></td>
+                <td><span id = "_q10_6_o_demo"><span></td>
+            </tr>
+            <tr>
+              <th>P. Sweet potatoes</th>
+              <td><span id = "_q10_1_p"><span></td>
+              <td><span id = "_q10_2_p"><span></td>
+              <td><span id = "_q10_3_p"><span></td>
+              <td><span id = "_q10_4_p"><span></td>
+              <td><span id = "_q10_5_p"><span></td>
+              <td><span id = "_q10_6_p"><span></td>
+                <td><span id = "_q10_6_p_demo"><span></td>
+            </tr>
+            <tr>
+              <th >Q. Pumpkin</th>
+              <td><span id = "_q10_1_q"><span></td>
+              <td><span id = "_q10_2_q"><span></td>
+              <td><span id = "_q10_3_q"><span></td>
+              <td><span id = "_q10_4_q"><span></td>
+              <td><span id = "_q10_5_q"><span></td>
+              <td><span id = "_q10_6_q"><span></td>
+                <td><span id = "_q10_6_q_demo"><span></td>
+            </tr>
+            <tr>
+              <th>R. Cassava</th>
+              <td><span id = "_q10_1_r"><span></td>
+              <td><span id = "_q10_2_r"><span></td>
+              <td><span id = "_q10_3_r"><span></td>
+              <td><span id = "_q10_4_r"><span></td>
+              <td><span id = "_q10_5_r"><span></td>
+              <td><span id = "_q10_6_r"><span></td>
+                <td><span id = "_q10_6_r_demo"><span></td>
+            </tr>
+            <tr>
+              <th id = "_q10_other"></th>
+              <td><span id = "_q10_1_"><span></td>
+              <td><span id = "_q10_2_"><span></td>
+              <td><span id = "_q10_3_"><span></td>
+              <td><span id = "_q10_4_"><span></td>
+              <td><span id = "_q10_5_"><span></td>
+              <td><span id = "_q10_6_"><span></td>
+                <td><span id = "_q10_6__demo"><span></td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+      <!-- / Farm information - enegy source  -->
+
+
+                <p><h4>Q11 Demonstration plots </h4></p>
+                <!-- Demonstration plots -->
+                <div class="row">
+                  <div class="col-xs-12 table">
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Question</th>
+                          <th style="width: 59%">Answer</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>A</th>
+                          <th>Are any of the crops listed in 10 demonstration plots</th>
+                          <td><span id = "_q11_a"><span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>B</th>
+                          <th>If yes, which organisation funded them</th>
+                          <td><span id = "_q11_b"><span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+                  <!-- / Demonstration plots-->
+
+                  <p><h4>Q12 Labour used on farm(in (cash /in kind) from outside the household) </h4></p>
+                  <!-- Labour used on farm -->
+                  <div class="row">
+                    <div class="col-xs-12 table">
+                      <table class="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th rowspan="2" ></th>
+                            <th colspan="2">Outside household labour - <span id = "outside"> </span></th>
+                            <th colspan="2" >Labour from within the household - <span id = "inside"> </span></th>
+                          </tr>
+                          <tr>
+                            <th>Part time - less than 5 days</th>
+                            <th>Full time - 5 or more days</th>
+                            <th>Part time - less than 5 days</th>
+                            <th>Full time - 5 or more days</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <tr>
+                            <th>Male 17+</th>
+                            <td><span id = "_q12_1_in_a"><span></td>
+                            <td><span id = "_q12_1_in_b"><span></td>
+                            <td><span id = "_q12_1_out_a"><span></td>
+                            <td><span id = "_q12_1_out_b"><span></td>
+                          </tr>
+                          <tr>
+                            <th>Female 17+</th>
+                            <td><span id = "_q12_2_in_a"><span></td>
+                            <td><span id = "_q12_2_in_b"><span></td>
+                            <td><span id = "_q12_2_out_a"><span></td>
+                            <td><span id = "_q12_2_out_b"><span></td>
+                          </tr>
+                          <tr>
+                            <th>Youth male 12 - 16yrs</th>
+                            <td><span id = "_q12_3_in_a"><span></td>
+                            <td><span id = "_q12_3_in_b"><span></td>
+                            <td><span id = "_q12_3_out_a"><span></td>
+                            <td><span id = "_q12_3_out_b"><span></td>
+                          </tr>
+                          <tr>
+                            <th>Children < 12yrs</th>
+                            <td><span id = "_q12_4_in_a"><span></td>
+                            <td><span id = "_q12_4_in_b"><span></td>
+                            <td><span id = "_q12_4_out_a"><span></td>
+                            <td><span id = "_q12_4_out_b"><span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </div>
+                    <!-- / Labour used on farm-->
+
+                    <p><h4>Q13 Income from dairy-related activities during the previous 12 months (Since May 2016)  </h4></p>
+                    <!-- Income source -->
+                    <div class="row">
+                      <div class="col-xs-12 table">
+                        <table class="table table-striped table-bordered">
+                          <thead>
+                            <tr>
+                              <th rowspan="2" ></th>
+                              <th colspan="2">Income - </th>
+                            </tr>
+                            <tr>
+                              <th><span id = "income_dairy"> </span></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th>Raw milk sales to the Dairy Coop Union</th>
+                              <td><span id = "_q13_1_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th>Raw fresh milk to other customers</th>
+                              <td><span id = "_q13_2_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th>Sale of fresh milk to other customers</th>
+                              <td><span id = "_q13_3_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th>Sale of culled milk</th>
+                              <td><span id = "_q13_4_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th>Sale of excess dairy stock</th>
+                              <td><span id = "_q13_5_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th>Sale of manure</th>
+                              <td><span id = "_q13_6_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th>Sale of excess forage/ fodder</th>
+                              <td><span id = "_q13_7_a"><span></td>
+                            </tr>
+                            <tr>
+                              <th id = "_q13_other"></th>
+                              <td><span id = "_q13_other_a"><span></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                      <!-- / Income source-->
+
+                      <p><h4>Q14 Income from non-dairy activities during the previous 12 months (Since May 2016)  </h4></p>
+                      <!-- Income source - non dairy -->
+                      <div class="row">
+                        <div class="col-xs-12 table">
+                          <table class="table table-striped table-bordered">
+                            <thead>
+                              <tr>
+                                <th rowspan="2" ></th>
+                                <th colspan="2">Income - </th>
+                              </tr>
+                              <tr>
+                                <th><span id = "income_non_dairy"> </span></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>Income from labour hired out</th>
+                                <td><span id = "_q14_1_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Income from land rented out</th>
+                                <td><span id = "_q14_2_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of cash crops</th>
+                                <td><span id = "_q14_3_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of cash crops</th>
+                                <td><span id = "_q14_4_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Renting oxen for draught power</th>
+                                <td><span id = "_q14_5_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of sheep</th>
+                                <td><span id = "_q14_6_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of goats</th>
+                                <td><span id = "_q14_7_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of other livestock, e.g chickens</th>
+                                <td><span id = "_q14_8_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of other livestock, e.g chickens</th>
+                                <td><span id = "_q14_9_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Sale of livestock products,e.g eggs</th>
+                                <td><span id = "_q14_10_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Forestry</th>
+                                <td><span id = "_q14_11_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th>Other farm income</th>
+                                <td><span id = "_q14_12_a"><span></td>
+                              </tr>
+                              <tr>
+                                <th id = "_q14_other"></th>
+                                <td><span id = "_q14_other_a"><span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                        <!-- / Income source - non dairy-->
+
+                        <p><h4>Q15 Smallholder Expenditure during the previous 12 months (Since May 2016)  </h4></p>
+                        <!-- Expenditure -->
+                        <div class="row">
+                          <div class="col-xs-12 table">
+                            <table class="table table-striped table-bordered">
+                              <thead>
+                                <tr>
+                                  <th rowspan="2" ></th>
+                                  <th rowspan="2" >Cost item</th>
+                                </tr>
+                                <tr>
+                                  <th>Cost - <span id = "expenditure"> </span></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                <th rowspan="10">Feed and feeding technologies</th>
+                                </tr>
+                                <tr>
+                                  <th>Cost of maize/ wheat bran</th>
+                                  <td><span id = "_q15_1_a"><span></td>
+                                </tr>
+
+                                <tr>
+                                  <th>Cost of feeds for pregnant cows</th>
+                                  <td><span id = "_q15_2_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of calf feeds</th>
+                                  <td><span id = "_q15_3_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of other bought in 'ready-made' feeds</th>
+                                  <td><span id = "_q15_4_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of bought in concentrates</th>
+                                  <td><span id = "_q15_5_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of feed additives e.g, salt, DCP</th>
+                                  <td><span id = "_q15_6_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of raw materials to produce on-farm forage..</th>
+                                  <td><span id = "_q15_7_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of urea / molasses treatment for crop residues</th>
+                                  <td><span id = "_q15_8_a"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of agricultural by-products, e.g brewery yeast</th>
+                                  <td><span id = "_q15_9_a"><span></td>
+                                </tr>
+
+                                <tr>
+                                <th>Other feeding costs</th>
+                                <th><span id = "_q15_other_a"><span></th>
+                                <td><span id = "_q15_10_a"><span></td>
+                                </tr>
+
+                                <tr>
+                                  <th rowspan="3">Health</th>
+                                </tr>
+                                <tr>
+                                  <th>Cost of veterinary drugs</th>
+                                  <td><span id = "_q15_1_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of veterinary treatment(service provision)excluding drugs</th>
+                                  <td><span id = "_q15_2_b"><span></td>
+                                </tr>
+
+                                <tr>
+                                  <th rowspan="3">Reproduction</th>
+                                </tr>
+                                <tr>
+                                  <th>Reproduction costs A.I/Bull</th>
+                                  <td><span id = "_q15_3_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of replacement heifers</th>
+                                  <td><span id = "_q15_4_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th rowspan="3">Transport</th>
+                                </tr>
+                                <tr>
+                                  <th>Cost of milk transport to the MCC</th>
+                                  <td><span id = "_q15_5_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Cost of transport for feed and other farm inputs</th>
+                                  <td><span id = "_q15_6_b"><span></td>
+                                </tr>
+                                <tr>
+                                <th>Energy</th>
+                                <th>Cost of energy</th>
+                                <td><span id = "_q15_7_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th rowspan="3">Labour</th>
+                                </tr>
+                                <tr>
+                                  <th>Labour paid in cash</th>
+                                  <td><span id = "_q15_8_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th>Labour paid 'in kind'</th>
+                                  <td><span id = "_q15_9_b"><span></td>
+                                </tr>
+
+                                <tr>
+                                  <th rowspan="3">Other</th>
+                                </tr>
+                                <tr>
+                                  <th>Rental of land</th>
+                                  <td><span id = "_q15_10_b"><span></td>
+                                </tr>
+                                <tr>
+                                  <th><span id = "_q15_other_specify"><span></th>
+                                  <td><span id = "_q15_other"><span></td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                          <!-- / Expenditure-->
+
+                          <p><h4>Q16 Assets  </h4></p>
+                          <!-- Assets -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th rowspan="2" ></th>
+                                    <th rowspan="2" >Type of equipment</th>
+                                    <th rowspan="2">(i) Number </th>
+                                    <th colspan="3">(ii) Condition </th>
+                                    <th rowspan="2">(iii) Comment </th>
+                                  </tr>
+                                  <tr>
+                                    <th>New</th>
+                                    <th>Used</th>
+                                    <th>Not working</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th>a</th>
+                                    <th>Tractor</th>
+                                    <td><span id="_q16_a_1"></span></td>
+                                    <td><span id="_q16_a_2_1"></span></td>
+                                    <td><span id="_q16_a_2_2"></span></td>
+                                    <td><span id="_q16_a_2_3"></span></td>
+                                    <td><span id="_q16_a_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>b</th>
+                                    <th>Hand tractor</th>
+                                    <td><span id="_q16_b_1"></span></td>
+                                    <td><span id="_q16_b_2_1"></span></td>
+                                    <td><span id="_q16_b_2_2"></span></td>
+                                    <td><span id="_q16_b_2_3"></span></td>
+                                    <td><span id="_q16_b_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>c</th>
+                                    <th>Planter</th>
+                                    <td><span id="_q16_c_1"></span></td>
+                                    <td><span id="_q16_c_2_1"></span></td>
+                                    <td><span id="_q16_c_2_2"></span></td>
+                                    <td><span id="_q16_c_2_3"></span></td>
+                                    <td><span id="_q16_c_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>d</th>
+                                    <th>Plough/ ox driven</th>
+                                    <td><span id="_q16_d_1"></span></td>
+                                    <td><span id="_q16_d_2_1"></span></td>
+                                    <td><span id="_q16_d_2_2"></span></td>
+                                    <td><span id="_q16_d_2_3"></span></td>
+                                    <td><span id="_q16_d_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>e</th>
+                                    <th>Bicycle</th>
+                                    <td><span id="_q16_e_1"></span></td>
+                                    <td><span id="_q16_e_2_1"></span></td>
+                                    <td><span id="_q16_e_2_2"></span></td>
+                                    <td><span id="_q16_e_2_3"></span></td>
+                                    <td><span id="_q16_e_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>f</th>
+                                    <th>Motor Bike</th>
+                                    <td><span id="_q16_f_1"></span></td>
+                                    <td><span id="_q16_f_2_1"></span></td>
+                                    <td><span id="_q16_f_2_2"></span></td>
+                                    <td><span id="_q16_f_2_3"></span></td>
+                                    <td><span id="_q16_f_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>g</th>
+                                    <th>Van</th>
+                                    <td><span id="_q16_g_1"></span></td>
+                                    <td><span id="_q16_g_2_1"></span></td>
+                                    <td><span id="_q16_g_2_2"></span></td>
+                                    <td><span id="_q16_g_2_3"></span></td>
+                                    <td><span id="_q16_g_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>h</th>
+                                    <th>Small truck</th>
+                                    <td><span id="_q16_h_1"></span></td>
+                                    <td><span id="_q16_h_2_1"></span></td>
+                                    <td><span id="_q16_h_2_2"></span></td>
+                                    <td><span id="_q16_h_2_3"></span></td>
+                                    <td><span id="_q16_h_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>i</th>
+                                    <th>Car</th>
+                                    <td><span id="_q16_i_1"></span></td>
+                                    <td><span id="_q16_i_2_1"></span></td>
+                                    <td><span id="_q16_i_2_2"></span></td>
+                                    <td><span id="_q16_i_2_3"></span></td>
+                                    <td><span id="_q16_i_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>j</th>
+                                    <th>Fridge or milk vat</th>
+                                    <td><span id="_q16_j_1"></span></td>
+                                    <td><span id="_q16_j_2_1"></span></td>
+                                    <td><span id="_q16_j_2_2"></span></td>
+                                    <td><span id="_q16_j_2_3"></span></td>
+                                    <td><span id="_q16_j_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>k</th>
+                                    <th>Small milking machine</th>
+                                    <td><span id="_q16_k_1"></span></td>
+                                    <td><span id="_q16_k_2_1"></span></td>
+                                    <td><span id="_q16_k_2_2"></span></td>
+                                    <td><span id="_q16_k_2_3"></span></td>
+                                    <td><span id="_q16_k_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>L</th>
+                                    <th>Stainless stell /alloy milk can</th>
+                                    <td><span id="_q16_l_1"></span></td>
+                                    <td><span id="_q16_l_2_1"></span></td>
+                                    <td><span id="_q16_l_2_2"></span></td>
+                                    <td><span id="_q16_l_2_3"></span></td>
+                                    <td><span id="_q16_l_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>M</th>
+                                    <th>Stainless stell /alloy milk bucket</th>
+                                    <td><span id="_q16_m_1"></span></td>
+                                    <td><span id="_q16_m_2_1"></span></td>
+                                    <td><span id="_q16_m_2_2"></span></td>
+                                    <td><span id="_q16_m_2_3"></span></td>
+                                    <td><span id="_q16_m_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>n</th>
+                                    <th>Solar light</th>
+                                    <td><span id="_q16_n_1"></span></td>
+                                    <td><span id="_q16_n_2_1"></span></td>
+                                    <td><span id="_q16_n_2_2"></span></td>
+                                    <td><span id="_q16_n_2_3"></span></td>
+                                    <td><span id="_q16_n_3"></span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>o</th>
+                                    <th>Other</th>
+                                    <td><span id="_q16_o_1"></span></td>
+                                    <td><span id="_q16_o_2_1"></span></td>
+                                    <td><span id="_q16_o_2_2"></span></td>
+                                    <td><span id="_q16_o_2_3"></span></td>
+                                    <td><span id="_q16_o_3"></span></td>
+                                  </tr>
+
+                                  <tr>
+                                    <th></th>
+                                    <th>Do you have access to a tractor</th>
+                                    <td colspan="4"><span id="_q16_access"></span></td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                            <!-- / Assets-->
+
+                            <p><h4>Q18. Herd data - cattle(at time of survey) </h4></p>
+                            <!-- Herd data  -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                            <table class="table table-striped table-bordered">
+                              <thead>
+                                <tr>
+                                  <th> </th>
+                                  <th>Cattle Herd Size </th>
+                                  <th>Pure Jersey </th>
+                                  <th>Pure Friesian/ Holstein </th>
+                                  <th>X bred improved breed, e.g jersey/ Friesian cross </th>
+                                  <th>Crossbred Dairy X Local </th>
+                                  <th>Local Breed </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th>A</th>
+                                  <th>Cows in milk</td>
+                                  <td><span id = "_q18_1_a"><span></td>
+                                  <td><span id = "_q18_2_a"><span></td>
+                                  <td><span id = "_q18_3_a"><span></td>
+                                  <td><span id = "_q18_4_a"><span></td>
+                                  <td><span id = "_q18_5_a"><span></td>
+
+                                </tr>
+                                <tr>
+                                  <th>B</th>
+                                  <th>Cows over 2 yrs not in milk</td>
+                                  <td><span id = "_q18_1_b"><span></td>
+                                  <td><span id = "_q18_2_b"><span></td>
+                                  <td><span id = "_q18_3_b"><span></td>
+                                  <td><span id = "_q18_4_b"><span></td>
+                                  <td><span id = "_q18_5_b"><span></td>
+
+                                </tr>
+                                <tr>
+                                  <th>C</th>
+                                  <th>Heifers (4mths - 2 years)</td>
+                                  <td><span id = "_q18_1_c"><span></td>
+                                  <td><span id = "_q18_2_c"><span></td>
+                                  <td><span id = "_q18_3_c"><span></td>
+                                  <td><span id = "_q18_4_c"><span></td>
+                                  <td><span id = "_q18_5_c"><span></td>
+
+                                </tr>
+                                <tr>
+                                  <th>D</th>
+                                  <th>Female calves les than 3 mths</td>
+                                  <td><span id = "_q18_1_d"><span></td>
+                                  <td><span id = "_q18_2_d"><span></td>
+                                  <td><span id = "_q18_3_d"><span></td>
+                                  <td><span id = "_q18_4_d"><span></td>
+                                  <td><span id = "_q18_5_d"><span></td>
+
+                                </tr>
+                                <tr>
+                                  <th>E</th>
+                                  <th>Male animals of any age, not being used as breeding bulls</td>
+                                  <td><span id = "_q18_1_e"><span></td>
+                                  <td><span id = "_q18_2_e"><span></td>
+                                  <td><span id = "_q18_3_e"><span></td>
+                                  <td><span id = "_q18_4_e"><span></td>
+                                  <td><span id = "_q18_5_e"><span></td>
+
+                                </tr>
+                                <tr>
+                                  <th>F</th>
+                                  <th>Breeding bulls of any age</td>
+                                  <td><span id = "_q18_1_f"><span></td>
+                                  <td><span id = "_q18_2_f"><span></td>
+                                  <td><span id = "_q18_3_f"><span></td>
+                                  <td><span id = "_q18_4_f"><span></td>
+                                  <td><span id = "_q18_5_f"><span></td>
+
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                          <!-- / Herd data  -->
+
+                          <p><h4>Q19. Silage which you fed to your cattle between May 2016 - May 2017 </h4></p>
+                          <!-- Silage -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                    <th style="width: 59%">Answer</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th>A</th>
+                                    <th>Did you you make any grass silage for your cattle between May 2016-2017</th>
+                                    <td><span id = "_q19_a"><span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th>B</th>
+                                    <th>Did you make any whole crop maize silage (cob in)for your cattle between May 2016-2017</th>
+                                    <td><span id = "_q19_b"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>C</th>
+                                    <th>Did you feed your cattle maize stover silage from your farm between 2016-2017</th>
+                                    <td><span id = "_q19_c"><span></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- /Silage..-->
+
+                          <p><h4>Q20. Hay made and purchased during the previous 12 months(i.e since may 2016) </h4></p>
+                          <!-- Silage -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th></th>
+                                    <th style="width: 59%">Number of bales</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th>A</th>
+                                    <th>Hay bales made</th>
+                                    <td><span id = "_q20_a"><span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th>B</th>
+                                    <th>Hay bales purchased</th>
+                                    <td><span id = "_q20_b"><span></td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- /Silage..-->
+                          <p><h4>Q21. Concetrates bought during the previous 12 months(i.e since may 2016) </h4></p>
+                          <!-- Concetrates -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th></th>
+                                    <th>Types</th>
+                                    <th>Number of bags bought during previous 12 mths</th>
+                                  </tr>
+
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th rowspan="4">Concetrates bought </th>
+                                  </tr>
+                                  <tr>
+                                    <th>D19</th>
+                                    <td><span id = "_q21_1"><span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th>D21</th>
+                                    <td><span id = "_q21_2"><span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th>Meal No 3</th>
+                                    <td><span id = "_q21_3"><span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- /Concetrates..-->
+                          <p><h4>Q22. Milking routine </h4></p>
+                          <!-- Milking -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                    <th colspan="5">Answer</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th>A</th>
+                                    <th>Who normally milks the cows</th>
+                                    <td colspan="5"><span id = "_q22_a"><span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th>B</th>
+                                    <th>Where do they normally milk your animals</th>
+                                    <td colspan="5"><span id = "_q22_b"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>C</th>
+                                    <th>When do you normally milk the animals</th>
+                                    <td colspan="5"><span id = "_q22_c"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>D</th>
+                                    <th>Where do they normally take the milk</th>
+                                    <td colspan="5"><span id = "_q22_d"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>E</th>
+                                    <th>Who normally takes the milk to the collection point/ MCC</th>
+                                    <td colspan="5"><span id = "_q22_e"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>F</th>
+                                    <th>How does the milk normally get to the collection point/ MCC</th>
+                                    <td colspan="5"><span id = "_q22_f"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>G</th>
+                                    <th>Condition of road normally used to get to the collection point</th>
+                                    <td><span id = "_q22_g_1"><span></td>
+                                    <td><span id = "_q22_g_2"><span></td>
+                                    <td><span id = "_q22_g_3"><span></td>
+                                    <td><span id = "_q22_g_4"><span></td>
+                                    <td><span id = "_q22_g_5"><span></td>
+
+                                  </tr>
+                                  <tr>
+                                    <th>H</th>
+                                    <th>How many kilometres do you travel to get to the collection point</th>
+                                    <td colspan="5"><span id = "_q22_h"><span></td>
+                                  </tr>
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- /Milking..-->
+                          <p><h4>Q23. Milk Hygiene </h4></p>
+                          <!-- Milk hygine -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                    <th colspan="5">Answer</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th>A</th>
+                                    <th>Do you use a stainless-steel milking bucket</th>
+                                    <td colspan="5"><span id = "_q23_a"><span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th>B</th>
+                                    <th>Do you use stainless steel milking cans</th>
+                                    <td colspan="5"><span id = "_q23_b"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>C</th>
+                                    <th>What do you use to clean your cans</th>
+                                    <td><span id = "_q23_c1"><span></td>
+                                    <td><span id = "_q23_c2"><span></td>
+                                    <td><span id = "_q23_c4"><span></td>
+                                    <td><span id = "_q23_c5"><span></td>
+                                  </tr>
+                                  <tr>
+                                    <th>D</th>
+                                    <th>Do you use a drying rack</th>
+                                    <td colspan="5"><span id = "_q23_d"><span></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- /Milk hygine..-->
+
+                          <p><h4>Q24 Lactation length </h4></p>
+                          <!-- Lactation length -->
+                          <div class="row">
+                            <div class="col-xs-12 table">
+                              <table class="table table-striped table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>Question</th>
+                                    <th style="width: 59%">Answer</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th>What is the average laction lenght of your animals</th>
+                                    <td><span id = "_q24"><span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                            <!-- / Laction length-->
+                            <p><h4>Q25 Milk production </h4></p>
+                            <!-- Milk production -->
+                            <div class="row">
+                              <div class="col-xs-12 table">
+                                <table class="table table-striped table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th></th>
+                                      <th>Lts per <span id = "_q25_data_type"></span> </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th>A</th>
+                                      <th>Average milk production per cow</th>
+                                      <td><span id = "_q25_a"><span>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>B</th>
+                                      <th>Average herd per milk production </th>
+                                      <td><span id = "_q25_b"><span>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>C</th>
+                                      <th>Milk sold by the roadside </th>
+                                      <td><span id = "_q25_c"><span>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>D</th>
+                                      <th>Milk for home consumption</th>
+                                      <td><span id = "_q25_d"><span>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>E</th>
+                                      <th>Milk for calf rearing</th>
+                                      <td><span id = "_q25_e"><span>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>E</th>
+                                      <th>Other milk losses</th>
+                                      <td><span id = "_q25_f"><span>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th>G</th>
+                                      <th>total milk to MCC</th>
+                                      <td><span id = "_q25_g"><span>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                              <!-- /Milk production-->
+                              <p><h4>Q27 Milk rejected by MCC </h4></p>
+                              <!-- Milk rejected  -->
+                              <div class="row">
+                                <div class="col-xs-12 table">
+                                  <table class="table table-striped table-bordered">
+                                    <thead>
+                                      <tr>
+                                        <th>Question</th>
+                                        <th style="width: 59%">Answer</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th>Have you ever had any milk rejected by the MCC during the previous 12 months(since May 2016)</th>
+                                        <td><span id = "_q27_1"><span>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>If yes, how many litres</td>
+                                        <td><span id = "_q27_2"><span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                                <!-- / Milk rejected -->
+
+                                <p><h4>Q28 Breeding method </h4></p>
+                                <!-- Breeding method  -->
+                                <div class="row">
+                                  <div class="col-xs-12 table">
+                                    <table class="table table-striped table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th colspan="5">Breading method</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td><span id = "_q28_1"><span>
+                                          </td>
+                                          <td><span id = "_q28_2"><span>
+                                          </td>
+                                          <td><span id = "_q28_3"><span>
+                                          </td>
+                                          <td><span id = "_q28_3"><span>
+                                          </td>
+                                          <td><span id = "_q28_4"><span>
+                                          </td>
+                                        </tr>
+
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                                  <!-- / Breeding method -->
+                                  <p><h4>Q29 Reproduction problems during previous 12months (i.e May 2016 - May 2017) </h4></p>
+                                  <!-- reproduction problems  -->
+                                  <div class="row">
+                                    <div class="col-xs-12 table">
+                                      <table class="table table-striped table-bordered">
+                                        <thead>
+                                          <tr>
+                                            <th>#</th>
+                                            <th>Question</th>
+                                            <th style="width: 59%">Answer</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th>A</th>
+                                            <th>Have you had any problems getting cow(s) pregnant</th>
+                                            <td><span id = "_q29_a"><span>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th>B</th>
+                                            <th>Have you had any still births /Abortions</th>
+                                            <td><span id = "_q29_b"><span>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th>C</th>
+                                            <th>Have you had any calf deaths</th>
+                                            <td><span id = "_q29_c"><span>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                    <!-- / reproduction problems -->
+
+                                    <!-- / Breeding method -->
+                                    <p><h4>Q30 Identification and record keeping </h4></p>
+                                    <!-- reproduction problems  -->
+                                    <div class="row">
+                                      <div class="col-xs-12 table">
+                                        <table class="table table-striped table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th>#</th>
+                                              <th>Question</th>
+                                              <th style="width: 59%">Answer</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <th>A</th>
+                                              <th>Have your adult cattle identified </th>
+                                              <td><span id = "_q30_a"><span>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>B</th>
+                                              <th>Do you keep records for your cattle</th>
+                                              <td><span id = "_q30_b"><span>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>C</th>
+                                              <th>Could we quickly look at the records and take a photo</th>
+                                              <td><span id = "_q30_c"><span>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <th>D</th>
+                                              <th>Do you keep records of your farm business accounts</th>
+                                              <td><span id = "_q30_d"><span>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                      <!-- / reproduction problems -->
+                                      <p><h4>Q31. Animal Health - Disease prevention and control </h4></p>
+                                      <!-- Animal health -->
+                                      <div class="row">
+                                        <div class="col-xs-12 table">
+                                          <table class="table table-striped table-bordered">
+                                            <thead>
+                                              <tr>
+                                                <th>#</th>
+                                                <th>Question</th>
+                                                <th colspan="6">Answer</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <th>A</th>
+                                                <th>Are your animals vaccinated </th>
+                                                <td colspan="6"><span id = "_q31_a"><span>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <th>B</th>
+                                                <th>If yes, for which diseases</th>
+                                                <td><span id = "_q31_b1"><span></td>
+                                                <td><span id = "_q31_b2"><span></td>
+                                                <td><span id = "_q31_b3"><span></td>
+                                                <td><span id = "_q31_b4"><span></td>
+                                                <td><span id = "_q31_b5"><span></td>
+                                                <td><span id = "_q31_b6"><span></td>
+                                              </tr>
+                                              <tr>
+                                                <th>C</th>
+                                                <th>Have your animals been tested against any diseses within the last year</th>
+                                                <td colspan="6"><span id = "_q31_c"><span>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <th>D</th>
+                                                <th>If yes, which diseases</th>
+                                                  <td colspan="2"><span id = "_q31_d1"><span></td>
+                                                  <td colspan="2"><span id = "_q31_d2"><span></td>
+                                                  <td colspan="2"><span id = "_q31_d3"><span></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </div>
+                                      <!-- /Animal Health..-->
+                                      <p><h4>Q32 Which service providers do you have a relationship with </h4></p>
+                                      <!-- Breeding method  -->
+                                      <div class="row">
+                                        <div class="col-xs-12 table">
+                                          <table class="table table-striped table-bordered">
+                                            <thead>
+                                              <tr>
+                                                <th colspan="5">Animal Health service providers</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td><span id = "_q32_a1"><span>
+                                                </td>
+                                                <td><span id = "_q32_a2"><span>
+                                                </td>
+                                                <td><span id = "_q32_a3"><span>
+                                                </td>
+                                                <td><span id = "_q32_a4"><span>
+                                                </td>
+                                                <td><span id = "_q32_a5"><span>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <th colspan="5">Animal Health input suppliers </th>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="5"><span id = "_q32_b"><span>
+                                                </td>
+
+                                              </tr>
+                                              <tr>
+                                                <th colspan="5">Farm input suppliers </th>
+                                              </tr>
+                                              <tr>
+                                                <td><span id = "_q32_c1"><span>
+                                                </td>
+                                                <td><span id = "_q32_c2"><span>
+                                                </td>
+                                                <td><span id = "_q32_c3"><span>
+                                                </td>
+                                                <td><span id = "_q32_c4"><span>
+                                                </td>
+                                                <td><span id = "_q32_c5"><span>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <th colspan="5">Other </th>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="5"><span id = "_q32_other"><span>
+                                                </td>
+
+                                              </tr>
+
+                                            </tbody>
+                                          </table>
+
+                                        </div>
+                                      </div>
+                                        <!-- / Breeding method -->
+
+                                        <p><h4>Q33. Training, experiance and service provision in animal health/ animal production </h4></p>
+                                        <!-- Training -->
+                                      <div class="row">
+                                        <div class="col-xs-12 table">
+                                        <table class="table table-striped table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th> </th>
+                                              <th></th>
+                                              <th>Training recieved </th>
+                                              <th>Training provided by</th>
+                                              <th>When </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <th>A</th>
+                                              <th>AL technician</th>
+                                              <td><span id = "_q33_1_a"><span></td>
+                                              <td><span id = "_q33_2_a"><span></td>
+                                              <td><span id = "_q33_3_a"><span></td>
+                                            </tr>
+                                            <tr>
+                                              <th>B</th>
+                                              <th>Community animal health worker</th>
+                                              <td><span id = "_q33_1_b"><span></td>
+                                              <td><span id = "_q33_2_b"><span></td>
+                                              <td><span id = "_q33_3_b"><span></td>
+                                            </tr>
+                                            <tr>
+                                              <th>C</th>
+                                              <th>Community Livestock Volunteer / worker</th>
+                                              <td><span id = "_q33_1_c"><span></td>
+                                              <td><span id = "_q33_2_c"><span></td>
+                                              <td><span id = "_q33_3_c"><span></td>
+                                            </tr>
+                                            <tr>
+                                              <th>D</th>
+                                              <th>Community facilitator</th>
+                                              <td><span id = "_q33_1_d"><span></td>
+                                              <td><span id = "_q33_2_d"><span></td>
+                                              <td><span id = "_q33_3_d"><span></td>
+                                            </tr>
+                                            <tr>
+                                              <th>E</th>
+                                              <th>Agro-entrepreneur</th>
+                                              <td><span id = "_q33_1_e"><span></td>
+                                              <td><span id = "_q33_2_e"><span></td>
+                                              <td><span id = "_q33_3_e"><span></td>
+                                            </tr>
+                                            <tr>
+                                              <th>F</th>
+                                              <th>Other</th>
+                                              <td><span id = "_q33_1_f"><span></td>
+                                              <td><span id = "_q33_2_f"><span></td>
+                                              <td><span id = "_q33_3_f"><span></td>
+                                            </tr>
+
+                                          </tbody>
+                                        </table>
+
+                                        <table class="table table-striped table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th colspan="5">Services provided</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td><span id = "_q33_1"><span>
+                                              </td>
+                                              <td><span id = "_q33_2"><span>
+                                              </td>
+                                              <td><span id = "_q33_3"><span>
+                                              </td>
+                                              <td><span id = "_q33_4"><span>
+                                              </td>
+                                              <td><span id = "_q33_5"><span></td>
+                                                <td><span id = "_q33_other"><span>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                      <!-- / Extension Advice -->
+
+                                      <p><h4>Q34. Extension advice, training and skills </h4></p>
+                                      <!-- Training -->
+                                    <div class="row">
+                                      <div class="col-xs-12 table">
+
+                                        <table class="table table-striped table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <th>A</th>
+                                              <th>Have you received any farm extension advice or advice from MFL or others in the last 12 Months </th>
+                                              <th><span id = "_q34_a"><span></th>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+
+                                      <table class="table table-striped table-bordered">
+                                        <thead>
+                                          <tr>
+                                            <th>B</th>
+                                            <th colspan="3"> If yes, advice or assistance recieved </th>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Topic</th>
+                                            <th>Advice received</th>
+                                            <th>Organisation</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th></th>
+                                            <th>Fodder crop production</th>
+                                            <td><span id = "_q34_1_1"><span></td>
+                                            <td><span id = "_q34_1_2"><span></td>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Cattle nutrition</th>
+                                            <td><span id = "_q34_2_1"><span></td>
+                                            <td><span id = "_q34_2_2"><span></td>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Milk hygiene</th>
+                                            <td><span id = "_q34_3_1"><span></td>
+                                            <td><span id = "_q34_3_2"><span></td>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Animal Health, management, husbandry</th>
+                                            <td><span id = "_q34_4_1"><span></td>
+                                            <td><span id = "_q34_4_2"><span></td>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Farm record keeping(production, breeding, financials etc)</th>
+                                            <td><span id = "_q34_5_1"><span></td>
+                                            <td><span id = "_q34_5_2"><span></td>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Accounting/Finincial mangemnt/ business management</th>
+                                            <td><span id = "_q34_6_1"><span></td>
+                                            <td><span id = "_q34_6_2"><span></td>
+                                          </tr>
+                                          <tr>
+                                            <th></th>
+                                            <th>Other</th>
+                                            <td><span id = "_q34_7_1"><span></td>
+                                            <td><span id = "_q34_7_2"><span></td>
+                                          </tr>
+
+                                        </tbody>
+                                      </table>
+
+                                    </div>
+                                  </div>
+                                    <!-- / Extension Advice -->
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Edit data</h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="recipient-name1">
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id = "submit1" class="btn btn-primary">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}
+
+{% block jqwidgets %}
+<script type="text/javascript">
+  
+  $(document).ready(function() {
+    $('#usernamez').editable();
+  });
+
+</script>
+
+{% endblock %}
+
+{% block custom_jqwidgets %}
+{% endblock %}
